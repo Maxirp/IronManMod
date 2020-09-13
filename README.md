@@ -142,7 +142,7 @@ Swiches status with indexes:
 14: animthrowcar
 - makes the animation of throwing car
 - gives the vehicle velocity
-15: autoalamierda
+15: carfly
 - makes the car fly away and disappear once you stopped throwing it
 16: abort_throw_car
 - makes the car detach and applies world collision to it
