@@ -7699,7 +7699,7 @@ bool JarvisVoice::ironmanpowers() {
 				strcmp(settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].pngname, "mark06") != 0 &&
 				strcmp(settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].pngname, "mark07") != 0)
 			{
-				/*
+				
 				if (chosenmark != 0 &&
 					settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].texexists == true && settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].mdlexists == true)
 				{
@@ -7758,8 +7758,8 @@ bool JarvisVoice::ironmanpowers() {
 
 			if (isentered == true)
 			{
-				/*
-				*/
+				
+				
 				if (chosenmark != 0 &&
 					settings.folderdirs[boolvars.yndex].suits[chosenmark].texexists == true && settings.folderdirs[boolvars.yndex].suits[chosenmark].mdlexists == true)
 				{
@@ -13385,7 +13385,9 @@ suitmenu:
 				{
 					for (int columnas = 0; columnas < 7; columnas++)
 					{
-						elemento = columnas + (filas * 7) + (42 * menupage);
+						
+						int filasx7 = filas * 7;
+						elemento = columnas + filasx7 + (42 * menupage);
 						poselemento.left = (screenmiddle.x - screensize.y / 2) + (screensize.y) / 7 * (float)columnas;
 						poselemento.top = margin + ((screensize.y - margin2) / 6 * (float)filas);
 						poselemento.right = (screenmiddle.x - screensize.y / 2) + (screensize.y) / 7 * ((float)(columnas) + 1.0f);
