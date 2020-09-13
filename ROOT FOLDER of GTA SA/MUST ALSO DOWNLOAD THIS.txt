@@ -1,0 +1,21 @@
+NECESSARY:
+
+content inside ROOT/MODLOADER/IRONMANMOD/
+EFFECTLOADER.asi
+GTASA.WidescreenFix.asi
+III.VC.SA.LIMITADJUSTER.asi
+NORMALMAP_BYDK.asi
+OPTIMISER.asi
+NODEP.asi
+WSHPS.asi
+MODLOADER.asi
+$fastman92limitAdjuster.asi
+ImgLimitAdjuster.asi
+
+LINK OF ASI MODS:
+http://www.mediafire.com/file/us7auv3cs5bn8gj/Necessary_for_IronManMod.rar/file
+Download, extract and put all those files at the root folder of gta sa
+
+LINK FOR IRONMAN MOD CONTENT:
+http://www.mediafire.com/file/g58zoawzlccrvtr/Extract+inside+ROOT-MODLOADER-IRONMANMOD.rar/file
+Download, extract and put all those files at ROOT FOLDER of GTA SA/MODLOADER/IRONMANMOD
