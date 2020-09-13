@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="IronManMod.cpp" />
+    <ClCompile Include="MobileAreaName.cpp" />
+    <ClCompile Include="MobileColors.cpp" />
+    <ClCompile Include="MobileLoadingScreen.cpp" />
+    <ClCompile Include="MobileMenuSystem.cpp" />
+    <ClCompile Include="MobileMissionTimers.cpp" />
+    <ClCompile Include="MobilePlayerInfo.cpp" />
+    <ClCompile Include="MobileProgressBar.cpp" />
+    <ClCompile Include="MobileRadar.cpp" />
+    <ClCompile Include="MobileRadioName.cpp" />
+    <ClCompile Include="MobileStatsBox.cpp" />
+    <ClCompile Include="MobileSubtitles.cpp" />
+    <ClCompile Include="MobileTextBox.cpp" />
+    <ClCompile Include="MobileTextures.cpp" />
+    <ClCompile Include="MobileVehicleName.cpp" />
+    <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="JarvisVoice.cpp" />
+    <ClCompile Include="GPS.cpp" />
+    <ClCompile Include="AreaAroundRadar.cpp" />
+    <ClCompile Include="ShapeHelper.cpp" />
+    <ClCompile Include="BASS_funcs.cpp" />
+    <ClCompile Include="Movtextures.cpp" />
+    <ClCompile Include="CDebug.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MobileAreaName.h" />
+    <ClInclude Include="MobileColors.h" />
+    <ClInclude Include="MobileLoadingScreen.h" />
+    <ClInclude Include="MobileMenuSystem.h" />
+    <ClInclude Include="MobileMissionTimers.h" />
+    <ClInclude Include="MobilePlayerInfo.h" />
+    <ClInclude Include="MobileProgressBar.h" />
+    <ClInclude Include="MobileRadar.h" />
+    <ClInclude Include="MobileRadioName.h" />
+    <ClInclude Include="MobileStatsBox.h" />
+    <ClInclude Include="MobileSubtitles.h" />
+    <ClInclude Include="MobileText.h" />
+    <ClInclude Include="MobileTextBox.h" />
+    <ClInclude Include="MobileTextures.h" />
+    <ClInclude Include="MobileVehicleName.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="Utility.h" />
+    <ClInclude Include="Main.hpp" />
+    <ClInclude Include="JarvisVoice.h" />
+    <ClInclude Include="ShapeHelper.h" />
+    <ClInclude Include="BASS_funcs.h" />
+    <ClInclude Include="Movtextures.h" />
+    <ClInclude Include="CDebug.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+</Project>
