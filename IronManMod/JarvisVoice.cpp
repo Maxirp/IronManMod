@@ -8982,7 +8982,7 @@ bool JarvisVoice::ironmanpowers() {
 															{
 																if (boolvars.indx == 15)
 																{
-																	goto autoalamierda;
+																	goto carfly;
 																}
 																else
 																{
@@ -10232,7 +10232,7 @@ else {
 }
 }
 	//15
-autoalamierda:
+carfly:
 {
 	if (*pActor > 0)
 	{
