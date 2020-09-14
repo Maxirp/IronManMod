@@ -60,7 +60,6 @@ Taudiofile audiostream[26];
 CSprite2d *fondo;
 CSprite2d *fondo1;
 
-CSprite2d *escudo2;
 
 CSprite2d *check;
 CSprite2d *uncheck;
@@ -5992,8 +5991,6 @@ void Movtextures::Loadmenuicons()
 	menusel = new CSprite2d();
 	menusel->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\selector.png"));
 	
-	escudo2 = new CSprite2d();
-	escudo2->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("weapons\\shield.png"));
 }
 
 bool JarvisVoice::aimironman() {
@@ -6477,7 +6474,21 @@ void JarvisVoice::changeoutfitonair() {
 static std::vector<int> rockets(10);
 
 bool JarvisVoice::ironmanpowers() {
+	/*
+	char *indiceee;
+	indiceee = new char[4];
+	sprintf(indiceee, "%d", boolvars.indx);
+	CFont::SetBackground(0, 0);
+	CFont::SetColor(CRGBA(255, 255, 255, 255));
+	CFont::SetOrientation(ALIGN_CENTER);
+	CFont::SetProportional(true);
+	CFont::SetJustify(false);
+	CFont::SetFontStyle(FONT_MENU);
+	CFont::SetScale(SCREEN_MULTIPLIER(settings.vecVehicleNameScale.x), SCREEN_MULTIPLIER(settings.vecVehicleNameScale.y));
+	CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesPosnY), indiceee);
 
+	delete[] indiceee;
+	*/
 	std::string keyp = PLUGIN_PATH("IronMan\\MaxirpHud.dat");
 	plugin::config_file config(keyp);
 	//LOAD THE MODELS AND ANIMATIONS WE NEED
@@ -7425,55 +7436,34 @@ bool JarvisVoice::ironmanpowers() {
 		if (boolvars.alphafad > 200)
 		{
 			Drawfondo(boolvars.alphafad);
-			if (isclicked == true && (strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark01") == 0 ||
+			if (isclicked == true)
+			{
+				if (strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark01") == 0 ||
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark02") == 0 ||
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark03") == 0 ||
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark04") == 0 ||
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark05") == 0 ||
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark06") == 0 ||
-					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark07") == 0))
-			{
-				if (chosenmark == 0)
+					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark07") == 0)
 				{
-					boolvars.pageofsuit = boolvars.yndex;
-					if (player->m_nModelIndex != 0)
+					if (chosenmark == 0)
 					{
-
-						plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_MODEL, 0, MODEL_NULL);
-
-						plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
-						
-						boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
-						boolvars.timetowait = 150;
-
-					}
-					if (chosenmark == 1)
-					{
-						markk = chosenmark;
-						if (!wasdressed)
+						boolvars.pageofsuit = boolvars.yndex;
+						if (player->m_nModelIndex != 0)
 						{
-							wasdressed = true;
-							armorperc = player->m_fArmour;
-						}
-						player->m_fArmour = 1000;
 
-						plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "gimpleg", "gimpleg", 17);
-						plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
-						boolvars.hudactive = true;
-						boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
-						boolvars.timetowait = 150;
-						isclicked = false;
-						chosenmark = -1;
-						boolvars.iscjfrozen = false;
-						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-						plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-						boolvars.indx = 0;
-						WritePrivateProfileString("CONFIG", "MARK", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-						return true;
+							plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_MODEL, 0, MODEL_NULL);
+
+							plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
+
+							boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
+							boolvars.timetowait = 150;
+
+						}
 					}
 					else
 					{
-						if (chosenmark == 2)
+						if (chosenmark == 1)
 						{
 							markk = chosenmark;
 							if (!wasdressed)
@@ -7483,10 +7473,9 @@ bool JarvisVoice::ironmanpowers() {
 							}
 							player->m_fArmour = 1000;
 
-							plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "policetr", "policetr", 17);
+							plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "gimpleg", "gimpleg", 17);
 							plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
 							boolvars.hudactive = true;
-
 							boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
 							boolvars.timetowait = 150;
 							isclicked = false;
@@ -7495,12 +7484,12 @@ bool JarvisVoice::ironmanpowers() {
 							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 							plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 							boolvars.indx = 0;
-							WritePrivateProfileString("CONFIG", "MARK", "2", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+							WritePrivateProfileString("CONFIG", "MARK", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 							return true;
 						}
 						else
 						{
-							if (chosenmark == 3)
+							if (chosenmark == 2)
 							{
 								markk = chosenmark;
 								if (!wasdressed)
@@ -7510,9 +7499,10 @@ bool JarvisVoice::ironmanpowers() {
 								}
 								player->m_fArmour = 1000;
 
-								plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "medictr", "medictr", 17);
+								plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "policetr", "policetr", 17);
 								plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
 								boolvars.hudactive = true;
+
 								boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
 								boolvars.timetowait = 150;
 								isclicked = false;
@@ -7521,12 +7511,12 @@ bool JarvisVoice::ironmanpowers() {
 								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 								plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 								boolvars.indx = 0;
-								WritePrivateProfileString("CONFIG", "MARK", "3", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+								WritePrivateProfileString("CONFIG", "MARK", "2", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 								return true;
 							}
 							else
 							{
-								if (chosenmark == 4)
+								if (chosenmark == 3)
 								{
 									markk = chosenmark;
 									if (!wasdressed)
@@ -7536,7 +7526,7 @@ bool JarvisVoice::ironmanpowers() {
 									}
 									player->m_fArmour = 1000;
 
-									plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "pimptr", "pimptr", 17);
+									plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "medictr", "medictr", 17);
 									plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
 									boolvars.hudactive = true;
 									boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
@@ -7547,12 +7537,12 @@ bool JarvisVoice::ironmanpowers() {
 									plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 									plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 									boolvars.indx = 0;
-									WritePrivateProfileString("CONFIG", "MARK", "4", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+									WritePrivateProfileString("CONFIG", "MARK", "3", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 									return true;
 								}
 								else
 								{
-									if (chosenmark == 5)
+									if (chosenmark == 4)
 									{
 										markk = chosenmark;
 										if (!wasdressed)
@@ -7562,7 +7552,7 @@ bool JarvisVoice::ironmanpowers() {
 										}
 										player->m_fArmour = 1000;
 
-										plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "GARAGELEG", "garagetr", 17);
+										plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "pimptr", "pimptr", 17);
 										plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
 										boolvars.hudactive = true;
 										boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
@@ -7573,12 +7563,12 @@ bool JarvisVoice::ironmanpowers() {
 										plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 										plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 										boolvars.indx = 0;
-										WritePrivateProfileString("CONFIG", "MARK", "5", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+										WritePrivateProfileString("CONFIG", "MARK", "4", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 										return true;
 									}
 									else
 									{
-										if (chosenmark == 6)
+										if (chosenmark == 5)
 										{
 											markk = chosenmark;
 											if (!wasdressed)
@@ -7588,7 +7578,7 @@ bool JarvisVoice::ironmanpowers() {
 											}
 											player->m_fArmour = 1000;
 
-											plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "valet", "valet", 17);
+											plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "GARAGELEG", "garagetr", 17);
 											plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
 											boolvars.hudactive = true;
 											boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
@@ -7599,12 +7589,12 @@ bool JarvisVoice::ironmanpowers() {
 											plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 											plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 											boolvars.indx = 0;
-											WritePrivateProfileString("CONFIG", "MARK", "6", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+											WritePrivateProfileString("CONFIG", "MARK", "5", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 											return true;
 										}
 										else
 										{
-											if (chosenmark == 7)
+											if (chosenmark == 6)
 											{
 												markk = chosenmark;
 												if (!wasdressed)
@@ -7613,7 +7603,8 @@ bool JarvisVoice::ironmanpowers() {
 													armorperc = player->m_fArmour;
 												}
 												player->m_fArmour = 1000;
-												plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "countrytr", "countrytr", 17);
+
+												plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "valet", "valet", 17);
 												plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
 												boolvars.hudactive = true;
 												boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
@@ -7624,28 +7615,54 @@ bool JarvisVoice::ironmanpowers() {
 												plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 												plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 												boolvars.indx = 0;
-
-												WritePrivateProfileString("CONFIG", "MARK", "7", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+												WritePrivateProfileString("CONFIG", "MARK", "6", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 												return true;
 											}
 											else
 											{
-												if (chosenmark == 0)
+												if (chosenmark == 7)
 												{
-													plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES, 0, 0, 0, 17);
+													markk = chosenmark;
+													if (!wasdressed)
+													{
+														wasdressed = true;
+														armorperc = player->m_fArmour;
+													}
+													player->m_fArmour = 1000;
+													plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "countrytr", "countrytr", 17);
 													plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
-													boolvars.hudactive = false;
+													boolvars.hudactive = true;
 													boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
 													boolvars.timetowait = 150;
 													isclicked = false;
 													chosenmark = -1;
-
 													boolvars.iscjfrozen = false;
 													plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 													plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 													boolvars.indx = 0;
-													WritePrivateProfileString("CONFIG", "MARK", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+
+													WritePrivateProfileString("CONFIG", "MARK", "7", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 													return true;
+												}
+												else
+												{
+													if (chosenmark == 0)
+													{
+														plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES, 0, 0, 0, 17);
+														plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
+														boolvars.hudactive = false;
+														boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
+														boolvars.timetowait = 150;
+														isclicked = false;
+														chosenmark = -1;
+
+														boolvars.iscjfrozen = false;
+														plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+														plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+														boolvars.indx = 0;
+														WritePrivateProfileString("CONFIG", "MARK", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+														return true;
+													}
 												}
 											}
 										}
@@ -7660,18 +7677,24 @@ bool JarvisVoice::ironmanpowers() {
 					isclicked = false;
 				}
 			}
+			else
+			{
+				isclicked = false;
+			}
+		
+			
 			isclicked = false;
 
-			if (iscliqued == true &&
+			if (iscliqued == true )
+			{
+				if (chosenmark != 0 &&
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark01") != 0 &&
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark02") != 0 &&
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark03") != 0 &&
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark04") != 0 &&
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark05") != 0 &&
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark06") != 0 &&
-					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark07") != 0)
-			{
-				if (chosenmark != 0 &&
+					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark07") != 0 &&
 					settings.folderdirs[boolvars.yndex].suits[chosenmark].texexists == true && settings.folderdirs[boolvars.yndex].suits[chosenmark].mdlexists == true)
 				{
 					boolvars.pageofsuit = boolvars.yndex;
@@ -7690,14 +7713,7 @@ bool JarvisVoice::ironmanpowers() {
 				}
 			}
 
-			if (hastoloadskin == true &&
-				strcmp(settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].pngname, "mark01") != 0 &&
-				strcmp(settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].pngname, "mark02") != 0 &&
-				strcmp(settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].pngname, "mark03") != 0 &&
-				strcmp(settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].pngname, "mark04") != 0 &&
-				strcmp(settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].pngname, "mark05") != 0 &&
-				strcmp(settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].pngname, "mark06") != 0 &&
-				strcmp(settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].pngname, "mark07") != 0)
+			if (hastoloadskin == true)
 			{
 				
 				if (chosenmark != 0 &&
@@ -7758,10 +7774,7 @@ bool JarvisVoice::ironmanpowers() {
 
 			if (isentered == true)
 			{
-				
-				
-				if (chosenmark != 0 &&
-					settings.folderdirs[boolvars.yndex].suits[chosenmark].texexists == true && settings.folderdirs[boolvars.yndex].suits[chosenmark].mdlexists == true)
+				if (settings.folderdirs[boolvars.yndex].suits[chosenmark].texexists == true && settings.folderdirs[boolvars.yndex].suits[chosenmark].mdlexists == true)
 				{
 					plugin::scripting::CallCommandById(COMMAND_LOAD_SPECIAL_CHARACTER, 9, settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname);
 					plugin::scripting::CallCommandById(COMMAND_LOAD_ALL_MODELS_NOW);
@@ -13385,9 +13398,9 @@ suitmenu:
 				{
 					for (int columnas = 0; columnas < 7; columnas++)
 					{
-						
+						int armormenu = menupage*42;
 						int filasx7 = filas * 7;
-						elemento = columnas + filasx7 + (42 * menupage);
+						elemento = columnas + filasx7 + armormenu;
 						poselemento.left = (screenmiddle.x - screensize.y / 2) + (screensize.y) / 7 * (float)columnas;
 						poselemento.top = margin + ((screensize.y - margin2) / 6 * (float)filas);
 						poselemento.right = (screenmiddle.x - screensize.y / 2) + (screensize.y) / 7 * ((float)(columnas) + 1.0f);
@@ -13444,12 +13457,11 @@ suitmenu:
 							if (hoveredmark != chosen2)
 							{
 								hoveredmark = chosen2;
-								if (//settings.folderdirs[boolvars.yndex].suits[hoveredmark].iconexists == true &&
+								if (
 									iconsel!=0)
 								{
 									if (exost==true)
 									{
-										//plugin::scripting::CallCommandById(COMMAND_ADD_ONE_OFF_SOUND, 0.0f, 0.0f, 0.0f, 1135);
 										AudioLib.PlayMenuSFX(0);
 									}
 									else
@@ -13982,17 +13994,7 @@ suitmenu:
 								{
 									if (settings.folderdirs[boolvars.yndex].suits[chosen2].iconexists == true)
 									{
-										if (((strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark01") != 0 &&
-												strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark02") != 0 &&
-												strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark03") != 0 &&
-												strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark04") != 0 &&
-												strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark05") != 0 &&
-												strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark06") != 0 &&
-												strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark07") != 0) &&
-											settings.folderdirs[boolvars.yndex].suits[chosen2].texexists == false
-											|| settings.folderdirs[boolvars.yndex].suits[chosen2].mdlexists == false)
-											&& chosen2 != 0)/*
-											)*/
+										if (inexistente == true)
 										{
 											CFont::SetColor(CRGBA(255, 0, 0, 255));
 											CSprite2d::DrawRect(CRect(cursorx + SCREEN_COORD(14.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(210.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
