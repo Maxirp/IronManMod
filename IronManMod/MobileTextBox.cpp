@@ -68,7 +68,7 @@ bool StringFind(std::string &str, std::string substring) {
 }
 
 void MobileTextBox::MyHelpBox_Draw() {
-	if (boolvars.menuisactive == false) {
+	if (boolvars.menuisactive == false && boolvars.alphafad==0) {
 		if (CHud::m_pHelpMessage[0]) {
 			//if (IsMenuEnabled()) {
 				if (fTextBoxYWhenMenuEnabled < 0.0f)

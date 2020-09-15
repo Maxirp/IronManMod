@@ -7,7 +7,7 @@ void MobileMenuSystem::InstallPatches() {
 }
 
 void MobileMenuSystem::DisplayStandardMenu(unsigned char menuId, bool bBrightFont) {
-	if (boolvars.menuisactive == false)
+	if (boolvars.menuisactive == false && boolvars.alphafad == 0)
 	{
 		// Background
 		if (MenuNumber[menuId]->m_bColumnBackground) {

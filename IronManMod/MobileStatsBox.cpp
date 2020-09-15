@@ -29,7 +29,7 @@ void MobileStatsBox::InstallPatches() {
 }
 
 void __cdecl MobileStatsBox::DrawVitalStats() {
-	if (boolvars.menuisactive == false) {
+	if (boolvars.menuisactive == false && boolvars.alphafad == 0) {
 		int CURWSKL;
 		int CURWSKL_ALPHA;
 		CPed *player = FindPlayerPed(-1);
@@ -106,20 +106,6 @@ void __cdecl MobileStatsBox::DrawVitalStats() {
 		else {
 			// Set Statsbox is open
 
-
-			char *indiceee;
-			indiceee = new char[4];
-			sprintf(indiceee, "%d", boolvars.indx);
-			CFont::SetBackground(0, 0);
-			CFont::SetColor(CRGBA(255, 255, 255, 255));
-			CFont::SetOrientation(ALIGN_CENTER);
-			CFont::SetProportional(true);
-			CFont::SetJustify(false);
-			CFont::SetFontStyle(FONT_MENU);
-			CFont::SetScale(SCREEN_MULTIPLIER(settings.vecVehicleNameScale.x), SCREEN_MULTIPLIER(settings.vecVehicleNameScale.y));
-			CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesPosnY), indiceee);
-
-			delete[] indiceee;
 
 
 

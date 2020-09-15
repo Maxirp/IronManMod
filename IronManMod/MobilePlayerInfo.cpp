@@ -132,7 +132,7 @@ void MobilePlayerInfo::MyDrawWeaponIcon(CPed *player, int, int, float alpha) {
 		ofsty = SCREEN_COORD_CENTER_Y + SCREEN_HEIGHT / 3.0f;
 	}
 
-	if (boolvars.menuisactive == false && boolvars.hudsetting == true)
+	if (boolvars.menuisactive == false && boolvars.hudsetting == true && boolvars.alphafad == 0)
 	{
 		if (boolvars.activesuit == 0 && settings.standardhud==true) // || boolvars.suit[1] == true
 		{
@@ -170,7 +170,7 @@ void MobilePlayerInfo::MyDrawWeaponIcon(CPed *player, int, int, float alpha) {
 }
 
 void MobilePlayerInfo::MyDrawWeaponAmmo(CPed *player, int, int, float alpha) {
-	if (boolvars.menuisactive == false && boolvars.hudsetting == true)
+	if (boolvars.menuisactive == false && boolvars.hudsetting == true && boolvars.alphafad == 0)
 	{
 		if (settings.standardhud == true)
 		{
@@ -347,7 +347,7 @@ void DrawIMprogressbar(CRect pos1, float totalstat, float currstat, CRGBA color)
 #include "Color.h"
 
 void MobilePlayerInfo::MyDrawMoney(float x, float y, char *text) {
-	if (boolvars.menuisactive == false && boolvars.hudsetting == true)
+	if (boolvars.menuisactive == false && boolvars.hudsetting == true && boolvars.alphafad == 0)
 	{
 		if(settings.standardhud==true)
 		{
@@ -435,7 +435,7 @@ void MobilePlayerInfo::MyDrawMoney(float x, float y, char *text) {
 static void holatarola(char *text);
 static void holatarola(char *text)
 {
-	if (boolvars.menuisactive == false)
+	if (boolvars.menuisactive == false && boolvars.alphafad == 0)
 	{
 		if (boolvars.startfade == true)
 		{
@@ -612,7 +612,7 @@ void MobilePlayerInfo::MyDrawHealth(int playerId, int, int) {
 
 void MobilePlayerInfo::MyDrawArmor(int playerId, int, int) {
 	if (boolvars.menuisactive == false &&
-		!boolvars.systemerror) {
+		!boolvars.systemerror && boolvars.alphafad == 0) {
 		if (boolvars.suit[1] && boolvars.hudsetting==true && settings.ironmanhud == true)
 		{
 			if ((CHud::m_ItemToFlash != 3 || CTimer::m_FrameCounter & 8) && CWorld::Players[playerId].m_pPed->m_fArmour > 1.0f) {
@@ -700,7 +700,7 @@ void MobilePlayerInfo::MyDrawArmor(int playerId, int, int) {
 }
 
 void MobilePlayerInfo::MyDrawBreath(int playerId, int, int) {
-	if (boolvars.menuisactive == false && settings.standardhud && settings.ironmanhud)
+	if (boolvars.menuisactive == false && settings.standardhud && settings.ironmanhud && boolvars.alphafad == 0)
 	{
 		if (CHud::m_ItemToFlash != 10 || CTimer::m_FrameCounter & 8) {
 			float progress = CWorld::Players[playerId].m_pPed->m_pPlayerData->m_fBreath / CStats::GetFatAndMuscleModifier(STAT_MOD_AIR_IN_LUNG);
@@ -723,7 +723,7 @@ __declspec(naked) void MobilePlayerInfo::MyStoreCurrentStar(short) {
 }
 
 void MobilePlayerInfo::MyDrawWantedLevel(float x, float y, char *text) {
-	if (boolvars.menuisactive == false && boolvars.hudsetting == true)
+	if (boolvars.menuisactive == false && boolvars.hudsetting == true && boolvars.alphafad == 0)
 	{
 		if (FindPlayerPed(-1)->m_pPlayerData->m_pWanted->m_nWantedLevel > m_CurrentStar)
 			CFont::SetEdge(2);

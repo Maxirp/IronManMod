@@ -16,7 +16,7 @@ void MobileMissionTimers::InstallPatches() {
 }
 
 void MobileMissionTimers::MyDrawMissionTimers() {
-	if (boolvars.menuisactive == false) {
+	if (boolvars.menuisactive == false && boolvars.alphafad == 0) {
 		if ((!CHud::m_BigMessage[4][0] || CHud::bScriptForceDisplayWithCounters) && !CGarages::MessageIDString[0]) {
 			unsigned int savedShade;
 			unsigned int savedAlpha;

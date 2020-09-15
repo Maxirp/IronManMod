@@ -375,7 +375,7 @@ void __fastcall MobileRadar::MyDrawRadarCircle(CSprite2d *sprite, int, CRect con
 	}
 	
 	
-	if (!boolvars.systemerror && boolvars.menuisactive == false)
+	if (!boolvars.systemerror && boolvars.menuisactive == false && boolvars.alphafad == 0)
 	{
 		CPad *pad = CPad::GetPad(0);
 
@@ -780,7 +780,7 @@ void __fastcall MobileRadar::MyDrawRadarPlane(CSprite2d *sprite, int, float x1, 
     float y3, float x4, float y4, CRGBA const &color)
 {
 	if (boolvars.menuisactive == false &&
-		!boolvars.systemerror)
+		!boolvars.systemerror && boolvars.alphafad == 0)
 	{
 		CVector2D posn[4];
 		posn[0].x = SCREEN_COORD(settings.vecRadarPosn.x) - SCREEN_COORD(settings.fRadarBorderWidthHalf);
@@ -808,7 +808,7 @@ void __fastcall MobileRadar::MyDrawRadarPlane(CSprite2d *sprite, int, float x1, 
 
 void MobileRadar::MyDrawPlaneHeightBorder(CRect const& rect, CRGBA const& color) {
 	if (boolvars.menuisactive == false &&
-		!boolvars.systemerror)
+		!boolvars.systemerror && boolvars.alphafad == 0)
 	{
 		CPed *player = FindPlayerPed();
 		CPad *pad = CPad::GetPad(0);
@@ -846,7 +846,7 @@ void MobileRadar::MyDrawPlaneHeightBorder(CRect const& rect, CRGBA const& color)
 
 void MobileRadar::MyDrawPlaneHeight(CRect const& rect, CRGBA const& color) {
 	if (boolvars.menuisactive == false &&
-		!boolvars.systemerror)
+		!boolvars.systemerror && boolvars.alphafad == 0)
 	{
 		float playerHeight = 0.0f;
 		float blackLineBaseY = 0.0f;
@@ -918,7 +918,7 @@ void MobileRadar::MyDrawPlaneHeight(CRect const& rect, CRGBA const& color) {
 
 void MobileRadar::DrawRadarCenter() {
 	if (boolvars.menuisactive == false &&
-		!boolvars.systemerror)
+		!boolvars.systemerror && boolvars.alphafad == 0)
 	{
 		CPed *player = FindPlayerPed(-1);
 		static bool asdf;
@@ -1053,7 +1053,7 @@ void MobileRadar::DrawRadarCenter() {
 
 void MobileRadar::DrawFailReport(CSprite2d *fail) {
 	if(boolvars.menuisactive == false &&
-		!boolvars.systemerror)
+		!boolvars.systemerror && boolvars.alphafad == 0)
 	{
 		if (settings.bRadarTop) {
 			fail->Draw(CRect(SCREEN_COORD(settings.vecRadarPosn.x - settings.fRadarBorderWidthHalf), SCREEN_COORD(settings.vecRadarPosn.y - settings.fRadarBorderHeightHalf), SCREEN_COORD(settings.vecRadarPosn.x + settings.fRadarBorderWidthHalf), SCREEN_COORD(settings.vecRadarPosn.y + settings.fRadarBorderHeightHalf)), CRGBA(255, 255, 255, 255));

@@ -184,6 +184,7 @@ extern Settings settings;
 
 class BoolVars {
 public:
+	bool menuerror;
 	bool immune;
 	int shield12;
 	bool updateshieldnow;

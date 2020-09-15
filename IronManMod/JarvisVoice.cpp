@@ -97,14 +97,14 @@ void Playuniloop(int id)
 //std::string lng1;
 
 CSprite2d *malarm = NULL;
-CSprite2d *armoricom[85] = { NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
-,NULL ,NULL ,NULL ,NULL ,NULL };
+CSprite2d *armoricom[84] = { NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
+NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
+NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
+NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
+NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
+NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
+NULL,NULL,NULL,NULL,NULL };
 CSprite2d *imhud2;
 CSprite2d *imhud3;
 //CSprite2d *menu1;
@@ -153,7 +153,6 @@ void JarvisVoice::Loadsuiticons()
 	//for (int ynde = 0; ynde < settings.amount; ynde++)
 	//{			
 	std::string iconPath;
-	std::string numerodetraje;
 
 	char *rutaimg;
 
@@ -202,7 +201,6 @@ void JarvisVoice::Loadsuiticons()
 			armoricom[hj]->m_pTexture = NULL;
 		}
 	}
-	//}
 }
 
 void JarvisVoice::storeenviroment(int* enviroment_ID) {
@@ -271,55 +269,119 @@ bool JarvisVoice::notwastednotbusted() {
 }
 
 void DrawSuitClickIconAtCoords(bool available, bool noicon, int id, float texposx, float texposy, float texposx2, float texposy2, float mouseposx, float mouseposy, bool *ishovered);
-bool DrawClickIconAtCoords(int chang, bool, CSprite2d *sprite, CSprite2d *spriteh, float texposx, float texposy, float texposx2, float texposy2, float mouseposx, float mouseposy);
+bool DrawClickIconAtCoords(bool bn, int chang, bool, CSprite2d *sprite, CSprite2d *spriteh, float texposx, float texposy, float texposx2, float texposy2, float mouseposx, float mouseposy);
 
 void DrawSuitClickIconAtCoords(bool available, bool noicon, int id, float texposx, float texposy, float texposx2, float texposy2, float mouseposx, float mouseposy, bool *ishovered)
 {
-	if (boolvars.settingisactive == false)
-	{
-		if (id == 0)
+		if (boolvars.settingisactive == false)
 		{
-			marktony->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-			if (mouseposx >= texposx && mouseposx <= texposx2 && mouseposy >= texposy && mouseposy <= texposy2)
+			if (id == 0)
 			{
-				*ishovered = true;
-				chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-			}
-			else
-			{
-				*ishovered = false;
-				notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-			}
-		}
-		else
-		{
-			if (mouseposx >= texposx && mouseposx <= texposx2 && mouseposy >= texposy && mouseposy <= texposy2)
-			{
-				*ishovered = true;
-				if (!available)
+
+				marktony->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+
+				if (mouseposx >= texposx && mouseposx <= texposx2 && mouseposy >= texposy && mouseposy <= texposy2)
 				{
-					if (armoricom[id]->m_pTexture != NULL)
-					{
-						armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-						CSprite2d::DrawRect(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 50));
-					}
-					else
-					{
-						signo->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-					}
-					notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-				}
-				else
-				{
-					if (armoricom[id]->m_pTexture != NULL)
-					{
-						armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-					}
-					else
-					{
-						signo1->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-					}
+					*ishovered = true;
+
 					chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+
+				}
+				else
+				{
+					*ishovered = false;
+					notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+
+				}
+			}
+			else
+			{
+				if (mouseposx >= texposx && mouseposx <= texposx2 && mouseposy >= texposy && mouseposy <= texposy2)
+				{
+					*ishovered = true;
+					if (!available)
+					{
+						if (armoricom[id]->m_pTexture != NULL)
+						{
+							armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+							CSprite2d::DrawRect(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 50));
+						}
+						else
+						{
+							signo->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+
+						}
+						notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+					}
+					else
+					{
+						if (armoricom[id]->m_pTexture != NULL)
+						{
+							armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+						}
+						else
+						{
+							signo1->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+						}
+						chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+
+					}
+				}
+				else
+				{
+					*ishovered = false;
+
+					if (!available)
+					{
+						if (armoricom[id]->m_pTexture != NULL)
+						{
+							armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+							CSprite2d::DrawRect(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 50));
+						}
+						else
+						{
+							signo->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+						}
+						if (notchosen->m_pTexture != NULL)
+						{
+							notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+						}
+					}
+					else
+					{
+						if (armoricom[id]->m_pTexture != NULL)
+						{
+							armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+
+						}
+						else
+						{
+							if (signo1->m_pTexture != NULL)
+							{
+								signo1->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+							}
+						}
+
+						if (notchosen->m_pTexture != NULL)
+						{
+							notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			if (id == 0)
+			{
+				if (marktony->m_pTexture != NULL)
+				{
+					marktony->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+				}
+				*ishovered = false;
+				if (notchosen->m_pTexture != NULL)
+				{
+					notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
 				}
 			}
 			else
@@ -336,8 +398,10 @@ void DrawSuitClickIconAtCoords(bool available, bool noicon, int id, float texpos
 					else
 					{
 						signo->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+
 					}
 					notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+
 				}
 				else
 				{
@@ -354,68 +418,30 @@ void DrawSuitClickIconAtCoords(bool available, bool noicon, int id, float texpos
 				}
 			}
 		}
-	}
-	else
-	{
-		if (id == 0)
-		{
-			marktony->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-			*ishovered = false;
-			notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-		}
-		else
-		{
-			*ishovered = false;
-
-			if (!available)
-			{
-				if (armoricom[id]->m_pTexture != NULL)
-				{
-					armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-					CSprite2d::DrawRect(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 50));
-				}
-				else
-				{
-					signo->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-				}
-				notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-			}
-			else
-			{
-				if (armoricom[id]->m_pTexture != NULL)
-				{
-					armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-
-				}
-				else
-				{
-					signo1->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-				}
-				notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-			}
-		}
-	}
-	fflush(stdin);
+		fflush(stdin);
 }
 
-bool DrawClickIconAtCoords(int chang, bool setingcheck, CSprite2d *sprite, CSprite2d *spriteh, float texposx, float texposy, float texposx2, float texposy2, float mouseposx, float mouseposy)
+bool DrawClickIconAtCoords(bool bn, int chang, bool setingcheck, CSprite2d *sprite, CSprite2d *spriteh, float texposx, float texposy, float texposx2, float texposy2, float mouseposx, float mouseposy)
 {
 	fflush(stdin);
 	if (chang == 0)
 	{
 		if (boolvars.settingisactive == false || setingcheck == false)
 		{
-			if (texposx < texposx2)
+			if (bn==false)
 			{
 				if (mouseposx >= texposx && mouseposx <= texposx2 && mouseposy >= texposy && mouseposy <= texposy2)
 				{
-					sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-					chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+					
+						chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+					
 					return true;
 				}
 				else
 				{
-					sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+					
 					return false;
 				}
 			}
@@ -423,20 +449,24 @@ bool DrawClickIconAtCoords(int chang, bool setingcheck, CSprite2d *sprite, CSpri
 			{
 				if (mouseposx >= texposx2 && mouseposx <= texposx && mouseposy >= texposy && mouseposy <= texposy2)
 				{
-					sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-					chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+					
+						chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+					
 					return true;
 				}
 				else
 				{
-					sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+					
 					return false;
 				}
 			}
 		}
 		else
 		{
-			sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+				sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+			
 			return false;
 		}
 	}
@@ -444,16 +474,18 @@ bool DrawClickIconAtCoords(int chang, bool setingcheck, CSprite2d *sprite, CSpri
 	{
 		if (boolvars.settingisactive == false || setingcheck == false)
 		{
-			if (texposx < texposx2)
+			if (bn==false)
 			{
 				if (mouseposx >= texposx && mouseposx <= texposx2 && mouseposy >= texposy && mouseposy <= texposy2)
 				{
-					spriteh->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+						spriteh->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+					
 					return true;
 				}
 				else
 				{
-					sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+					
 					return false;
 				}
 			}
@@ -461,36 +493,40 @@ bool DrawClickIconAtCoords(int chang, bool setingcheck, CSprite2d *sprite, CSpri
 			{
 				if (mouseposx >= texposx2 && mouseposx <= texposx && mouseposy >= texposy && mouseposy <= texposy2)
 				{
-					spriteh->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+						spriteh->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
+					
 					return true;
 				}
 				else
 				{
-					sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+					
 					return false;
 				}
 			}
 		}
 		else
 		{
-			sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+				sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
+			
 			return false;
 		}
 	}
+	return false;
 }
 
-void Drawfondo(unsigned char alfa);
+void Drawfondo();
 
-void Drawfondo(unsigned char alfa)
+void Drawfondo()
 {
-	if (alfa > 255)
+	if (boolvars.alphafad > 250)
 	{
-		alfa = 255;
+		boolvars.alphafad = 255;
 	}
 
-	if (alfa < 0)
+	if (boolvars.alphafad < 0)
 	{
-		alfa = 0;
+		boolvars.alphafad = 0;
 	}
 
 	static unsigned char alfa2;
@@ -499,8 +535,8 @@ void Drawfondo(unsigned char alfa)
 	static bool end1;
 	if (beginend == true)
 	{
-		fondo->Draw(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(255, 255, 255, alfa));
-		if (alfa > 150 || end1 == true) {
+		fondo->Draw(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(255, 255, 255, boolvars.alphafad));
+		if (boolvars.alphafad > 150 || end1 == true) {
 			if (alfa2 < 240) {
 				fondo1->Draw(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(255, 255, 255, alfa2));
 				alfa2 += 20;
@@ -533,9 +569,8 @@ void Drawfondo(unsigned char alfa)
 	}
 	else
 	{
-		CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, alfa));
+		CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, boolvars.alphafad));
 	}
-
 }
 
 bool JarvisVoice::LoadAudios() {
@@ -3243,6 +3278,87 @@ bool JarvisVoice::is_wearing_suit(int bp) {
 			armorsuit = player->m_pPlayerData->m_pPedClothesDesc->m_anTextureKeys[17];
 			if (armorsuit != 0)
 			{
+				if (armorsuit == -1137657761)
+				{
+					if (mark != 1)
+					{
+						WritePrivateProfileString("CONFIG", "MARK", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+						boolvars.mark = 1;
+						player->m_fArmour = 1000.0f;
+					}
+				}
+				else
+				{
+					if (armorsuit == -192727393)
+					{
+						if (mark != 2)
+						{
+							WritePrivateProfileString("CONFIG", "MARK", "2", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+							boolvars.mark = 2;
+							player->m_fArmour = 1000.0f;
+						}
+					}
+					else
+					{
+						if (armorsuit == 2061229512)
+						{
+							if (mark != 3)
+							{
+								WritePrivateProfileString("CONFIG", "MARK", "3", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+								boolvars.mark = 3;
+								player->m_fArmour = 1000.0f;
+							}
+						}
+						else
+						{
+							if (armorsuit == 1226861131)
+							{
+								if (mark != 4)
+								{
+									WritePrivateProfileString("CONFIG", "MARK", "4", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+									boolvars.mark = 4;
+									player->m_fArmour = 1000.0f;
+								}
+							}
+							else
+							{
+								if (armorsuit == 1817399610)
+								{
+									if (mark != 5)
+									{
+										WritePrivateProfileString("CONFIG", "MARK", "5", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+										boolvars.mark = 5;
+										player->m_fArmour = 1000.0f;
+									}
+								}
+								else
+								{
+									if (armorsuit == 900618200)
+									{
+										if (mark != 6)
+										{
+											WritePrivateProfileString("CONFIG", "MARK", "6", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+											boolvars.mark = 6;
+											player->m_fArmour = 1000.0f;
+										}
+									}
+									else
+									{
+										if (armorsuit == -559695285)
+										{
+											if (mark != 7)
+											{
+												WritePrivateProfileString("CONFIG", "MARK", "7", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+												boolvars.mark = 7;
+												player->m_fArmour = 1000.0f;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 				if (armorsuit != 995481457)
 				{
 					if (armorsuit == -1137657761)
@@ -3589,15 +3705,6 @@ bool JarvisVoice::is_wearing_suit_and_not_driving(int bp) {
 											}
 											else
 											{
-												if (mark != 0)
-												{
-													WritePrivateProfileString("CONFIG", "MARK", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-
-													if (boolvars.iscjfrozen == true) {
-														boolvars.iscjfrozen = false;
-														plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-													}
-												}
 												if (bp == 0)
 												{
 													if (reloj == -1155750708 ||
@@ -6709,8 +6816,7 @@ bool JarvisVoice::ironmanpowers() {
 		ruidito = 0;
 	}
 
-	static float hdn, armorperc, carposnx, carposny, carposnz, angle, opsx, opsy, opsz;
-	static bool wasdressed;
+	static float hdn, carposnx, carposny, carposnz, angle, opsx, opsy, opsz;
 	static bool ordendada;
 	static bool ordenelegir;
 
@@ -6780,7 +6886,6 @@ bool JarvisVoice::ironmanpowers() {
 	if (!en) {
 
 		pedindex = 0;
-		wasdressed = false;
 		menupage = 0;
 		boolvars.victim = 0;
 		boolvars.victim1 = 0;
@@ -6911,7 +7016,7 @@ bool JarvisVoice::ironmanpowers() {
 					}
 				}
 			}
-			//Drawfondo(boolvars.alphafad);
+			//Drawfondo();
 			CVector ofstexplo1, ofstexplo2;
 			CVector ofstexplo3, ofstexplo4;
 			if (debevolar == true)
@@ -7110,7 +7215,6 @@ bool JarvisVoice::ironmanpowers() {
 			}
 
 			pedindex = 0;
-			wasdressed = false;
 			menupage = 0;
 			boolvars.victim = 0;
 			boolvars.victim1 = 0;
@@ -7329,7 +7433,6 @@ bool JarvisVoice::ironmanpowers() {
 			}
 
 			pedindex = 0;
-			wasdressed = false;
 			menupage = 0;
 			boolvars.victim = 0;
 			boolvars.victim1 = 0;
@@ -7383,11 +7486,6 @@ bool JarvisVoice::ironmanpowers() {
 
 							markk = 7;
 
-							if (!wasdressed)
-							{
-								wasdressed = true;
-								armorperc = player->m_fArmour;
-							}
 							player->m_fArmour = 1000;
 
 							boolvars.hudactive = true;
@@ -7426,16 +7524,18 @@ bool JarvisVoice::ironmanpowers() {
 		isclicked = false;
 		chosenmark = -1;
 		boolvars.radarisactive = true;
-
+		boolvars.alphafad = 0;
 		en2 = true;
 	}
 	player = FindPlayerPed(0);
 
 	if (*pActor > 0 && player)
 	{
-		if (boolvars.alphafad > 200)
+		if (boolvars.alphafad > 0 && boolvars.alphafad <= 255)
 		{
-			Drawfondo(boolvars.alphafad);
+			Drawfondo();
+
+
 			if (isclicked == true)
 			{
 				if (strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark01") == 0 ||
@@ -7466,11 +7566,7 @@ bool JarvisVoice::ironmanpowers() {
 						if (chosenmark == 1)
 						{
 							markk = chosenmark;
-							if (!wasdressed)
-							{
-								wasdressed = true;
-								armorperc = player->m_fArmour;
-							}
+							
 							player->m_fArmour = 1000;
 
 							plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "gimpleg", "gimpleg", 17);
@@ -7492,11 +7588,7 @@ bool JarvisVoice::ironmanpowers() {
 							if (chosenmark == 2)
 							{
 								markk = chosenmark;
-								if (!wasdressed)
-								{
-									wasdressed = true;
-									armorperc = player->m_fArmour;
-								}
+								
 								player->m_fArmour = 1000;
 
 								plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "policetr", "policetr", 17);
@@ -7519,11 +7611,7 @@ bool JarvisVoice::ironmanpowers() {
 								if (chosenmark == 3)
 								{
 									markk = chosenmark;
-									if (!wasdressed)
-									{
-										wasdressed = true;
-										armorperc = player->m_fArmour;
-									}
+									
 									player->m_fArmour = 1000;
 
 									plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "medictr", "medictr", 17);
@@ -7545,11 +7633,7 @@ bool JarvisVoice::ironmanpowers() {
 									if (chosenmark == 4)
 									{
 										markk = chosenmark;
-										if (!wasdressed)
-										{
-											wasdressed = true;
-											armorperc = player->m_fArmour;
-										}
+										
 										player->m_fArmour = 1000;
 
 										plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "pimptr", "pimptr", 17);
@@ -7571,11 +7655,7 @@ bool JarvisVoice::ironmanpowers() {
 										if (chosenmark == 5)
 										{
 											markk = chosenmark;
-											if (!wasdressed)
-											{
-												wasdressed = true;
-												armorperc = player->m_fArmour;
-											}
+											
 											player->m_fArmour = 1000;
 
 											plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "GARAGELEG", "garagetr", 17);
@@ -7597,11 +7677,7 @@ bool JarvisVoice::ironmanpowers() {
 											if (chosenmark == 6)
 											{
 												markk = chosenmark;
-												if (!wasdressed)
-												{
-													wasdressed = true;
-													armorperc = player->m_fArmour;
-												}
+												
 												player->m_fArmour = 1000;
 
 												plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "valet", "valet", 17);
@@ -7623,11 +7699,7 @@ bool JarvisVoice::ironmanpowers() {
 												if (chosenmark == 7)
 												{
 													markk = chosenmark;
-													if (!wasdressed)
-													{
-														wasdressed = true;
-														armorperc = player->m_fArmour;
-													}
+													
 													player->m_fArmour = 1000;
 													plugin::scripting::CallCommandById(COMMAND_GIVE_PLAYER_CLOTHES_OUTSIDE_SHOP, 0, "countrytr", "countrytr", 17);
 													plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
@@ -7715,7 +7787,6 @@ bool JarvisVoice::ironmanpowers() {
 
 			if (hastoloadskin == true)
 			{
-
 				if (chosenmark != 0 &&
 					settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].texexists == true && settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].mdlexists == true)
 				{
@@ -7728,11 +7799,6 @@ bool JarvisVoice::ironmanpowers() {
 					else
 					{
 						hastoloadskin = false;
-						if (!wasdressed)
-						{
-							wasdressed = true;
-							armorperc = player->m_fArmour;
-						}
 						player->m_fArmour = 1000;
 						plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_MODEL, 0, MODEL_SPECIAL07);
 						plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
@@ -7918,7 +7984,7 @@ bool JarvisVoice::ironmanpowers() {
 			hastoloadskin = false;
 			chosenmark = -1;
 		}
-		if (player->m_fArmour <= 0.0f && boolvars.activesuit>0)
+		if (player->m_fArmour <= 0.0f && boolvars.activesuit > 0)
 		{
 			if (player->m_nModelIndex != 0)
 			{
@@ -7954,7 +8020,7 @@ bool JarvisVoice::ironmanpowers() {
 			WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 			boolvars.menuisactive = false;
 			boolvars.indx = 0;
-
+			boolvars.alphafad = 0;
 			if (player->m_nModelIndex != 0)
 			{
 
@@ -8360,7 +8426,6 @@ bool JarvisVoice::ironmanpowers() {
 				{
 					if (boolvars.menuisactive == true)
 					{
-						boolvars.indx = 25;
 						goto suitmenu;
 					}
 					else
@@ -8382,17 +8447,17 @@ bool JarvisVoice::ironmanpowers() {
 								if (boolvars.alphafad >= 40)
 								{
 									boolvars.alphafad -= 40;
-									Drawfondo(boolvars.alphafad);
+									if (boolvars.alphafad > 0 && boolvars.alphafad <= 255)
+									{
+										Drawfondo();
+									}
 									//CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, (int)boolvars.alphafad));
 									return true;
 								}
-								else
-								{
-									boolvars.alphafad = 0;
-									Drawfondo(boolvars.alphafad);
-									ordenelegir = false;
-									ordendada = false;
-								}
+								
+								ordendada = false;
+								ordenelegir = false;
+								boolvars.alphafad = 0;
 							}
 							//}
 							cutenabled = plugin::patch::GetUChar(11989093, false);
@@ -8550,7 +8615,7 @@ bool JarvisVoice::ironmanpowers() {
 
 									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 								}
-								WritePrivateProfileString("CONFIG", "MARK", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+								//WritePrivateProfileString("CONFIG", "MARK", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 
 								//markk = boolvars.mark;
 								markk = GetPrivateProfileInt("CONFIG", "MARK", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
@@ -8579,32 +8644,14 @@ bool JarvisVoice::ironmanpowers() {
 									boolvars.immune = true;
 
 									boolvars.maxarmor = 1000;
-									if (!wasdressed)
-									{
-										wasdressed = true;
-										armorperc = player->m_fArmour;
-										player->m_fArmour = 1000;
 
-										if (player->m_pPlayerData->m_pPedClothesDesc->m_anTextureKeys[17] != -1137657761)
-											//AudioLib.PlayVoiceEvent(19);
+									if (player->m_fArmour > boolvars.maxarmor)
+										player->m_fArmour = boolvars.maxarmor;
 
-											return true;
-									}
-									//importing preferences from ini files
 								}
 								else
 								{
-									if (wasdressed == true) {
-										wasdressed = false;
-										if (armorperc > boolvars.maxarmor)
-										{
-											armorperc = boolvars.maxarmor;
-										}
-										if (player->m_fArmour != armorperc)
-										{
-											player->m_fArmour = armorperc;
-										}
-									}
+									
 									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 0, 0, 1, 1, 0);
 									boolvars.immune = true;
 									if (player->m_fArmour > boolvars.maxarmor)
@@ -8614,7 +8661,7 @@ bool JarvisVoice::ironmanpowers() {
 
 									if (markk != 0)
 									{
-										WritePrivateProfileString("CONFIG", "MARK", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+										//WritePrivateProfileString("CONFIG", "MARK", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 									}
 
 									if (boolvars.iscjfrozen == true) {
@@ -8643,19 +8690,7 @@ bool JarvisVoice::ironmanpowers() {
 
 								if (markk != 0)
 								{
-									WritePrivateProfileString("CONFIG", "MARK", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-								}
-
-								if (wasdressed == true) {
-									wasdressed = false;
-									if (armorperc > boolvars.maxarmor)
-									{
-										armorperc = boolvars.maxarmor;
-									}
-									if (player->m_fArmour != armorperc)
-									{
-										player->m_fArmour = armorperc;
-									}
+									//WritePrivateProfileString("CONFIG", "MARK", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 								}
 
 								if (boolvars.mousewheelhacktrigger == true) {
@@ -9248,26 +9283,23 @@ bool JarvisVoice::ironmanpowers() {
 				}
 				else
 				{
-					if (wasdressed == true) {
-						boolvars.aimedpeds[0] = 0;
-						boolvars.aimedpeds[1] = 0;
-						boolvars.aimedpeds[2] = 0;
-						boolvars.aimedpeds[3] = 0;
-						boolvars.aimedpeds[4] = 0;
-						if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_DEAD, player) == true)
-						{
-							boolvars.landgetup = 0;
-							player->m_fArmour = 0;
-						}
-						else
-						{
-							player->m_fArmour = armorperc;
-						}
-						if (boolvars.iscjfrozen == true) {
-							boolvars.iscjfrozen = false;
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-						}
-						wasdressed = false;
+					boolvars.aimedpeds[0] = 0;
+					boolvars.aimedpeds[1] = 0;
+					boolvars.aimedpeds[2] = 0;
+					boolvars.aimedpeds[3] = 0;
+					boolvars.aimedpeds[4] = 0;
+					if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_DEAD, player) == true)
+					{
+						boolvars.landgetup = 0;
+						player->m_fArmour = 0;
+					}
+					//else
+					//{
+						//player->m_fArmour = armorperc;
+					//}
+					if (boolvars.iscjfrozen == true) {
+						boolvars.iscjfrozen = false;
+						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 					}
 					boolvars.indx = 0;
 					return true;
@@ -10980,19 +11012,19 @@ wpicons:
 				movy *= movspeed;
 				cursorx += movx;
 				cursory += movy;
-				if (cursorx < SCREEN_COORD(0.0f)) {
+				if (cursorx <= SCREEN_COORD(0.0f)) {
 					cursorx = SCREEN_COORD(0.0f);
 				}
 
-				if (cursorx > SCREEN_WIDTH) {
+				if (cursorx >= SCREEN_WIDTH) {
 					cursorx = SCREEN_WIDTH;
 				}
 
-				if (cursory < SCREEN_COORD(0.0f)) {
+				if (cursory <= SCREEN_COORD(0.0f)) {
 					cursory = SCREEN_COORD(0.0f);
 				}
 
-				if (cursory > SCREEN_HEIGHT) {
+				if (cursory >= SCREEN_HEIGHT) {
 					cursory = SCREEN_HEIGHT;
 				}
 				//update mouse position end
@@ -13171,6 +13203,7 @@ suitmenu:
 		CVector2D screensize = { SCREEN_WIDTH, SCREEN_HEIGHT };
 		CVector2D screenmiddle = { SCREEN_COORD_CENTER_X ,SCREEN_COORD_CENTER_Y };
 
+		std::string suitarmormenu1;
 		/*
 		if (marktony->m_pTexture == NULL ||
 		chosen->m_pTexture == NULL ||
@@ -13197,32 +13230,26 @@ suitmenu:
 			{
 				if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_LOADED) == true)
 				{
-					if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_FINISHED) == true)
-					{
-						//plugin::scripting::CallCommandById(COMMAND_DISPLAY_RADAR, 0);
-						//boolvars.radarisactive = false;
-					}
-					else
+					if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_FINISHED) == false)
 					{
 						boolvars.indx = 0;
 						boolvars.settingisactive = false;
 						WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 						boolvars.menuisactive = false;
+						boolvars.alphafad = 0;
+						suitarmormenu1.clear();
 						return true;
 					}
-				}
-				else
-				{
-					//boolvars.radarisactive = false;
-					//plugin::scripting::CallCommandById(COMMAND_DISPLAY_RADAR, 0);
 				}
 			}
 		}
 		else {
+			boolvars.alphafad = 0;
 			boolvars.indx = 0;
 			boolvars.settingisactive = false;
 			WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 			boolvars.menuisactive = false;
+			suitarmormenu1.clear();
 			return true;
 		}
 
@@ -13235,559 +13262,591 @@ suitmenu:
 		}
 
 		//boolvars.wpmenuisactive == false &&
-		if (cutenabled != 1 && is_on_foot() == true &&
-			boolvars.menuisactive == true &&
-			plugin::scripting::CallCommandById(COMMAND_GET_FADING_STATUS) == false &&
-			plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_ARRESTED, player) == false &&
-			plugin::scripting::CallCommandById(COMMAND_IS_CHAR_DEAD, player) == false &&
-			plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false &&
-			boolvars.has_a_car == false &&
-			boolvars.aims == false)
+if (cutenabled != 1 && is_on_foot() == true &&
+	boolvars.menuisactive == true &&
+	plugin::scripting::CallCommandById(COMMAND_GET_FADING_STATUS) == false &&
+	plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_ARRESTED, player) == false &&
+	plugin::scripting::CallCommandById(COMMAND_IS_CHAR_DEAD, player) == false &&
+	plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false &&
+	boolvars.has_a_car == false &&
+	boolvars.aims == false)
+{
+	if (marktony->m_pTexture != NULL &&
+		signo->m_pTexture != NULL &&
+		signo1->m_pTexture != NULL &&
+		notchosen->m_pTexture != NULL &&
+		chosen->m_pTexture != NULL &&
+		closewdw->m_pTexture != NULL &&
+		menu3->m_pTexture != NULL &&
+		menu4->m_pTexture != NULL &&
+		settingmenu->m_pTexture != NULL &&
+		closebtn->m_pTexture != NULL)
+	{
+
+		float limitarmors = (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f);
+		if (!ordendada)
 		{
-			if (!ordendada)
+			beginend = false;
+			if (boolvars.alphafad > 200)
 			{
-				beginend = false;
-				if (boolvars.alphafad > 200)
-				{
-					boolvars.alphafad = 250;
-					ordendada = true;
-					boolvars.timrmenu = CTimer::m_snTimeInMillisecondsNonClipped;
-				}
-				else
-				{
-					boolvars.alphafad += 50;
-				}
-				Drawfondo(boolvars.alphafad);
-				//CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, (int)boolvars.alphafad));
-				return true;
+				boolvars.alphafad = 250;
+				ordendada = true;
+				boolvars.timrmenu = CTimer::m_snTimeInMillisecondsNonClipped;
 			}
 			else
 			{
-				if (ordenelegir == true)
+				boolvars.alphafad += 50;
+			}
+			if (boolvars.alphafad > 0 && boolvars.alphafad <= 255)
+			{
+				Drawfondo();
+			}
+			suitarmormenu1.clear();
+			//CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, (int)boolvars.alphafad));
+			return true;
+		}
+		if (ordenelegir == true)
+		{
+			beginend = true;
+			if (boolvars.alphafad > 200)
+			{
+				boolvars.alphafad = 250;
+				WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+				boolvars.indx = 0;
+				boolvars.menuisactive = false;
+				boolvars.timrmenu = CTimer::m_snTimeInMillisecondsNonClipped;
+				//   CLAVE!!!!!!!!!!!
+			}
+			else
+			{
+				boolvars.alphafad += 50;
+			}
+		}
+		else
+		{
+			if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.timrmenu + 100)
+			{
+				if (boolvars.alphafad >= 40)
 				{
-					beginend = true;
-					if (boolvars.alphafad > 200)
-					{
-						boolvars.alphafad = 250;
-						WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-						boolvars.indx = 0;
-						boolvars.menuisactive = false;
-						boolvars.timrmenu = CTimer::m_snTimeInMillisecondsNonClipped;
-						//   CLAVE!!!!!!!!!!!
-					}
-					else
-					{
-						boolvars.alphafad += 50;
-					}
+					boolvars.alphafad -= 40;
 				}
 				else
 				{
+					boolvars.alphafad = 0;
 					beginend = false;
-					if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.timrmenu + 100)
+				}
+			}
+		}
+		/*
+		static bool hoverprevfolder;
+		static bool hovernextfolder;*/
+		bool eligioalgo = false;
+		/*static bool hoverprev;
+		static bool hovernext;
+		static bool hoversets;
+		static bool hoverclosets; */
+
+
+
+		static int timedoption;
+
+
+
+		CSprite2d::DrawRect(CRect(0.0f, 0.0f, screensize.x, screensize.y), CRGBA(0, 0, 0, 170));
+		//update mouse position begin
+		float movspeed = 0.1f;
+		float movx, movy;
+		plugin::scripting::CallCommandById(COMMAND_GET_PC_MOUSE_MOVEMENT, &movx, &movy);
+		if (plugin::scripting::CallCommandById(COMMAND_IS_MOUSE_USING_VERTICAL_INVERSION) != NULL)
+		{
+			movy *= -1;
+		}
+		int movfactor = 0;
+
+		movfactor = plugin::patch::GetInt(11987996, false) / 100000000;
+		movx *= movfactor;
+		movy *= movfactor;
+		movx *= movspeed;
+		movy *= movspeed;
+		cursorx += movx;
+		cursory += movy;
+		if (cursorx < SCREEN_COORD(0.0f)) {
+			cursorx = SCREEN_COORD(0.0f);
+		}
+
+		if (cursorx > screensize.x) {
+			cursorx = screensize.x;
+		}
+
+		if (cursory < SCREEN_COORD(0.0f)) {
+			cursory = SCREEN_COORD(0.0f);
+		}
+
+		if (cursory > screensize.y) {
+			cursory = screensize.y;
+		}
+
+
+		float margin = SCREEN_COORD(120.0f);
+		float margin2 = SCREEN_COORD(160.0f);
+
+		if (DrawClickIconAtCoords(false, 0, true, closewdw, closewdw, (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) - sizex, SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
+		{
+			iconsel = 1;
+			eligioalgo = true;
+		}
+
+
+
+		static int elemento;
+		CRect poselemento;
+		if (settings.folderdirs[boolvars.yndex].subcontentamnt > 41)
+		{
+			if (DrawClickIconAtCoords(false, 1, true, menu3, menu4, (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) - sizex, margin - SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin + (screensize.y - margin2) + SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
+			{
+				iconsel = 2;
+				eligioalgo = true;
+			}
+
+			if (DrawClickIconAtCoords(true, 1, true, menu3, menu4, limitarmors + sizex, margin - SCREEN_COORD(10.0f), limitarmors, margin + (screensize.y - margin2) + SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
+			{
+				iconsel = 3;
+				eligioalgo = true;
+			}
+		}
+		else
+		{
+			//hoverprev = false;
+			//hovernext = false;
+			menupage = 0;
+		}
+		if (DrawClickIconAtCoords(true, 0, true, closewdw, closewdw, limitarmors + sizex, SCREEN_COORD(10.0f), limitarmors, margin - SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
+		{
+			iconsel = 5;
+			eligioalgo = true;
+		}
+
+
+		static bool noicon;
+		static bool exist;
+		static bool inexistente;
+		static int chosen2;
+		chosen2 = -1;
+		static bool ishovered;
+		static bool thereisasuit;
+
+		menu5->Draw(CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), limitarmors, margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(255, 255, 255, 255));
+
+		for (int filas = 0; filas < 6; filas++)
+		{
+			for (int columnas = 0; columnas < 7; columnas++)
+			{
+				static float aux2;
+				int armormenu = menupage * 42;
+				int filasx7 = filas * 7;
+				elemento = columnas + filasx7 + armormenu;
+				poselemento.left = (screenmiddle.x - screensize.y / 2);
+				aux2 = screensize.y / 7;
+				aux2 *= (columnas);
+				poselemento.left += aux2;
+				poselemento.top = margin;
+				aux2 = (screensize.y - margin2);
+				aux2 /= 6;
+				aux2 *= filas;
+				poselemento.top += aux2;
+				poselemento.right = (screenmiddle.x - screensize.y / 2);
+				aux2 = screensize.y / 7;
+				aux2 *= (columnas + 1);
+				poselemento.right += aux2;
+				poselemento.bottom = margin;
+				aux2 = (screensize.y - margin2);
+				aux2 /= 6;
+				aux2 *= (filas + 1);
+				poselemento.bottom += aux2;
+
+				if (poselemento.right > limitarmors)
+				{
+					break;
+				}
+				bool exost = false;
+				if (strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark01") != 0 &&
+					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark02") != 0 &&
+					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark03") != 0 &&
+					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark04") != 0 &&
+					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark05") != 0 &&
+					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark06") != 0 &&
+					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark07") != 0 &&
+					elemento != 0)
+				{
+					if (settings.folderdirs[boolvars.yndex].suits[elemento].texexists == false || settings.folderdirs[boolvars.yndex].suits[elemento].mdlexists == false)
 					{
-						if (boolvars.alphafad >= 40)
-						{
-							boolvars.alphafad -= 40;
-						}
-						else
-						{
-							boolvars.alphafad = 0;
-						}
-					}
-				}
-				/*
-				static bool hoverprevfolder;
-				static bool hovernextfolder;*/
-				bool eligioalgo = false;
-				/*static bool hoverprev;
-				static bool hovernext;
-				static bool hoversets;
-				static bool hoverclosets; */
-
-
-
-				static int timedoption;
-
-
-
-				CSprite2d::DrawRect(CRect(0.0f, 0.0f, screensize.x, screensize.y), CRGBA(0, 0, 0, 170));
-				//update mouse position begin
-				float movspeed = 0.1f;
-				float movx, movy;
-				plugin::scripting::CallCommandById(COMMAND_GET_PC_MOUSE_MOVEMENT, &movx, &movy);
-				if (plugin::scripting::CallCommandById(COMMAND_IS_MOUSE_USING_VERTICAL_INVERSION) != NULL)
-				{
-					movy *= -1;
-				}
-				int movfactor = 0;
-
-				movfactor = plugin::patch::GetInt(11987996, false) / 100000000;
-				movx *= movfactor;
-				movy *= movfactor;
-				movx *= movspeed;
-				movy *= movspeed;
-				cursorx += movx;
-				cursory += movy;
-				if (cursorx < SCREEN_COORD(0.0f)) {
-					cursorx = SCREEN_COORD(0.0f);
-				}
-
-				if (cursorx > screensize.x) {
-					cursorx = screensize.x;
-				}
-
-				if (cursory < SCREEN_COORD(0.0f)) {
-					cursory = SCREEN_COORD(0.0f);
-				}
-
-				if (cursory > screensize.y) {
-					cursory = screensize.y;
-				}
-
-
-				float margin = SCREEN_COORD(120.0f);
-				float margin2 = SCREEN_COORD(160.0f);
-
-				if (DrawClickIconAtCoords(0, true, closewdw, closewdw, (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) - sizex, SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
-				{
-					iconsel = 1;
-					eligioalgo = true;
-				}
-
-
-
-				static int elemento;
-				CRect poselemento;
-				if (settings.folderdirs[boolvars.yndex].subcontentamnt > 41)
-				{
-					if (DrawClickIconAtCoords(1, true, menu3, menu4, (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) - sizex, margin - SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin + (screensize.y - margin2) + SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
-					{
-						iconsel = 2;
-						eligioalgo = true;
-					}
-
-					if (DrawClickIconAtCoords(1, true, menu3, menu4, (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f) + sizex, margin - SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f), margin + (screensize.y - margin2) + SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
-					{
-						iconsel = 3;
-						eligioalgo = true;
-					}
-				}
-				else
-				{
-					//hoverprev = false;
-					//hovernext = false;
-					menupage = 0;
-				}
-				if (DrawClickIconAtCoords(0, true, closewdw, closewdw, (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f) + sizex, SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
-				{
-					iconsel = 5;
-					eligioalgo = true;
-				}
-
-
-				static bool noicon;
-				static bool exist;
-				static bool inexistente;
-				static int chosen2;
-				chosen2 = -1;
-				static bool ishovered;
-				static bool thereisasuit;
-
-				menu5->Draw(CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f), margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(255, 255, 255, 255));
-
-
-				for (int filas = 0; filas < 6; filas++)
-				{
-					for (int columnas = 0; columnas < 7; columnas++)
-					{
-						static float aux2;
-						int armormenu = menupage * 42;
-						int filasx7 = filas * 7;
-						elemento = columnas + filasx7 + armormenu;
-						poselemento.left = (screenmiddle.x - screensize.y / 2);
-						aux2 = screensize.y / 7;
-						aux2 *= (columnas);
-						poselemento.left += aux2;
-						poselemento.top = margin;
-						aux2 = (screensize.y - margin2);
-						aux2 /= 6;
-						aux2 *= filas;
-						poselemento.top += aux2;
-						poselemento.right = (screenmiddle.x - screensize.y / 2);
-						aux2 = screensize.y / 7;
-						aux2 *= (columnas + 1);
-						poselemento.right += aux2;
-						poselemento.bottom = margin;
-						aux2 = (screensize.y - margin2);
-						aux2 /= 6;
-						aux2 *= (filas + 1);
-						poselemento.bottom += aux2;
-
-						bool exost = false;
-						if (strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark01") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark02") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark03") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark04") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark05") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark06") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark07") != 0 &&
-							elemento != 0)
-						{
-							if (settings.folderdirs[boolvars.yndex].suits[elemento].texexists == false || settings.folderdirs[boolvars.yndex].suits[elemento].mdlexists == false)
-							{
-								exost = false;
-								exist = false;
-							}
-							else
-							{
-								exost = true;
-								if (settings.folderdirs[boolvars.yndex].suits[elemento].iconexists == false)
-								{
-									noicon = true;
-								}
-								else
-								{
-									noicon = false;
-								}
-								exist = true;
-							}
-						}
-						else
-						{
-							exost = true;
-
-							if (settings.folderdirs[boolvars.yndex].suits[elemento].iconexists == false)
-							{
-								noicon = true;
-							}
-							else
-							{
-								noicon = false;
-							}
-							exist = true;
-						}
-						DrawSuitClickIconAtCoords(exist, noicon, elemento, poselemento.left, poselemento.top, poselemento.right, poselemento.bottom, cursorx, cursory, &ishovered);
-						if (ishovered == true && boolvars.settingisactive == false)
-						{
-							eligioalgo = true;
-							chosen2 = elemento;
-							if (hoveredmark != chosen2)
-							{
-								hoveredmark = chosen2;
-								if (
-									iconsel != 0)
-								{
-									if (exost == true)
-									{
-										AudioLib.PlayMenuSFX(0);
-									}
-									else
-									{
-										AudioLib.PlayMenuSFX(6);
-									}
-								}
-								iconsel = 4;
-							}
-							else
-							{
-								iconsel = 4;
-								/**/
-								if (strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark01") != 0 &&
-									strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark02") != 0 &&
-									strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark03") != 0 &&
-									strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark04") != 0 &&
-									strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark05") != 0 &&
-									strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark06") != 0 &&
-									strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark07") != 0 &&
-									chosen2 != 0)
-								{
-									if (settings.folderdirs[boolvars.yndex].suits[chosen2].texexists == true || settings.folderdirs[boolvars.yndex].suits[chosen2].mdlexists == true)
-									{
-										inexistente = false;
-									}
-									else
-									{
-										inexistente = true;
-									}
-								}
-								else
-								{
-									inexistente = false;
-								}
-							}
-						}
-						//}
-
-						fflush(stdin);
-
-					}
-
-					fflush(stdin);
-				}
-				std::string suitarmormenu1;
-				CFont::SetBackground(0, 0);
-				CFont::SetOrientation(ALIGN_CENTER);
-				CFont::SetProportional(true);
-				CFont::SetJustify(false);
-				CFont::SetColor(CRGBA(255, 255, 255, 255));
-				CFont::SetFontStyle(FONT_MENU);
-				CFont::SetEdge(2);
-				CFont::SetCentreSize(screensize.x + SCREEN_COORD(-350.0f));
-				CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
-
-				if (offsetx >= sixe)
-				{
-					offsetx = sixe;
-				}
-
-				if (offsetx <= SCREEN_COORD(0.0f))
-				{
-					offsetx = SCREEN_COORD(0.0f);
-				}
-
-
-
-
-				if (boolvars.settingisactive == false)
-				{
-					if (offsetx <= sixe - SCREEN_COORD(50.0f))
-					{
-						offsetx += SCREEN_COORD(50.0f);
+						exost = false;
+						exist = false;
 					}
 					else
 					{
-						offsetx = sixe;
+						exost = true;
+						if (settings.folderdirs[boolvars.yndex].suits[elemento].iconexists == false)
+						{
+							noicon = true;
+						}
+						else
+						{
+							noicon = false;
+						}
+						exist = true;
 					}
-					CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
-						margin - SCREEN_COORD(10.0f),
-						sixe - offsetx,
-						margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(128, 128, 128, 255));
-
-					CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
-						margin + SCREEN_COORD(10.0f),
-						sixe - SCREEN_COORD(20.0f) - offsetx,
-						margin + (screensize.y - margin2) - SCREEN_COORD(10.0f)), CRGBA(50, 50, 50, 255));
-
-					suitarmormenu1 = settings.folderdirs[boolvars.yndex].name;
-					suitarmormenu1 += " ";
-					suitarmormenu1 += boolvars.suitarmormenu;
-
-					CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(settings.fRadioNameTopPosnY), suitarmormenu1.data());
-					suitarmormenu1.clear();
-
-					CFont::SetFontStyle(FONT_SUBTITLES);
-					CFont::SetScale(SCREEN_MULTIPLIER(0.7f), SCREEN_MULTIPLIER(1.4f));
-					CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(50.0f), boolvars.Clicoptions.data());
-
-					if (DrawClickIconAtCoords(0, false,
-						settingmenu,
-						settingmenu,
-						(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f),
-						SCREEN_COORD(10.0f),
-						(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) + sizex,
-						margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
-						iconsel = 6;
-						eligioalgo = true;
-					}
-
-					if (DrawClickIconAtCoords(0, false,
-						closebtn,
-						closebtn,
-						(screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f) - sizex,
-						SCREEN_COORD(10.0f),
-						(screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f),
-						margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
-						iconsel = 7;
-						eligioalgo = true;
-					}
-
 				}
 				else
 				{
+					exost = true;
 
-					if (offsetx >= SCREEN_COORD(50.0f))
+					if (settings.folderdirs[boolvars.yndex].suits[elemento].iconexists == false)
 					{
-						offsetx -= SCREEN_COORD(50.0f);
+						noicon = true;
 					}
 					else
 					{
-						offsetx = SCREEN_COORD(0.0f);
+						noicon = false;
 					}
-					CSprite2d::DrawRect(CRect(0.0f, 0.0f, screensize.x, screensize.y), CRGBA(0, 0, 0, 170));
-
-					CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
-						margin - SCREEN_COORD(10.0f),
-						sixe - offsetx,
-						margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(128, 128, 128, 255));
-
-					CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
-						margin + SCREEN_COORD(10.0f),
-						sixe - SCREEN_COORD(20.0f) - offsetx,
-						margin + (screensize.y - margin2) - SCREEN_COORD(10.0f)), CRGBA(50, 50, 50, 255));
-
-					if (DrawClickIconAtCoords(0, false,
-						settingmenu,
-						settingmenu,
-						(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f),
-						SCREEN_COORD(10.0f),
-						(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) + sizex,
-						margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
-						iconsel = 6;
-						eligioalgo = true;
-					}
-
-					if (DrawClickIconAtCoords(0, false,
-						closebtn,
-						closebtn,
-						(screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f) - sizex,
-						SCREEN_COORD(10.0f),
-						(screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f),
-						margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
-						iconsel = 7;
-						eligioalgo = true;
-					}
-					suitarmormenu1 = boolvars.Options.data();
-					CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(settings.fRadioNameTopPosnY), suitarmormenu1.data());
-					suitarmormenu1.clear();
-
-					CFont::SetFontStyle(FONT_SUBTITLES);
-					CFont::SetScale(SCREEN_MULTIPLIER(0.7f), SCREEN_MULTIPLIER(1.4f));
-					CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(50.0f), boolvars.helptext8.data());
-
-					static int status;
-
-					if (jarvisvoice.Va_adelante() && CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
-					{
-						timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
-						status = 1;
-					}
-
-					if (jarvisvoice.Va_atras() && CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
-					{
-						timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
-						status = 2;
-					}
-
-					if (status == 1)
-					{
-						while (cfgnro >= 0)
-						{
-							cfgnro -= 1;
-							if (cfgnro < 0)
-							{
-								break;
-							}
-							if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
-								|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
-							{
-								break;
-							}
-						}
-
-						if (cfgnro < 0)
-						{
-							cfgnro = config.paramLines.size() - 1;
-
-							while (cfgnro >= 0)
-							{
-								if (cfgnro < 0)
-								{
-									break;
-								}
-								if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
-									|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
-								{
-									break;
-								}
-								cfgnro -= 1;
-							}
-							if (cfgnro < 0)
-							{
-								cfgnro = config.paramLines.size() - 1;
-							}
-						}
-						status = 0;
-					}
-					if (status == 2)
-					{
-						while (cfgnro <= config.paramLines.size() - 1)
-						{
-							cfgnro += 1;
-							if (cfgnro > config.paramLines.size() - 1)
-							{
-								break;
-							}
-							if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
-								|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
-							{
-								break;
-							}
-						}
-
-						if (cfgnro > config.paramLines.size() - 1)
-						{
-							cfgnro = 0;
-							while (cfgnro < config.paramLines.size() - 1)
-							{
-								if (cfgnro > config.paramLines.size() - 1)
-								{
-									break;
-								}
-								if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
-									|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
-								{
-									break;
-								}
-								cfgnro += 1;
-							}
-
-							if (cfgnro > config.paramLines.size() - 1)
-							{
-								cfgnro = 0;
-							}
-						}
-						status = 0;
-					}
+					exist = true;
 				}
-				if (eligioalgo == true)
+				DrawSuitClickIconAtCoords(exist, noicon, elemento, poselemento.left, poselemento.top, poselemento.right, poselemento.bottom, cursorx, cursory, &ishovered);
+				if (ishovered == true && boolvars.settingisactive == false)
 				{
-					if (iconsel != iconsel1)
+					eligioalgo = true;
+					chosen2 = elemento;
+					if (hoveredmark != chosen2)
 					{
-						AudioLib.PlayMenuSFX(0);
+						hoveredmark = chosen2;
+						if (
+							iconsel != 0)
+						{
+							if (exost == true)
+							{
+								AudioLib.PlayMenuSFX(0);
+							}
+							else
+							{
+								AudioLib.PlayMenuSFX(6);
+							}
+						}
+						iconsel = 4;
 					}
-					iconsel1 = iconsel;
+					else
+					{
+						iconsel = 4;
+						/**/
+						if (strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark01") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark02") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark03") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark04") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark05") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark06") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark07") != 0 &&
+							chosen2 != 0)
+						{
+							if (settings.folderdirs[boolvars.yndex].suits[chosen2].texexists == true || settings.folderdirs[boolvars.yndex].suits[chosen2].mdlexists == true)
+							{
+								inexistente = false;
+							}
+							else
+							{
+								inexistente = true;
+							}
+						}
+						else
+						{
+							inexistente = false;
+						}
+					}
 				}
-				else
-				{
-					iconsel = 0;
-					iconsel1 = 0;
-				}
+				//}
 
-				CSprite2d::DrawRect(CRect(SCREEN_COORD_CENTER_LEFT(350.0f) - offsetx,
-					SCREEN_COORD_CENTER_UP(50.0f),
-					SCREEN_COORD_CENTER_RIGHT(350.0f) - offsetx,
-					SCREEN_COORD_CENTER_DOWN(10.0f)), CRGBA(95, 151, 208, 255));
+				fflush(stdin);
+
+			}
+
+			fflush(stdin);
+		}
+		if (boolvars.alphafad == 0)
+		{
+			CFont::SetBackground(0, 0);
+			CFont::SetOrientation(ALIGN_CENTER);
+			CFont::SetProportional(true);
+			CFont::SetJustify(false);
+			CFont::SetColor(CRGBA(255, 255, 255, 255));
+			CFont::SetFontStyle(FONT_MENU);
+			CFont::SetEdge(2);
+			CFont::SetCentreSize(screensize.x + SCREEN_COORD(-350.0f));
+			CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
+		}
+		if (offsetx >= sixe)
+		{
+			offsetx = sixe;
+		}
+
+		if (offsetx <= SCREEN_COORD(0.0f))
+		{
+			offsetx = SCREEN_COORD(0.0f);
+		}
 
 
 
-				menusel->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
-					SCREEN_COORD_CENTER_UP(135.0f),
-					SCREEN_COORD(30.0f),
-					SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
+
+		if (boolvars.settingisactive == false)
+		{
+			if (offsetx <= sixe - SCREEN_COORD(50.0f))
+			{
+				offsetx += SCREEN_COORD(50.0f);
+			}
+			else
+			{
+				offsetx = sixe;
+			}
+			CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
+				margin - SCREEN_COORD(10.0f),
+				sixe - offsetx,
+				margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(128, 128, 128, 255));
+
+			CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
+				margin + SCREEN_COORD(10.0f),
+				sixe - SCREEN_COORD(20.0f) - offsetx,
+				margin + (screensize.y - margin2) - SCREEN_COORD(10.0f)), CRGBA(50, 50, 50, 255));
+
+			//
+
+
+			if (boolvars.alphafad == 0)
+			{
+				suitarmormenu1 = settings.folderdirs[boolvars.yndex].name;
+				suitarmormenu1 += " ";
+				suitarmormenu1 += boolvars.suitarmormenu;
+
+				CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(settings.fRadioNameTopPosnY), suitarmormenu1.data());
+				
+				CFont::SetFontStyle(FONT_SUBTITLES);
+				CFont::SetScale(SCREEN_MULTIPLIER(0.7f), SCREEN_MULTIPLIER(1.4f));
+				CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(50.0f), boolvars.Clicoptions.data());
+			}
+			if (DrawClickIconAtCoords(false, 0, false,
+				settingmenu,
+				settingmenu,
+				(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f),
+				SCREEN_COORD(10.0f),
+				(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) + sizex,
+				margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
+				iconsel = 6;
+				eligioalgo = true;
+			}
+
+			if (DrawClickIconAtCoords(false, 0, false,
+				closebtn,
+				closebtn,
+				limitarmors - sizex,
+				SCREEN_COORD(10.0f),
+				limitarmors,
+				margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
+				iconsel = 7;
+				eligioalgo = true;
+			}
+
+		}
+		else
+		{
+
+			if (offsetx >= SCREEN_COORD(50.0f))
+			{
+				offsetx -= SCREEN_COORD(50.0f);
+			}
+			else
+			{
+				offsetx = SCREEN_COORD(0.0f);
+			}
+			//CSprite2d::DrawRect(CRect(0.0f, 0.0f, screensize.x, screensize.y), CRGBA(0, 0, 0, 170));
+
+			CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
+				margin - SCREEN_COORD(10.0f),
+				sixe - offsetx,
+				margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(128, 128, 128, 255));
+
+			CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
+				margin + SCREEN_COORD(10.0f),
+				sixe - SCREEN_COORD(20.0f) - offsetx,
+				margin + (screensize.y - margin2) - SCREEN_COORD(10.0f)), CRGBA(50, 50, 50, 255));
+
+			if (DrawClickIconAtCoords(false, 0, false,
+				settingmenu,
+				settingmenu,
+				(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f),
+				SCREEN_COORD(10.0f),
+				(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) + sizex,
+				margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
+				iconsel = 6;
+				eligioalgo = true;
+			}
+
+			if (DrawClickIconAtCoords(false, 0, false,
+				closebtn,
+				closebtn,
+				limitarmors - sizex,
+				SCREEN_COORD(10.0f),
+				limitarmors,
+				margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
+				iconsel = 7;
+				eligioalgo = true;
+			}
+
+			if (boolvars.alphafad == 0)
+			{
+				suitarmormenu1 = boolvars.Options.data();
+				CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(settings.fRadioNameTopPosnY), suitarmormenu1.data());
 
 				CFont::SetFontStyle(FONT_SUBTITLES);
-				CFont::SetEdge(1);
-				//		
-				//menusel->Draw(SCREEN_COORD_CENTER_RIGHT(450.0f) - SCREEN_COORD(80.0f), SCREEN_COORD_CENTER_UP(135.0f), SCREEN_COORD(30.0f), SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
+				CFont::SetScale(SCREEN_MULTIPLIER(0.7f), SCREEN_MULTIPLIER(1.4f));
+				CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(50.0f), boolvars.helptext8.data());
+			}
+			static int status;
 
-				int ant = cfgnro - 1, post = cfgnro + 1;
+			if (jarvisvoice.Va_adelante() && CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
+			{
+				timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
+				status = 1;
+			}
 
-				while (ant >= 0)
+			if (jarvisvoice.Va_atras() && CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
+			{
+				timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
+				status = 2;
+			}
+
+			if (status == 1)
+			{
+				while (cfgnro >= 0)
 				{
-					if (ant <= config.paramLines.size() - 1)
+					cfgnro -= 1;
+					if (cfgnro < 0)
 					{
-						if (strcmp(config.paramLines.at(ant)._value.c_str(), "NO") == 0
-							|| strcmp(config.paramLines.at(ant)._value.c_str(), "YES") == 0)
+						break;
+					}
+					if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
+						|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
+					{
+						break;
+					}
+				}
+
+				if (cfgnro < 0)
+				{
+					cfgnro = config.paramLines.size() - 1;
+
+					while (cfgnro >= 0)
+					{
+						if (cfgnro < 0)
+						{
+							break;
+						}
+						if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
+							|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
+						{
+							break;
+						}
+						cfgnro -= 1;
+					}
+					if (cfgnro < 0)
+					{
+						cfgnro = config.paramLines.size() - 1;
+					}
+				}
+				status = 0;
+			}
+			if (status == 2)
+			{
+				while (cfgnro <= config.paramLines.size() - 1)
+				{
+					cfgnro += 1;
+					if (cfgnro > config.paramLines.size() - 1)
+					{
+						break;
+					}
+					if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
+						|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
+					{
+						break;
+					}
+				}
+
+				if (cfgnro > config.paramLines.size() - 1)
+				{
+					cfgnro = 0;
+					while (cfgnro < config.paramLines.size() - 1)
+					{
+						if (cfgnro > config.paramLines.size() - 1)
+						{
+							break;
+						}
+						if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
+							|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
+						{
+							break;
+						}
+						cfgnro += 1;
+					}
+
+					if (cfgnro > config.paramLines.size() - 1)
+					{
+						cfgnro = 0;
+					}
+				}
+				status = 0;
+			}
+		}
+		if (eligioalgo == true)
+		{
+			if (iconsel != iconsel1)
+			{
+				AudioLib.PlayMenuSFX(0);
+			}
+			iconsel1 = iconsel;
+		}
+		else
+		{
+			iconsel = 0;
+			iconsel1 = 0;
+		}
+
+		CSprite2d::DrawRect(CRect(SCREEN_COORD_CENTER_LEFT(350.0f) - offsetx,
+			SCREEN_COORD_CENTER_UP(50.0f),
+			SCREEN_COORD_CENTER_RIGHT(350.0f) - offsetx,
+			SCREEN_COORD_CENTER_DOWN(10.0f)), CRGBA(95, 151, 208, 255));
+
+
+
+		menusel->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
+			SCREEN_COORD_CENTER_UP(135.0f),
+			SCREEN_COORD(30.0f),
+			SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
+
+		if (boolvars.alphafad == 0)
+		{
+			CFont::SetFontStyle(FONT_SUBTITLES);
+			CFont::SetEdge(1);
+		}
+		//		
+		//menusel->Draw(SCREEN_COORD_CENTER_RIGHT(450.0f) - SCREEN_COORD(80.0f), SCREEN_COORD_CENTER_UP(135.0f), SCREEN_COORD(30.0f), SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
+
+		int ant = cfgnro - 1, post = cfgnro + 1;
+
+		if (boolvars.alphafad == 0)
+		{
+			while (ant >= 0)
+			{
+				if (ant <= config.paramLines.size() - 1)
+				{
+					if (strcmp(config.paramLines.at(ant)._value.c_str(), "NO") == 0
+						|| strcmp(config.paramLines.at(ant)._value.c_str(), "YES") == 0)
+					{
+						if (boolvars.alphafad == 0)
 						{
 							CFont::SetBackground(0, 0);
 							CFont::SetColor(CRGBA(255, 255, 255, 150));
@@ -13799,6 +13858,42 @@ suitmenu:
 							//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
 							CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
 							CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_UP(90.0f), config.paramLines.at(ant).name.data());
+						}
+						break;
+					}
+					else
+					{
+						ant -= 1;
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+			if (ant < 0)
+			{
+				ant = config.paramLines.size() - 1;
+				while (ant >= 0)
+				{
+					if (ant <= config.paramLines.size() - 1)
+					{
+						if (strcmp(config.paramLines.at(ant)._value.c_str(), "NO") == 0
+							|| strcmp(config.paramLines.at(ant)._value.c_str(), "YES") == 0)
+						{
+							if (boolvars.alphafad == 0)
+							{
+								CFont::SetBackground(0, 0);
+								CFont::SetColor(CRGBA(255, 255, 255, 150));
+								CFont::SetOrientation(ALIGN_LEFT);
+								CFont::SetProportional(true);
+								CFont::SetJustify(false);
+								CFont::SetFontStyle(FONT_SUBTITLES);
+								CFont::SetEdge(0);
+								//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
+								CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
+								CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_UP(90.0f), config.paramLines.at(ant).name.data());
+							}
 							break;
 						}
 						else
@@ -13814,41 +13909,43 @@ suitmenu:
 				if (ant < 0)
 				{
 					ant = config.paramLines.size() - 1;
-					while (ant >= 0)
+				}
+			}
+
+			while (post <= config.paramLines.size() - 1)
+			{
+				if (post >= 0)
+				{
+					if (strcmp(config.paramLines.at(post)._value.c_str(), "NO") == 0
+						|| strcmp(config.paramLines.at(post)._value.c_str(), "YES") == 0)
 					{
-						if (ant <= config.paramLines.size() - 1)
-						{
-							if (strcmp(config.paramLines.at(ant)._value.c_str(), "NO") == 0
-								|| strcmp(config.paramLines.at(ant)._value.c_str(), "YES") == 0)
-							{
-								CFont::SetBackground(0, 0);
-								CFont::SetColor(CRGBA(255, 255, 255, 150));
-								CFont::SetOrientation(ALIGN_LEFT);
-								CFont::SetProportional(true);
-								CFont::SetJustify(false);
-								CFont::SetFontStyle(FONT_SUBTITLES);
-								CFont::SetEdge(0);
-								//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
-								CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
-								CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_UP(90.0f), config.paramLines.at(ant).name.data());
-								break;
-							}
-							else
-							{
-								ant -= 1;
-							}
-						}
-						else
-						{
-							break;
-						}
+						CFont::SetBackground(0, 0);
+						CFont::SetColor(CRGBA(255, 255, 255, 150));
+						CFont::SetOrientation(ALIGN_LEFT);
+						CFont::SetProportional(true);
+						CFont::SetJustify(false);
+						CFont::SetFontStyle(FONT_SUBTITLES);
+						CFont::SetEdge(0);
+						//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
+						CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
+						CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_DOWN(15.0f), config.paramLines.at(post).name.data());
+
+						break;
 					}
-					if (ant < 0)
+					else
 					{
-						ant = config.paramLines.size() - 1;
+						post += 1;
 					}
 				}
+				else
+				{
+					break;
+				}
+			}
 
+			if (post > config.paramLines.size() - 1)
+			{
+				post = 0;
 				while (post <= config.paramLines.size() - 1)
 				{
 					if (post >= 0)
@@ -13866,6 +13963,7 @@ suitmenu:
 							//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
 							CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
 							CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_DOWN(15.0f), config.paramLines.at(post).name.data());
+
 							break;
 						}
 						else
@@ -13878,44 +13976,14 @@ suitmenu:
 						break;
 					}
 				}
-
 				if (post > config.paramLines.size() - 1)
 				{
 					post = 0;
-					while (post <= config.paramLines.size() - 1)
-					{
-						if (post >= 0)
-						{
-							if (strcmp(config.paramLines.at(post)._value.c_str(), "NO") == 0
-								|| strcmp(config.paramLines.at(post)._value.c_str(), "YES") == 0)
-							{
-								CFont::SetBackground(0, 0);
-								CFont::SetColor(CRGBA(255, 255, 255, 150));
-								CFont::SetOrientation(ALIGN_LEFT);
-								CFont::SetProportional(true);
-								CFont::SetJustify(false);
-								CFont::SetFontStyle(FONT_SUBTITLES);
-								CFont::SetEdge(0);
-								//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
-								CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
-								CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_DOWN(15.0f), config.paramLines.at(post).name.data());
-								break;
-							}
-							else
-							{
-								post += 1;
-							}
-						}
-						else
-						{
-							break;
-						}
-					}
-					if (post > config.paramLines.size() - 1)
-					{
-						post = 0;
-					}
 				}
+			}
+
+			if (boolvars.alphafad == 0)
+			{
 				CFont::SetBackground(0, 0);
 				CFont::SetColor(CRGBA(255, 255, 255, 255));
 				CFont::SetOrientation(ALIGN_LEFT);
@@ -13926,50 +13994,50 @@ suitmenu:
 				//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
 				CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
 				CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_UP(40.0f), config.paramLines.at(cfgnro).name.data());
-
-				if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
+			}
+		}
+		if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
+		{
+			check->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
+				SCREEN_COORD_CENTER_UP(40.0f),
+				SCREEN_COORD(60.0f),
+				SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
+			if (boolvars.settingisactive)
+			{
+				if (CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
 				{
-					check->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
-						SCREEN_COORD_CENTER_UP(40.0f),
-						SCREEN_COORD(60.0f),
-						SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
-					if (boolvars.settingisactive)
+					if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 16) == 1)
 					{
-						if (CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
-						{
-							if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 16) == 1)
-							{
-								timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
-								config.paramLines.at(cfgnro)._value.clear();
-								config.paramLines.at(cfgnro)._value.assign("NO");
-								config.save();
-								settings.Read();
-							}
-						}
+						timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
+						config.paramLines.at(cfgnro)._value.clear();
+						config.paramLines.at(cfgnro)._value.assign("NO");
+						config.save();
+						settings.Read();
 					}
 				}
-
-				if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0)
+			}
+		}
+		if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0)
+		{
+			uncheck->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
+				SCREEN_COORD_CENTER_UP(40.0f),
+				SCREEN_COORD(60.0f),
+				SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
+			if (boolvars.settingisactive)
+			{
+				if (CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
 				{
-					uncheck->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
-						SCREEN_COORD_CENTER_UP(40.0f),
-						SCREEN_COORD(60.0f),
-						SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
-					if (boolvars.settingisactive)
+					if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 16) == 1)
 					{
-						if (CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
-						{
-							if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 16) == 1)
-							{
-								timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
-								config.paramLines.at(cfgnro)._value.clear();
-								config.paramLines.at(cfgnro)._value.assign("YES");
-								config.save();
-								settings.Read();
-							}
-						}
+						timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
+						config.paramLines.at(cfgnro)._value.clear();
+						config.paramLines.at(cfgnro)._value.assign("YES");
+						config.save();
+						settings.Read();
 					}
 				}
+			}
+		}
 
 
 
@@ -13989,294 +14057,95 @@ suitmenu:
 
 
 
-				cursor->Draw(CRect(cursorx, cursory, cursorx + SCREEN_COORD(20.0f), cursory + SCREEN_COORD(20.0f)), CRGBA(255, 255, 255, 255));
+		cursor->Draw(CRect(cursorx, cursory, cursorx + SCREEN_COORD(20.0f), cursory + SCREEN_COORD(20.0f)), CRGBA(255, 255, 255, 255));
 
-				if (boolvars.alphafad < 1)
+		if (boolvars.alphafad == 0)
+		{
+			if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 17) == false &&
+				CMouseControllerState().lmb != 1 && (GetKeyState(VK_LBUTTON) & 0x8000) == false) {
+				if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 6) == false &&
+					CMouseControllerState().rmb != 1 && (GetKeyState(VK_RBUTTON) & 0x8000) == false)
 				{
-					if (CMouseControllerState().lmb != 1 && (GetKeyState(VK_LBUTTON) & 0x8000) == false) {
-						if (CMouseControllerState().rmb != 1 && (GetKeyState(VK_RBUTTON) & 0x8000) == false)
+					if (iconsel > 0)
+					{
+						CFont::SetBackground(0, 0);
+						CFont::SetOrientation(ALIGN_CENTER);
+						CFont::SetProportional(true);
+						CFont::SetJustify(false);
+						CFont::SetColor(CRGBA(0, 0, 0, 255));
+						CFont::SetFontStyle(FONT_SUBTITLES);
+						CFont::SetEdge(0);
+						CFont::SetCentreSize(screensize.x + SCREEN_COORD(-350));
+						CFont::SetScale(SCREEN_MULTIPLIER(0.5f), SCREEN_MULTIPLIER(1.0f));
+						if (iconsel == 4)
 						{
-							if (iconsel > 0)
+							if (settings.folderdirs[boolvars.yndex].suits[chosen2].iconexists == true)
 							{
-								CFont::SetBackground(0, 0);
-								CFont::SetOrientation(ALIGN_CENTER);
-								CFont::SetProportional(true);
-								CFont::SetJustify(false);
-								CFont::SetColor(CRGBA(0, 0, 0, 255));
-								CFont::SetFontStyle(FONT_SUBTITLES);
-								CFont::SetEdge(0);
-								CFont::SetCentreSize(screensize.x + SCREEN_COORD(-350));
-								CFont::SetScale(SCREEN_MULTIPLIER(0.5f), SCREEN_MULTIPLIER(1.0f));
-								if (iconsel == 4)
+								if (inexistente == true)
 								{
-									if (settings.folderdirs[boolvars.yndex].suits[chosen2].iconexists == true)
-									{
-										if (inexistente == true)
-										{
-											CFont::SetColor(CRGBA(255, 0, 0, 255));
-											CSprite2d::DrawRect(CRect(cursorx + SCREEN_COORD(14.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(210.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
-											CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Notplay.data());
-										}
-										else
-										{
-											if (chosen2 == 0)
-											{
-												CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
-												CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Tonyplay.data());
-											}
-											else
-											{
-												CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
-												CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), settings.folderdirs[boolvars.yndex].suits[chosen2].name);
-											}
-										}
-									}
+									CFont::SetColor(CRGBA(255, 0, 0, 255));
+									CSprite2d::DrawRect(CRect(cursorx + SCREEN_COORD(14.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(210.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
+									CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Notplay.data());
 								}
 								else
 								{
-									if (iconsel == 5)
+									if (chosen2 == 0)
 									{
 										CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
-										CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Nextmenu.data());
+										CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Tonyplay.data());
 									}
 									else
 									{
-										if (iconsel == 2)
-										{
-											CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
-											CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.menupag1.data());
-										}
-										else
-										{
-											if (iconsel == 3)
-											{
-												CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
-												CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.menupag2.data());
-											}
-											else
-											{
-												if (iconsel == 1)
-												{
-													CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
-													CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Prevmenu.data());
-												}
-												else
-												{
-													if (iconsel == 6)
-													{
-														CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
-														if (!boolvars.settingisactive)
-															CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Options.data());
-														else
-															CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Closesets.data());
-													}
-													else
-													{
-														if (iconsel == 7)
-														{
-															CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
-															CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Closemenu.data());
-														}
-													}
-												}
-											}
-										}
+										CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
+										CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), settings.folderdirs[boolvars.yndex].suits[chosen2].name);
 									}
 								}
-							}
-						}
-						else
-						{
-							if (iconsel == 4)
-							{
-								AudioLib.PlayMenuSFX(1);
-								if (chosen2 != 0)
-								{
-									chosenmark = chosen2;
-									if (settings.folderdirs[boolvars.yndex].suits[chosenmark].texexists == true && settings.folderdirs[boolvars.yndex].suits[chosenmark].mdlexists == true)// && chosenmark >= 8)
-									{
-										bool banderilla = false;
-										int pind = 0;
-										while (pind <= dimfriends && banderilla == false)
-										{
-											if ((int)jarvisfriend[pind].actorchar == 0)
-											{
-												pedindex = pind;
-												banderilla = true;
-												break;
-											}
-											pind++;
-										}
-										if (banderilla == true && pind <= dimfriends)
-										{
-											isentered = true;
-										}
-										ordenelegir = true;
-										boolvars.alphafad += 50;
-									}
-									else
-									{
-										ordenelegir = true;
-										boolvars.alphafad += 50;
-									}
-									ordenelegir = true;
-									boolvars.alphafad += 50;
-									iconsel = 0;
-								}
-							}
-							else
-							{
-								ordenelegir = true;
-								boolvars.alphafad += 50;
-							}
-							iconsel = 0;
-						}
-					}
-					else {
-						if (iconsel == 4)
-						{
-							AudioLib.PlayMenuSFX(1);
-							if (strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark01") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark02") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark03") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark04") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark05") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark06") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark07") != 0 &&
-								chosen2 != 0)
-							{
-								chosenmark = chosen2;
-								if (settings.folderdirs[boolvars.yndex].suits[chosen2].texexists == true &&
-									settings.folderdirs[boolvars.yndex].suits[chosen2].mdlexists == true)
-								{
-									char *numb;
-									numb = new char[4];
-									sprintf(numb, "%d", chosenmark);
-									WritePrivateProfileString("CONFIG", "MARK", numb, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-									//Sleep(30);
-									iscliqued = true;
-									ordenelegir = true;
-									boolvars.alphafad += 50;
-									markk = GetPrivateProfileInt("CONFIG", "MARK", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-									delete[] numb;
-									iconsel = 0;
-								}
-							}
-							else
-							{
-								chosenmark = chosen2;
-								isclicked = true;
-								ordenelegir = true;
-								boolvars.alphafad += 50;
-								iconsel = 0;
 							}
 						}
 						else
 						{
 							if (iconsel == 5)
 							{
-								if (CTimer::m_snTimeInMillisecondsNonClipped > (timerforpages + 1000))
-								{
-									AudioLib.PlayMenuSFX(2);
-									timerforpages = CTimer::m_snTimeInMillisecondsNonClipped;
-									if (boolvars.yndex >= settings.amount - 1)
-									{
-										boolvars.yndex = 0;
-									}
-									else
-									{
-										boolvars.yndex++;
-									}
-									JarvisVoice::Loadsuiticons();
-								}
-								iconsel = 0;
+								CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
+								CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Nextmenu.data());
 							}
 							else
 							{
 								if (iconsel == 2)
 								{
-									if (CTimer::m_snTimeInMillisecondsNonClipped > (timerforpages + 1000))
-									{
-										AudioLib.PlayMenuSFX(5);
-										timerforpages = CTimer::m_snTimeInMillisecondsNonClipped;
-										if (menupage == 0)
-										{
-											menupage = 1;
-										}
-										else
-										{
-											menupage = 0;
-										}
-									}
-									iconsel = 0;
+									CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
+									CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.menupag1.data());
 								}
 								else
 								{
 									if (iconsel == 3)
 									{
-										if (CTimer::m_snTimeInMillisecondsNonClipped > (timerforpages + 1000))
-										{
-											AudioLib.PlayMenuSFX(5);
-											timerforpages = CTimer::m_snTimeInMillisecondsNonClipped;
-											if (menupage == 1)
-											{
-												menupage = 0;
-											}
-											else
-											{
-												menupage = 1;
-											}
-										}
-										iconsel = 0;
+										CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
+										CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.menupag2.data());
 									}
 									else
 									{
 										if (iconsel == 1)
 										{
-											if (CTimer::m_snTimeInMillisecondsNonClipped > (timerforpages + 1000))
-											{
-												AudioLib.PlayMenuSFX(2);
-												timerforpages = CTimer::m_snTimeInMillisecondsNonClipped;
-												if (boolvars.yndex <= 0)
-												{
-													boolvars.yndex = settings.amount - 1;
-												}
-												else
-												{
-													boolvars.yndex--;
-												}
-												JarvisVoice::Loadsuiticons();
-											}
-											iconsel = 0;
+											CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
+											CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Prevmenu.data());
 										}
 										else
 										{
 											if (iconsel == 6)
 											{
-												if (CTimer::m_snTimeInMillisecondsNonClipped > (timerforpages + 1000))
-												{
-													if (!boolvars.settingisactive)
-													{
-														AudioLib.PlayMenuSFX(3);
-														boolvars.settingisactive = true;
-													}
-													else
-													{
-														AudioLib.PlayMenuSFX(4);
-														boolvars.settingisactive = false;
-													}
-													timerforpages = CTimer::m_snTimeInMillisecondsNonClipped;
-												}
-												iconsel = 0;
+												CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
+												if (!boolvars.settingisactive)
+													CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Options.data());
+												else
+													CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Closesets.data());
 											}
 											else
 											{
 												if (iconsel == 7)
 												{
-													AudioLib.PlayMenuSFX(4);
-													boolvars.menuisactive = false;
-													WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-													iconsel = 0;
+													CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
+													CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Closemenu.data());
 												}
 											}
 										}
@@ -14286,11 +14155,227 @@ suitmenu:
 						}
 					}
 				}
-				if (isclicked == true || iscliqued == true)
+				else
 				{
-					Drawfondo(boolvars.alphafad);
+					if (iconsel == 4)
+					{
+						AudioLib.PlayMenuSFX(1);
+						if (chosen2 != 0)
+						{
+							chosenmark = chosen2;
+							if (settings.folderdirs[boolvars.yndex].suits[chosenmark].texexists == true && settings.folderdirs[boolvars.yndex].suits[chosenmark].mdlexists == true)// && chosenmark >= 8)
+							{
+								bool banderilla = false;
+								int pind = 0;
+								while (pind <= dimfriends && banderilla == false)
+								{
+									if ((int)jarvisfriend[pind].actorchar == 0)
+									{
+										pedindex = pind;
+										banderilla = true;
+										break;
+									}
+									pind++;
+								}
+								if (banderilla == true && pind <= dimfriends)
+								{
+									isentered = true;
+								}
+								ordenelegir = true;
+								boolvars.alphafad += 50;
+							}
+							else
+							{
+								ordenelegir = true;
+								boolvars.alphafad += 50;
+							}
+							ordenelegir = true;
+							boolvars.alphafad += 50;
+							iconsel = 0;
+						}
+					}
+					else
+					{
+						ordenelegir = true;
+						boolvars.alphafad += 50;
+					}
+					iconsel = 0;
 				}
-
+			}
+			else {
+				if (iconsel == 4)
+				{
+					AudioLib.PlayMenuSFX(1);
+					if (strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark01") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark02") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark03") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark04") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark05") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark06") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark07") != 0 &&
+						chosen2 != 0)
+					{
+						chosenmark = chosen2;
+						if (settings.folderdirs[boolvars.yndex].suits[chosen2].texexists == true &&
+							settings.folderdirs[boolvars.yndex].suits[chosen2].mdlexists == true)
+						{
+							char *numb;
+							numb = new char[4];
+							sprintf(numb, "%d", chosenmark);
+							WritePrivateProfileString("CONFIG", "MARK", numb, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+							//Sleep(30);
+							iscliqued = true;
+							ordenelegir = true;
+							boolvars.alphafad += 50;
+							markk = GetPrivateProfileInt("CONFIG", "MARK", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+							delete[] numb;
+							iconsel = 0;
+						}
+					}
+					else
+					{
+						chosenmark = chosen2;
+						isclicked = true;
+						ordenelegir = true;
+						boolvars.alphafad += 50;
+						iconsel = 0;
+					}
+				}
+				else
+				{
+					if (iconsel == 5)
+					{
+						if (CTimer::m_snTimeInMillisecondsNonClipped > (timerforpages + 1000))
+						{
+							AudioLib.PlayMenuSFX(2);
+							timerforpages = CTimer::m_snTimeInMillisecondsNonClipped;
+							if (boolvars.yndex >= settings.amount - 1)
+							{
+								boolvars.yndex = 0;
+							}
+							else
+							{
+								boolvars.yndex++;
+							}
+							JarvisVoice::Loadsuiticons();
+						}
+						iconsel = 0;
+					}
+					else
+					{
+						if (iconsel == 2)
+						{
+							if (CTimer::m_snTimeInMillisecondsNonClipped > (timerforpages + 1000))
+							{
+								AudioLib.PlayMenuSFX(5);
+								timerforpages = CTimer::m_snTimeInMillisecondsNonClipped;
+								if (menupage != 0)
+								{
+									menupage = 0;
+								}
+								else
+								{
+									menupage = 1;
+								}
+							}
+							iconsel = 0;
+						}
+						else
+						{
+							if (iconsel == 3)
+							{
+								if (CTimer::m_snTimeInMillisecondsNonClipped > (timerforpages + 1000))
+								{
+									AudioLib.PlayMenuSFX(5);
+									timerforpages = CTimer::m_snTimeInMillisecondsNonClipped;
+									if (menupage != 1)
+									{
+										menupage = 1;
+									}
+									else
+									{
+										menupage = 0;
+									}
+								}
+								iconsel = 0;
+							}
+							else
+							{
+								if (iconsel == 1)
+								{
+									if (CTimer::m_snTimeInMillisecondsNonClipped > (timerforpages + 1000))
+									{
+										AudioLib.PlayMenuSFX(2);
+										timerforpages = CTimer::m_snTimeInMillisecondsNonClipped;
+										if (boolvars.yndex <= 0)
+										{
+											boolvars.yndex = settings.amount - 1;
+										}
+										else
+										{
+											boolvars.yndex--;
+										}
+										JarvisVoice::Loadsuiticons();
+									}
+									iconsel = 0;
+								}
+								else
+								{
+									if (iconsel == 6)
+									{
+										if (CTimer::m_snTimeInMillisecondsNonClipped > (timerforpages + 1000))
+										{
+											if (!boolvars.settingisactive)
+											{
+												AudioLib.PlayMenuSFX(3);
+												boolvars.settingisactive = true;
+											}
+											else
+											{
+												AudioLib.PlayMenuSFX(4);
+												boolvars.settingisactive = false;
+											}
+											timerforpages = CTimer::m_snTimeInMillisecondsNonClipped;
+										}
+										iconsel = 0;
+									}
+									else
+									{
+										if (iconsel == 7)
+										{
+											AudioLib.PlayMenuSFX(4);
+											boolvars.menuisactive = false;
+											WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+											iconsel = 0;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			if (boolvars.alphafad > 0 && boolvars.alphafad <= 255)
+			{
+				Drawfondo();
+			}
+		}
+		suitarmormenu1.clear();
+		return true;
+	}
+			else
+			{
+				boolvars.settingisactive = false;
+				WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+				boolvars.menuisactive = false;
+				boolvars.indx = 0;
+				boolvars.alphafad = 0;
+				movtextures.Loadmenuicons();
+				plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
+				suitarmormenu1.clear();
 				return true;
 			}
 		}
@@ -14303,20 +14388,10 @@ suitmenu:
 			boolvars.alphafad = 0;
 
 			plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
+			suitarmormenu1.clear();
 			return true;
 		}
-		/*}
-		else
-		{
-		boolvars.settingisactive = false;
-		pActor = (DWORD*)0xB6F5F0;
-
-		WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-		boolvars.menuisactive = false;
-		boolvars.indx = 0;
-		return true;
-		}*/
-
+		suitarmormenu1.clear();
 		return true;
 	}
 

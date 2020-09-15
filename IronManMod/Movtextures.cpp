@@ -788,7 +788,7 @@ void Movtextures::MyDrawWeaponIcon1() {
 	CPed *player = FindPlayerPed(0);
 	static int weapModel;
 
-	if (boolvars.menuisactive == false && boolvars.hudsetting == true)
+	if (boolvars.menuisactive == false && boolvars.hudsetting == true && boolvars.alphafad == 0)
 	{
 
 		float enxvale;
@@ -1551,6 +1551,8 @@ void Movtextures::drawindexedtexture(int index) {
 				{
 					if (CTimer::m_snTimeInMillisecondsNonClipped <= hudicontimer + retardo1 + hudAnimTime1)
 					{
+						boolvars.maxarmor = 1000;
+						player->m_fArmour = boolvars.maxarmor;
 						if (sizetexture[boolvars.hudindex] < texcoordshoriz + divfactor2 / hudAnimTime1)
 						{
 							sizetexture[boolvars.hudindex] = texcoordshoriz;
