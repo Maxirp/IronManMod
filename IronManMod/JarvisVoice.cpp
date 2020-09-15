@@ -30,7 +30,7 @@ using namespace plugin;
 
 BoolVars boolvars;
 JarvisVoice jarvisvoice;
-unsigned int armoralfa = 255;//100
+unsigned unsigned char armoralfa = 255;
 
 CVector Getorientbetweenpoints(CVector origin, CVector dir);
 
@@ -76,20 +76,20 @@ void Playuniloop(int id)
 	{
 		//if (AudioLib.Init(-1, 44100, 4, 0, 0) == NULL)
 		//{
-			if (AudioLib.ChannelIsActive(beams.audio) == 1)
+		if (AudioLib.ChannelIsActive(beams.audio) == 1)
+		{
+			if (id == 0)
 			{
-				if (id == 0)
-				{
-					AudioLib.ChannelStop(beams.audio);
-				}
+				AudioLib.ChannelStop(beams.audio);
 			}
-			else
+		}
+		else
+		{
+			if (id == 1)
 			{
-				if (id == 1)
-				{
-					AudioLib.ChannelPlay(beams.audio, true);
-				}
+				AudioLib.ChannelPlay(beams.audio, true);
 			}
+		}
 		//}
 	}
 }
@@ -98,13 +98,13 @@ void Playuniloop(int id)
 
 CSprite2d *malarm = NULL;
 CSprite2d *armoricom[85] = { NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL 
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL 
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL 
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL 
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL 
-,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL 
-,NULL ,NULL ,NULL ,NULL ,NULL }; 
+,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
+,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
+,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
+,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
+,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
+,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL
+,NULL ,NULL ,NULL ,NULL ,NULL };
 CSprite2d *imhud2;
 CSprite2d *imhud3;
 //CSprite2d *menu1;
@@ -154,54 +154,54 @@ void JarvisVoice::Loadsuiticons()
 	//{			
 	std::string iconPath;
 	std::string numerodetraje;
-	
+
 	char *rutaimg;
 
 	int hj = 1;
-		while( hj < settings.folderdirs[boolvars.yndex].subcontentamnt)
-		{
+	while (hj < settings.folderdirs[boolvars.yndex].subcontentamnt)
+	{
+		fflush(stdin);
+		//iconPath.reserve(524288);
+		iconPath += GAME_PATH("modloader\\IronManMod\\Skins");
+		iconPath += "\\";
+		iconPath += settings.folderdirs[boolvars.yndex].name;
+		iconPath += "\\";
+		iconPath += settings.folderdirs[boolvars.yndex].suits[hj].name;
+		iconPath += "\\";
+		iconPath += settings.folderdirs[boolvars.yndex].suits[hj].pngname;
+
+		iconPath += ".png";
+
+		rutaimg = new char[iconPath.length() + 1];
+		strcpy(rutaimg, iconPath.data());
+		//fflush(stdin);
+
+		FILE *file = fopen(rutaimg, "r");
+
+		if (file != NULL) {
+			fclose(file);
+			armoricom[hj] = new CSprite2d();
+			armoricom[hj]->m_pTexture = mobileTex.LoadTexture(rutaimg);
 			fflush(stdin);
-			//iconPath.reserve(524288);
-			iconPath += GAME_PATH("modloader\\IronManMod\\Skins");
-			iconPath += "\\";
-			iconPath += settings.folderdirs[boolvars.yndex].name;
-			iconPath += "\\";
-			iconPath += settings.folderdirs[boolvars.yndex].suits[hj].name;
-			iconPath += "\\";
-			iconPath += settings.folderdirs[boolvars.yndex].suits[hj].pngname;
-
-			iconPath += ".png";
-
-			rutaimg = new char[iconPath.length() + 1];
-			strcpy(rutaimg, iconPath.data());
-			//fflush(stdin);
-			
-			FILE *file = fopen(rutaimg, "r");
-
-			if (file != NULL) {
-				fclose(file);
-				armoricom[hj] = new CSprite2d();
-				armoricom[hj]->m_pTexture = mobileTex.LoadTexture(rutaimg);
-				fflush(stdin);
-			}
-			else
-			{
-				armoricom[hj] = new CSprite2d();
-				armoricom[hj]->m_pTexture = NULL;
-			}
-			delete[] rutaimg;
-			iconPath.clear();
-			fflush(stdin);
-			hj++;
 		}
-		if (settings.folderdirs[boolvars.yndex].subcontentamnt < 84)
+		else
 		{
-			for (int hj = settings.folderdirs[boolvars.yndex].subcontentamnt; hj < 84; hj++)
-			{
-				armoricom[hj] = new CSprite2d();
-				armoricom[hj]->m_pTexture = NULL;
-			}
+			armoricom[hj] = new CSprite2d();
+			armoricom[hj]->m_pTexture = NULL;
 		}
+		delete[] rutaimg;
+		iconPath.clear();
+		fflush(stdin);
+		hj++;
+	}
+	if (settings.folderdirs[boolvars.yndex].subcontentamnt < 84)
+	{
+		for (int hj = settings.folderdirs[boolvars.yndex].subcontentamnt; hj < 84; hj++)
+		{
+			armoricom[hj] = new CSprite2d();
+			armoricom[hj]->m_pTexture = NULL;
+		}
+	}
 	//}
 }
 
@@ -217,11 +217,11 @@ void JarvisVoice::storeenviroment(int* enviroment_ID) {
 }
 
 void JarvisVoice::ManageMaxirpBass() {
-	if (AudioLib.library==NULL)
+	if (AudioLib.library == NULL)
 	{
 		AudioLib.Readfromdll();
 		//JarvisVoice::LoadAudios();
-		
+
 		//AudioLib.Start();
 		//AudioLib.Init(-1, 44100, 4, 0, 0);
 		boolvars.bassinit = true;
@@ -230,17 +230,17 @@ void JarvisVoice::ManageMaxirpBass() {
 }
 /*
 void JarvisVoice::PauseBass() {
-	if (AudioLib.library != NULL)
-	{
-		/*AudioLib.library = LoadLibrary(GAME_PATH("AudioLib.dll"));
-		boolvars.bassinit = false;
-		JarvisVoice::LoadAudios();
-	}
-	else
-	{
-		
-		//AudioLib.Pause();
-	}
+if (AudioLib.library != NULL)
+{
+/*AudioLib.library = LoadLibrary(GAME_PATH("AudioLib.dll"));
+boolvars.bassinit = false;
+JarvisVoice::LoadAudios();
+}
+else
+{
+
+//AudioLib.Pause();
+}
 }*/
 
 static bool isentered, hastoloadfriend;
@@ -330,7 +330,7 @@ void DrawSuitClickIconAtCoords(bool available, bool noicon, int id, float texpos
 				{
 					if (armoricom[id]->m_pTexture != NULL)
 					{
-						armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa)); 
+						armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
 						CSprite2d::DrawRect(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 50));
 					}
 					else
@@ -479,9 +479,9 @@ bool DrawClickIconAtCoords(int chang, bool setingcheck, CSprite2d *sprite, CSpri
 	}
 }
 
-void Drawfondo(int alfa);
+void Drawfondo(unsigned char alfa);
 
-void Drawfondo(int alfa)
+void Drawfondo(unsigned char alfa)
 {
 	if (alfa > 255)
 	{
@@ -492,24 +492,24 @@ void Drawfondo(int alfa)
 	{
 		alfa = 0;
 	}
-	
-	static int alfa2;
+
+	static unsigned char alfa2;
 
 	static bool strt1;
 	static bool end1;
 	if (beginend == true)
 	{
-		fondo->Draw(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(255, 255, 255, alfa));
+		fondo->Draw(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(255, 255, 255, alfa));
 		if (alfa > 150 || end1 == true) {
 			if (alfa2 < 240) {
-				fondo1->Draw(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(255, 255, 255, alfa2));
+				fondo1->Draw(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(255, 255, 255, alfa2));
 				alfa2 += 20;
 				end1 = true;
 			}
 			else
 			{
 				alfa2 = 255;
-				fondo1->Draw(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(255, 255, 255, alfa2));
+				fondo1->Draw(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(255, 255, 255, alfa2));
 
 				strt1 = true;
 			}
@@ -519,7 +519,7 @@ void Drawfondo(int alfa)
 		{
 			if (alfa2 >= 25)
 			{
-				fondo1->Draw(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(255, 255, 255, alfa2));
+				fondo1->Draw(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(255, 255, 255, alfa2));
 				alfa2 -= 25;
 				end1 = false;
 			}
@@ -533,9 +533,9 @@ void Drawfondo(int alfa)
 	}
 	else
 	{
-		CSprite2d::DrawRect(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(0, 208, 225, (int)alfa));
+		CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, alfa));
 	}
-	
+
 }
 
 bool JarvisVoice::LoadAudios() {
@@ -562,28 +562,28 @@ bool JarvisVoice::LoadAudios() {
 				audiostream[2].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\repulsorBlast.mp3"), 0, 0, 8);
 				audiostream[2].is3d = true;
 				audiostream[3].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\jet_soundFlying.mp3"), 0, 0, 8);
-				audiostream[3].is3d = true; 
+				audiostream[3].is3d = true;
 				audiostream[4].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\fireBullets.mp3"), 0, 0, 8);
 				audiostream[4].is3d = true;
 				audiostream[5].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\launchM.mp3"), 0, 0, 8);
-				audiostream[5].is3d = true; 
+				audiostream[5].is3d = true;
 				audiostream[6].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\hover_thrusters.mp3"), 0, 0, 12);
-				audiostream[6].is3d = true; 
+				audiostream[6].is3d = true;
 				audiostream[7].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\underwater_thrusters.mp3"), 0, 0, 12);
-				audiostream[7].is3d = true; 
+				audiostream[7].is3d = true;
 				audiostream[8].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\flying_thrusters.mp3"), 0, 0, 12);
-				audiostream[8].is3d = true; 
+				audiostream[8].is3d = true;
 				audiostream[9].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\takeoff.mp3"), 0, 0, 8);
-				audiostream[9].is3d = true; 
+				audiostream[9].is3d = true;
 				audiostream[10].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\flyfast.mp3"), 0, 0, 8);
-				audiostream[10].is3d = true; 
+				audiostream[10].is3d = true;
 				audiostream[11].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\targetSet.wav"), 0, 0, 0);
 				audiostream[12].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\landing.mp3"), 0, 0, 8);
 				audiostream[12].is3d = true;
 				audiostream[13].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\flystop.mp3"), 0, 0, 8);
-				audiostream[13].is3d = true; 
+				audiostream[13].is3d = true;
 				audiostream[14].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\unibeam.mp3"), 0, 0, 8);
-				audiostream[14].is3d = true; 
+				audiostream[14].is3d = true;
 				audiostream[15].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\uniaim.mp3"), 0, 0, 8);
 				audiostream[15].is3d = true;
 				audiostream[16].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\alarm.mp3"), 0, 0, 0);
@@ -594,7 +594,7 @@ bool JarvisVoice::LoadAudios() {
 				audiostream[21].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\Jarvis\\enemyAI.mp3"), 0, 0, 0);
 				audiostream[22].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\Jarvis\\Well_done.wav"), 0, 0, 0);
 				audiostream[23].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\fallstop.mp3"), 0, 0, 8);
-				audiostream[23].is3d = true; 
+				audiostream[23].is3d = true;
 				audiostream[24].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\beep.wav"), 0, 0, 0);
 				audiostream[25].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\Jarvis\\j_warning2.wav"), 0, 0, 0);
 				AudioLib.MenuStream[0].audio = AudioLib.StreamCreateFile(false, PLUGIN_PATH("IronMan\\sound\\SFX\\hover.mp3"), 0, 0, 0);
@@ -679,51 +679,51 @@ void JarvisVoice::unloadaudios() {
 void JarvisVoice::PlayAudiostream(Taudiofile audiostreams, int user, Taudiofile *MP3Stream) {
 	if (AudioLib.isset())
 	{
-		
 
-		
-			
-		
-			if (user == 0)
+
+
+
+
+		if (user == 0)
+		{
+			if (audiostreams.audio == audiostream[20].audio)
 			{
-				if (audiostreams.audio == audiostream[20].audio)
-				{
-					int ran = 16 + rand() % 3;
-					MP3Stream->audio = audiostream[ran].audio;
-					MP3Stream->is3d = audiostream[ran].is3d;
-				}
-				else
-				{
-					MP3Stream->audio = audiostreams.audio;
-					MP3Stream->is3d = audiostreams.is3d;
-				}
-				
+				int ran = 16 + rand() % 3;
+				MP3Stream->audio = audiostream[ran].audio;
+				MP3Stream->is3d = audiostream[ran].is3d;
 			}
 			else
 			{
 				MP3Stream->audio = audiostreams.audio;
 				MP3Stream->is3d = audiostreams.is3d;
 			}
-			if (MP3Stream->audio != NULL) {
-				
-				
-				if (AudioLib.ChannelPlay != false) {
-					AudioLib.ChannelPlay(MP3Stream->audio, false);
-				}
-								
-				if (MP3Stream->is3d)
-				{
-					AudioLib.ChannelSet3DAttributes(MP3Stream->audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
-					AudioLib.Apply3D();
-					AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
-				}
-				else
-				{
-					AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
-				}
 
+		}
+		else
+		{
+			MP3Stream->audio = audiostreams.audio;
+			MP3Stream->is3d = audiostreams.is3d;
+		}
+		if (MP3Stream->audio != NULL) {
+
+
+			if (AudioLib.ChannelPlay != false) {
+				AudioLib.ChannelPlay(MP3Stream->audio, false);
 			}
-		
+
+			if (MP3Stream->is3d)
+			{
+				AudioLib.ChannelSet3DAttributes(MP3Stream->audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
+				AudioLib.Apply3D();
+				AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
+			}
+			else
+			{
+				AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
+			}
+
+		}
+
 	}
 }
 
@@ -731,16 +731,16 @@ void JarvisVoice::PlayShot(Taudiofile *MP3Stream) {
 	static int timer;
 	if (AudioLib.isset())
 	{
-		 
-		
+
+
 		if (CTimer::m_snTimeInMillisecondsNonClipped > (timer + 10))//aquivalibinit
 		{
 			timer = 0;
 			MP3Stream->audio = audiostream[fireBullets].audio;
 			MP3Stream->is3d = audiostream[fireBullets].is3d;
-			
+
 			if (MP3Stream->audio != NULL) {
-				
+
 				AudioLib.ChannelPlay(MP3Stream->audio, true);
 
 				if (MP3Stream->is3d)
@@ -758,7 +758,7 @@ void JarvisVoice::PlayShot(Taudiofile *MP3Stream) {
 		}
 		else
 		{
-			timer=CTimer::m_snTimeInMillisecondsNonClipped;
+			timer = CTimer::m_snTimeInMillisecondsNonClipped;
 		}
 	}
 }
@@ -767,25 +767,25 @@ void JarvisVoice::PlayShot(Taudiofile *MP3Stream) {
 void AUDIOLIB::PlayMenuSFX(int id) {
 	if (AudioLib.isset())
 	{
-		
-		 
+
+
 		//aquivalibinit
 		//if (AudioLib.Init(-1, 44100, 4, 0, 0) == NULL)
 		//{
-			
-			MenuSound.audio = AudioLib.MenuStream[id].audio;
-			AudioLib.ChannelPlay(MenuSound.audio, true);
 
-			if (MenuSound.is3d)
-			{
-				AudioLib.ChannelSet3DAttributes(MenuSound.audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
-				AudioLib.Apply3D();
-				AudioLib.ChannelSetAttribute(MenuSound.audio, 2, boolvars.gamevolume);
-			}
-			else
-			{
-				AudioLib.ChannelSetAttribute(MenuSound.audio, 2, boolvars.gamevolume);
-			}
+		MenuSound.audio = AudioLib.MenuStream[id].audio;
+		AudioLib.ChannelPlay(MenuSound.audio, true);
+
+		if (MenuSound.is3d)
+		{
+			AudioLib.ChannelSet3DAttributes(MenuSound.audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
+			AudioLib.Apply3D();
+			AudioLib.ChannelSetAttribute(MenuSound.audio, 2, boolvars.gamevolume);
+		}
+		else
+		{
+			AudioLib.ChannelSetAttribute(MenuSound.audio, 2, boolvars.gamevolume);
+		}
 		//}
 	}
 }
@@ -800,9 +800,9 @@ void JarvisVoice::PlayBeep(Taudiofile *MP3Stream) {
 			timer = CTimer::m_snTimeInMillisecondsNonClipped;
 			MP3Stream->audio = audiostream[24].audio;
 			if (MP3Stream->audio != NULL) {
-				
+
 				AudioLib.ChannelPlay(MP3Stream->audio, true);
-				
+
 				if (MP3Stream->is3d)
 				{
 					AudioLib.ChannelSet3DAttributes(MP3Stream->audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
@@ -818,8 +818,8 @@ void JarvisVoice::PlayBeep(Taudiofile *MP3Stream) {
 	}
 }
 
-void JarvisVoice::PauseAllStreams() {	
-	
+void JarvisVoice::PauseAllStreams() {
+
 	if (AudioLib.isset())
 	{
 		JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
@@ -1052,37 +1052,37 @@ void JarvisVoice::ResumeAllStreams()
 void AUDIOLIB::PlayVoiceEvent(int id) {
 	if (AudioLib.isset())
 	{
-		
+
 		if (AudioLib.ChannelIsActive(JarvisSpeech.audio) != 1)
 		{
 			//aquivalibinit
 			//if (AudioLib.Init(-1, 44100, 4, 0, 0) == NULL)
 			//{
-				if (id == 20)
+			if (id == 20)
+			{
+				int ran = 16 + rand() % 3;
+				JarvisSpeech.audio = audiostream[ran].audio;
+				JarvisSpeech.is3d = audiostream[ran].is3d;
+			}
+			else
+			{
+				JarvisSpeech.audio = audiostream[id].audio;
+				JarvisSpeech.is3d = audiostream[id].is3d;
+			}
+
+			if (JarvisSpeech.audio != NULL) {
+				AudioLib.ChannelPlay(JarvisSpeech.audio, false);
+				if (JarvisSpeech.is3d)
 				{
-					int ran = 16 + rand() % 3;
-					JarvisSpeech.audio = audiostream[ran].audio;
-					JarvisSpeech.is3d = audiostream[ran].is3d;
+					AudioLib.ChannelSet3DAttributes(JarvisSpeech.audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
+					AudioLib.Apply3D();
+					AudioLib.ChannelSetAttribute(JarvisSpeech.audio, 2, boolvars.gamevolume);
 				}
 				else
 				{
-					JarvisSpeech.audio = audiostream[id].audio;
-					JarvisSpeech.is3d = audiostream[id].is3d;
+					AudioLib.ChannelSetAttribute(JarvisSpeech.audio, 2, boolvars.gamevolume);
 				}
-				
-				if (JarvisSpeech.audio != NULL) {
-					AudioLib.ChannelPlay(JarvisSpeech.audio, false);
-					if (JarvisSpeech.is3d)
-					{
-						AudioLib.ChannelSet3DAttributes(JarvisSpeech.audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
-						AudioLib.Apply3D();
-						AudioLib.ChannelSetAttribute(JarvisSpeech.audio, 2, boolvars.gamevolume);
-					}
-					else
-					{
-						AudioLib.ChannelSetAttribute(JarvisSpeech.audio, 2, boolvars.gamevolume);
-					}
-				}
+			}
 			//}
 		}
 	}
@@ -1178,7 +1178,7 @@ void JarvisVoice::Updateaudiopositions()
 			//campos.z -= campos1.z;
 
 			CVector camcoors, camaimpoint8;// caposcalc; unit, camvec,
-			//static float disttotal, magnus1;
+										   //static float disttotal, magnus1;
 			plugin::scripting::CallCommandById(COMMAND_GET_ACTIVE_CAMERA_COORDINATES, &camcoors.x, &camcoors.y, &camcoors.z);
 			plugin::scripting::CallCommandById(COMMAND_GET_ACTIVE_CAMERA_POINT_AT, &camaimpoint8.x, &camaimpoint8.y, &camaimpoint8.z);
 			//CVector camaimpoint = TheCamera.m_vecAimingTargetCoors;
@@ -1250,9 +1250,9 @@ void JarvisVoice::Updateaudiopositions()
 			poscam.x = camcoors.x; //camaimpoint8.x - camcoors.x;
 			poscam.y = camcoors.y; //camaimpoint8.y - camcoors.y;
 			poscam.z = camcoors.z; //camaimpoint8.z - camcoors.z;
-			//CVector offset = { camaimpoint8.x - caposcalc.x ,camaimpoint8.y - caposcalc.y, camaimpoint8.z - caposcalc.z };
+								   //CVector offset = { camaimpoint8.x - caposcalc.x ,camaimpoint8.y - caposcalc.y, camaimpoint8.z - caposcalc.z };
 
-			//plugin::scripting::CallCommandById(COMMAND_GET_HEADING_FROM_VECTOR_2D, offset.y, offset.z);
+								   //plugin::scripting::CallCommandById(COMMAND_GET_HEADING_FROM_VECTOR_2D, offset.y, offset.z);
 
 
 			posaim2.x = camera.up.x;
@@ -1870,21 +1870,21 @@ bool JarvisVoice::PlayThrustersIDLE(int user, int index, Taudiofile *MP3Stream, 
 			jarvisvoice.create_thrusters(pedid, &suit, code, &*jets);
 		}
 		if (isplayingfly(false, *MP3Stream, id, jets->enviroment_ID, user, index) == true)
-			{
-				
-				return true;
+		{
+
+			return true;
+		}
+		else
+		{
+			if (id == 0) {
+				goto playhover;
 			}
 			else
 			{
-				if (id == 0) {
-					goto playhover;
-				}
-				else
-				{
-					goto playflight;
-				}
+				goto playflight;
 			}
-		
+		}
+
 	}
 	else
 	{
@@ -1908,100 +1908,84 @@ playhover:
 	{
 		if (MP3Stream->audio == NULL)
 		{
-			
+
 			//aquivalibinit
 			//if (AudioLib.Init(-1, 44100, 4, 0, 0) == NULL)
 			//{
-				if (jets->enviroment_ID == 1)
+			if (jets->enviroment_ID == 1)
+			{
+				if (user == NULL)
 				{
-					if (user == NULL)
-					{
-						MP3Stream->audio = audiostream[underwater].audio;
-					}
-					else
-					{
-						if (user == 1)
-						{
-							if ((int)jarvisfriend[index].actorchar != NULL)
-							{
-								MP3Stream->audio = jarvisfriend[index].audios[5].audio;
-							}
-						}
-						else
-						{
-							if (user == 2)
-							{
-								if ((int)jarvisenemy[index].actorchar != NULL)
-								{
-									MP3Stream->audio = jarvisenemy[index].audios[5].audio;
-								}
-							}
-						}
-					}
+					MP3Stream->audio = audiostream[underwater].audio;
 				}
 				else
 				{
-					if (user == NULL)
+					if (user == 1)
 					{
-						MP3Stream->audio = audiostream[thrustersfx].audio;
+						if ((int)jarvisfriend[index].actorchar != NULL)
+						{
+							MP3Stream->audio = jarvisfriend[index].audios[5].audio;
+						}
 					}
 					else
 					{
-						if (user == 1)
+						if (user == 2)
 						{
-							if ((int)jarvisfriend[index].actorchar != NULL)
+							if ((int)jarvisenemy[index].actorchar != NULL)
 							{
-								MP3Stream->audio = jarvisfriend[index].audios[0].audio;
-							}
-						}
-						else
-						{
-							if (user == 2)
-							{
-								if ((int)jarvisenemy[index].actorchar != NULL)
-								{
-									MP3Stream->audio = jarvisenemy[index].audios[0].audio;
-								}
+								MP3Stream->audio = jarvisenemy[index].audios[5].audio;
 							}
 						}
 					}
 				}
-				if (MP3Stream->audio != NULL) {
-					AudioLib.ChannelPlay(MP3Stream->audio, false);
-					
-					for (int i = 0; i < 26; i++)
-					{
-						if (MP3Stream->is3d)
-						{
-							AudioLib.ChannelSet3DAttributes(MP3Stream->audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
-							AudioLib.Apply3D();
-							AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
-						}
-						else
-						{
-							AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
-						}
-					}
-					//AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
-					return true;
-					
+			}
+			else
+			{
+				if (user == NULL)
+				{
+					MP3Stream->audio = audiostream[thrustersfx].audio;
 				}
 				else
 				{
-					//CFont::SetBackground(0, 0);
-					//CFont::SetOrientation(ALIGN_CENTER);
-					//CFont::SetProportional(true);
-					//CFont::SetJustify(false);
-					//CFont::SetColor(CRGBA(255, 255, 255, 255));
-					//CFont::SetFontStyle(FONT_SUBTITLES);
-					//CFont::SetEdge(2);
-					//CFont::SetCentreSize(SCREEN_WIDTH + SCREEN_COORD(-350));
-					//CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
-					//WritePrivateProfileString("CONFIG", "ERROR", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));  AQUI IBA
-					//CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), "IMStream[ failed");
-					return false;
+					if (user == 1)
+					{
+						if ((int)jarvisfriend[index].actorchar != NULL)
+						{
+							MP3Stream->audio = jarvisfriend[index].audios[0].audio;
+						}
+					}
+					else
+					{
+						if (user == 2)
+						{
+							if ((int)jarvisenemy[index].actorchar != NULL)
+							{
+								MP3Stream->audio = jarvisenemy[index].audios[0].audio;
+							}
+						}
+					}
 				}
-			/*}
+			}
+			if (MP3Stream->audio != NULL) {
+				AudioLib.ChannelPlay(MP3Stream->audio, false);
+
+				for (int i = 0; i < 26; i++)
+				{
+					if (MP3Stream->is3d)
+					{
+						AudioLib.ChannelSet3DAttributes(MP3Stream->audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
+						AudioLib.Apply3D();
+						AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
+					}
+					else
+					{
+						AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
+					}
+				}
+				//AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
+				return true;
+
+			}
 			else
 			{
 				//CFont::SetBackground(0, 0);
@@ -2014,8 +1998,24 @@ playhover:
 				//CFont::SetCentreSize(SCREEN_WIDTH + SCREEN_COORD(-350));
 				//CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
 				//WritePrivateProfileString("CONFIG", "ERROR", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));  AQUI IBA
-				//CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), "bass init failed");
+				//CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), "IMStream[ failed");
 				return false;
+			}
+			/*}
+			else
+			{
+			//CFont::SetBackground(0, 0);
+			//CFont::SetOrientation(ALIGN_CENTER);
+			//CFont::SetProportional(true);
+			//CFont::SetJustify(false);
+			//CFont::SetColor(CRGBA(255, 255, 255, 255));
+			//CFont::SetFontStyle(FONT_SUBTITLES);
+			//CFont::SetEdge(2);
+			//CFont::SetCentreSize(SCREEN_WIDTH + SCREEN_COORD(-350));
+			//CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
+			//WritePrivateProfileString("CONFIG", "ERROR", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));  AQUI IBA
+			//CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), "bass init failed");
+			return false;
 			}*/
 		}
 		else
@@ -2040,101 +2040,85 @@ playflight:
 	{
 		if (MP3Stream->audio == NULL)
 		{
-			
+
 			//aquivalibinit
 			//if (AudioLib.Init(-1, 44100, 4, 0, 0) == NULL)
 			//{
-				if (jets->enviroment_ID == 1)
+			if (jets->enviroment_ID == 1)
+			{
+				if (user == NULL)
 				{
-					if (user == NULL)
-					{
-						MP3Stream->audio = audiostream[underwater].audio;
-					}
-					else
-					{
-						if (user == 1)
-						{
-							if ((int)jarvisfriend[index].actorchar != NULL)
-							{
-								MP3Stream->audio = jarvisfriend[index].audios[5].audio;
-							}
-						}
-						else
-						{
-							if (user == 2)
-							{
-								if ((int)jarvisenemy[index].actorchar != NULL)
-								{
-									MP3Stream->audio = jarvisenemy[index].audios[5].audio;
-								}
-							}
-						}
-					}
+					MP3Stream->audio = audiostream[underwater].audio;
 				}
 				else
 				{
-					if (user == NULL)
+					if (user == 1)
 					{
-						MP3Stream->audio = audiostream[flying_thrusters].audio;
+						if ((int)jarvisfriend[index].actorchar != NULL)
+						{
+							MP3Stream->audio = jarvisfriend[index].audios[5].audio;
+						}
 					}
 					else
 					{
-						if (user == 1)
+						if (user == 2)
 						{
-							if ((int)jarvisfriend[index].actorchar != NULL)
+							if ((int)jarvisenemy[index].actorchar != NULL)
 							{
-								MP3Stream->audio = jarvisfriend[index].audios[1].audio;
-							}
-						}
-						else
-						{
-							if (user == 2)
-							{
-								if ((int)jarvisenemy[index].actorchar != NULL)
-								{
-									MP3Stream->audio = jarvisenemy[index].audios[1].audio;
-								}
+								MP3Stream->audio = jarvisenemy[index].audios[5].audio;
 							}
 						}
 					}
 				}
-
-
-				if (MP3Stream->audio != NULL) {
-					AudioLib.ChannelPlay(MP3Stream->audio, false);
-					
-					for (int i = 0; i < 26; i++)
-					{
-						if (MP3Stream->is3d)
-						{
-							AudioLib.ChannelSet3DAttributes(MP3Stream->audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
-							AudioLib.Apply3D();
-							AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
-						}
-						else
-						{
-							AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
-						}
-					}
-					//AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
-					return true;
+			}
+			else
+			{
+				if (user == NULL)
+				{
+					MP3Stream->audio = audiostream[flying_thrusters].audio;
 				}
 				else
 				{
-					//CFont::SetBackground(0, 0);
-					//CFont::SetOrientation(ALIGN_CENTER);
-					//CFont::SetProportional(true);
-					//CFont::SetJustify(false);
-					//CFont::SetColor(CRGBA(255, 255, 255, 255));
-					//CFont::SetFontStyle(FONT_SUBTITLES);
-					//CFont::SetEdge(2);
-					//CFont::SetCentreSize(SCREEN_WIDTH + SCREEN_COORD(-350));
-					//CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
-					//WritePrivateProfileString("CONFIG", "ERROR", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));  AQUI IBA
-					//CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), "IMStream[ failed");
-					return false;
+					if (user == 1)
+					{
+						if ((int)jarvisfriend[index].actorchar != NULL)
+						{
+							MP3Stream->audio = jarvisfriend[index].audios[1].audio;
+						}
+					}
+					else
+					{
+						if (user == 2)
+						{
+							if ((int)jarvisenemy[index].actorchar != NULL)
+							{
+								MP3Stream->audio = jarvisenemy[index].audios[1].audio;
+							}
+						}
+					}
 				}
-			/*}
+			}
+
+
+			if (MP3Stream->audio != NULL) {
+				AudioLib.ChannelPlay(MP3Stream->audio, false);
+
+				for (int i = 0; i < 26; i++)
+				{
+					if (MP3Stream->is3d)
+					{
+						AudioLib.ChannelSet3DAttributes(MP3Stream->audio, -1, 0.0f, 10.0f, 360, 360, boolvars.gamevolume);
+						AudioLib.Apply3D();
+						AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
+					}
+					else
+					{
+						AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
+					}
+				}
+				//AudioLib.ChannelSetAttribute(MP3Stream->audio, 2, boolvars.gamevolume);
+				return true;
+			}
 			else
 			{
 				//CFont::SetBackground(0, 0);
@@ -2147,8 +2131,24 @@ playflight:
 				//CFont::SetCentreSize(SCREEN_WIDTH + SCREEN_COORD(-350));
 				//CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
 				//WritePrivateProfileString("CONFIG", "ERROR", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));  AQUI IBA
-				//CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), "bass init failed");
+				//CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), "IMStream[ failed");
 				return false;
+			}
+			/*}
+			else
+			{
+			//CFont::SetBackground(0, 0);
+			//CFont::SetOrientation(ALIGN_CENTER);
+			//CFont::SetProportional(true);
+			//CFont::SetJustify(false);
+			//CFont::SetColor(CRGBA(255, 255, 255, 255));
+			//CFont::SetFontStyle(FONT_SUBTITLES);
+			//CFont::SetEdge(2);
+			//CFont::SetCentreSize(SCREEN_WIDTH + SCREEN_COORD(-350));
+			//CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
+			//WritePrivateProfileString("CONFIG", "ERROR", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));  AQUI IBA
+			//CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), "bass init failed");
+			return false;
 			}*/
 		}
 		else
@@ -2171,8 +2171,8 @@ playflight:
 
 endgame:
 	{
-	return true;
-}
+		return true;
+	}
 }
 
 void JarvisVoice::StopThrustersIDLE(Taudiofile *MP3Stream, Tthrusters* jets) {
@@ -2236,7 +2236,7 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 	CVector mano1;
 	CVector mano2;
 	CVector pie1;
-	bool sepudo=false;
+	bool sepudo = false;
 	CVector pie2;
 	CVector anglefeet, anglelhand, anglerhand;
 	if (suit->hasini == false)
@@ -2269,7 +2269,7 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 		suit->flylefthand.y = config1["FLYlefthandY"].asFloat(-0.015f);
 		suit->flylefthand.z = config1["FLYlefthandZ"].asFloat(0.1549f);
 		suit->hasini = true;
-		
+
 	}
 	if (boolvars.has_a_car == true)
 	{
@@ -2301,19 +2301,19 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 		else {
 			if (code == adelante)
 			{
-				mano2.x = suit->rightfoot.x +0.099f - 0.016F;
-				mano2.y = suit->rightfoot.y -0.193f - 0.515F;
-				mano2.z = suit->rightfoot.z +0.127f + 0.307F;
-				mano1.x = suit->leftfoot.x -0.065f + 0.018F;
-				mano1.y = suit->leftfoot.y +0.051f - 0.9F;
-				mano1.z = suit->leftfoot.z +0.127f + 0.317F;
+				mano2.x = suit->rightfoot.x + 0.099f - 0.016F;
+				mano2.y = suit->rightfoot.y - 0.193f - 0.515F;
+				mano2.z = suit->rightfoot.z + 0.127f + 0.307F;
+				mano1.x = suit->leftfoot.x - 0.065f + 0.018F;
+				mano1.y = suit->leftfoot.y + 0.051f - 0.9F;
+				mano1.z = suit->leftfoot.z + 0.127f + 0.317F;
 
-				pie2.x = suit->rightfoot.x +0.099f - 0.016F;
-				pie2.y = suit->rightfoot.y -0.193f - 0.515F;
-				pie2.z = suit->rightfoot.z +0.127f + 0.307F;
-				pie1.x = suit->leftfoot.x -0.065f + 0.018F;
-				pie1.y = suit->leftfoot.y +0.051f - 0.9F;
-				pie1.z = suit->leftfoot.z +0.127f + 0.317F;
+				pie2.x = suit->rightfoot.x + 0.099f - 0.016F;
+				pie2.y = suit->rightfoot.y - 0.193f - 0.515F;
+				pie2.z = suit->rightfoot.z + 0.127f + 0.307F;
+				pie1.x = suit->leftfoot.x - 0.065f + 0.018F;
+				pie1.y = suit->leftfoot.y + 0.051f - 0.9F;
+				pie1.z = suit->leftfoot.z + 0.127f + 0.317F;
 				anglefeet.x = 0.0f;
 				anglefeet.y = -90.0f;
 				anglefeet.z = 0.0f;
@@ -2329,19 +2329,19 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 			{
 				if (code == atras)
 				{
-					mano2.x = suit->rightfoot.x +0.099f - 0.057F;
-					mano2.y = suit->rightfoot.y -0.193f + 0.778F;
-					mano2.z = suit->rightfoot.z +0.127f + 0.125F;
-					mano1.x = suit->leftfoot.x -0.065f + 0.044F;
-					mano1.y = suit->leftfoot.y +0.051f + 0.482F;
-					mano1.z = suit->leftfoot.z +0.127f + 0.423F;
+					mano2.x = suit->rightfoot.x + 0.099f - 0.057F;
+					mano2.y = suit->rightfoot.y - 0.193f + 0.778F;
+					mano2.z = suit->rightfoot.z + 0.127f + 0.125F;
+					mano1.x = suit->leftfoot.x - 0.065f + 0.044F;
+					mano1.y = suit->leftfoot.y + 0.051f + 0.482F;
+					mano1.z = suit->leftfoot.z + 0.127f + 0.423F;
 
-					pie2.x = suit->rightfoot.x +0.099f - 0.057F;
-					pie2.y = suit->rightfoot.y -0.193f + 0.778F;
-					pie2.z = suit->rightfoot.z +0.127f + 0.125F;
-					pie1.x = suit->leftfoot.x -0.065f + 0.044f;
-					pie1.y = suit->leftfoot.y +0.051f + 0.482f;
-					pie1.z = suit->leftfoot.z +0.127f + 0.423f;
+					pie2.x = suit->rightfoot.x + 0.099f - 0.057F;
+					pie2.y = suit->rightfoot.y - 0.193f + 0.778F;
+					pie2.z = suit->rightfoot.z + 0.127f + 0.125F;
+					pie1.x = suit->leftfoot.x - 0.065f + 0.044f;
+					pie1.y = suit->leftfoot.y + 0.051f + 0.482f;
+					pie1.z = suit->leftfoot.z + 0.127f + 0.423f;
 					anglefeet.x = 0.0f;
 					anglefeet.y = 90.0f;
 					anglefeet.z = 0.0f;
@@ -2357,20 +2357,20 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 				{
 					if (code == izquierda)
 					{
-						pie2.x = suit->rightfoot.x +0.099f + 0.236f;
-						pie2.y = suit->rightfoot.y -0.193f + 0.233f;
-						pie2.z = suit->rightfoot.z +0.127f + 0.028f;
-						pie1.x = suit->leftfoot.x -0.065f + 0.257f;
-						pie1.y = suit->leftfoot.y +0.051f - 0.163f;
-						pie1.z = suit->leftfoot.z +0.127f - 0.096f;
+						pie2.x = suit->rightfoot.x + 0.099f + 0.236f;
+						pie2.y = suit->rightfoot.y - 0.193f + 0.233f;
+						pie2.z = suit->rightfoot.z + 0.127f + 0.028f;
+						pie1.x = suit->leftfoot.x - 0.065f + 0.257f;
+						pie1.y = suit->leftfoot.y + 0.051f - 0.163f;
+						pie1.z = suit->leftfoot.z + 0.127f - 0.096f;
 
-						mano2.x = suit->rightfoot.x +0.099f + 0.236f;
-						mano2.y = suit->rightfoot.y -0.193f + 0.233f;
-						mano2.z = suit->rightfoot.z +0.127f + 0.028f;
-						mano1.x = suit->leftfoot.x -0.065f + 0.257f;
-						mano1.y = suit->leftfoot.y +0.051f - 0.163f;
-						mano1.z = suit->leftfoot.z +0.127f - 0.096f;
-						
+						mano2.x = suit->rightfoot.x + 0.099f + 0.236f;
+						mano2.y = suit->rightfoot.y - 0.193f + 0.233f;
+						mano2.z = suit->rightfoot.z + 0.127f + 0.028f;
+						mano1.x = suit->leftfoot.x - 0.065f + 0.257f;
+						mano1.y = suit->leftfoot.y + 0.051f - 0.163f;
+						mano1.z = suit->leftfoot.z + 0.127f - 0.096f;
+
 						anglefeet.x = 180.0f;
 						anglefeet.y = 0.0f;
 						anglefeet.z = -45.0f;
@@ -2386,20 +2386,20 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 					{
 						if (code == derecha)
 						{
-							pie2.x = suit->rightfoot.x +0.099f - 0.372f;
-							pie2.y = suit->rightfoot.y -0.193f - 0.072f;
-							pie2.z = suit->rightfoot.z +0.127f - 0.096f;
-							pie1.x = suit->leftfoot.x -0.065f - 0.303f;
-							pie1.y = suit->leftfoot.y +0.051f - 0.192f;
-							pie1.z = suit->leftfoot.z +0.127f + 0.141f;
+							pie2.x = suit->rightfoot.x + 0.099f - 0.372f;
+							pie2.y = suit->rightfoot.y - 0.193f - 0.072f;
+							pie2.z = suit->rightfoot.z + 0.127f - 0.096f;
+							pie1.x = suit->leftfoot.x - 0.065f - 0.303f;
+							pie1.y = suit->leftfoot.y + 0.051f - 0.192f;
+							pie1.z = suit->leftfoot.z + 0.127f + 0.141f;
 
-							mano2.x = suit->rightfoot.x +0.099f - 0.372f;
-							mano2.y = suit->rightfoot.y -0.193f - 0.072f;
-							mano2.z = suit->rightfoot.z +0.127f - 0.096f;
-							mano1.x = suit->leftfoot.x -0.065f - 0.303f;
-							mano1.y = suit->leftfoot.y +0.051f - 0.192f;
-							mano1.z = suit->leftfoot.z +0.127f + 0.141f;
-							
+							mano2.x = suit->rightfoot.x + 0.099f - 0.372f;
+							mano2.y = suit->rightfoot.y - 0.193f - 0.072f;
+							mano2.z = suit->rightfoot.z + 0.127f - 0.096f;
+							mano1.x = suit->leftfoot.x - 0.065f - 0.303f;
+							mano1.y = suit->leftfoot.y + 0.051f - 0.192f;
+							mano1.z = suit->leftfoot.z + 0.127f + 0.141f;
+
 							anglefeet.x = -180.0f;
 							anglefeet.y = 0.0f;
 							anglefeet.z = -45.0f;
@@ -2415,19 +2415,19 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 						{
 							if (code == arriba)
 							{
-								pie2.x = suit->rightfoot.x +0.099f - 0.069f;
-								pie2.y = suit->rightfoot.y -0.193f - 0.044f;
-								pie2.z = suit->rightfoot.z +0.127f - 0.035f;
-								pie1.x = suit->leftfoot.x -0.065f + 0.025f;
-								pie1.y = suit->leftfoot.y +0.051f - 0.288f;
-								pie1.z = suit->leftfoot.z +0.127f + 0.035f;
+								pie2.x = suit->rightfoot.x + 0.099f - 0.069f;
+								pie2.y = suit->rightfoot.y - 0.193f - 0.044f;
+								pie2.z = suit->rightfoot.z + 0.127f - 0.035f;
+								pie1.x = suit->leftfoot.x - 0.065f + 0.025f;
+								pie1.y = suit->leftfoot.y + 0.051f - 0.288f;
+								pie1.z = suit->leftfoot.z + 0.127f + 0.035f;
 
-								mano2.x = suit->rightfoot.x +0.099f - 0.069f;
-								mano2.y = suit->rightfoot.y -0.193f - 0.044f;
-								mano2.z = suit->rightfoot.z +0.127f - 0.035f;
-								mano1.x = suit->leftfoot.x -0.065f + 0.025f;
-								mano1.y = suit->leftfoot.y +0.051f - 0.288f;
-								mano1.z = suit->leftfoot.z +0.127f + 0.035f;
+								mano2.x = suit->rightfoot.x + 0.099f - 0.069f;
+								mano2.y = suit->rightfoot.y - 0.193f - 0.044f;
+								mano2.z = suit->rightfoot.z + 0.127f - 0.035f;
+								mano1.x = suit->leftfoot.x - 0.065f + 0.025f;
+								mano1.y = suit->leftfoot.y + 0.051f - 0.288f;
+								mano1.z = suit->leftfoot.z + 0.127f + 0.035f;
 								anglefeet.x = 0.0f;
 								anglefeet.y = -90.0f;
 								anglefeet.z = -180.0f;
@@ -2443,19 +2443,19 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 							{
 								if (code == abajo)
 								{
-									pie2.x = suit->rightfoot.x +0.099f - 0.052f;
-									pie2.y = suit->rightfoot.y -0.193f + 0.306f;
-									pie2.z = suit->rightfoot.z +0.127f - 0.057f;
-									pie1.x = suit->leftfoot.x -0.065f + 0.032f;
-									pie1.y = suit->leftfoot.y +0.051f + 0.058f;
-									pie1.z = suit->leftfoot.z +0.127f + 0.036f;
+									pie2.x = suit->rightfoot.x + 0.099f - 0.052f;
+									pie2.y = suit->rightfoot.y - 0.193f + 0.306f;
+									pie2.z = suit->rightfoot.z + 0.127f - 0.057f;
+									pie1.x = suit->leftfoot.x - 0.065f + 0.032f;
+									pie1.y = suit->leftfoot.y + 0.051f + 0.058f;
+									pie1.z = suit->leftfoot.z + 0.127f + 0.036f;
 
-									mano2.x = suit->rightfoot.x +0.099f - 0.052f;
-									mano2.y = suit->rightfoot.y -0.193f + 0.306f;
-									mano2.z = suit->rightfoot.z +0.127f - 0.057f;
-									mano1.x = suit->leftfoot.x -0.065f + 0.032f;
-									mano1.y = suit->leftfoot.y +0.051f + 0.058f;
-									mano1.z = suit->leftfoot.z +0.127f + 0.036f;
+									mano2.x = suit->rightfoot.x + 0.099f - 0.052f;
+									mano2.y = suit->rightfoot.y - 0.193f + 0.306f;
+									mano2.z = suit->rightfoot.z + 0.127f - 0.057f;
+									mano1.x = suit->leftfoot.x - 0.065f + 0.032f;
+									mano1.y = suit->leftfoot.y + 0.051f + 0.058f;
+									mano1.z = suit->leftfoot.z + 0.127f + 0.036f;
 
 									anglefeet.x = 0.0f;
 									anglefeet.y = -90.0f;
@@ -2501,20 +2501,20 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 									{
 										if (code == apuntar)
 										{
-											pie2.x = suit->rightfoot.x +0.099f + 0.042f + 1.1f;
-											pie2.y = suit->rightfoot.y -0.193f + 0.051f + 0.007f;
-											pie2.z = suit->rightfoot.z +0.127f - 0.05f + 0.017f;
-											pie1.x = suit->leftfoot.x -0.065f - 0.06f + 1.1f;
-											pie1.y = suit->leftfoot.y +0.051f - 0.28f + 0.007f;
-											pie1.z = suit->leftfoot.z +0.127f - 0.087f + 0.017f;
+											pie2.x = suit->rightfoot.x + 0.099f + 0.042f + 1.1f;
+											pie2.y = suit->rightfoot.y - 0.193f + 0.051f + 0.007f;
+											pie2.z = suit->rightfoot.z + 0.127f - 0.05f + 0.017f;
+											pie1.x = suit->leftfoot.x - 0.065f - 0.06f + 1.1f;
+											pie1.y = suit->leftfoot.y + 0.051f - 0.28f + 0.007f;
+											pie1.z = suit->leftfoot.z + 0.127f - 0.087f + 0.017f;
 
-											mano2.x = suit->rightfoot.x +0.099f + 0.042f + 1.1f;
-											mano2.y = suit->rightfoot.y -0.193f + 0.051f + 0.007f;
-											mano2.z = suit->rightfoot.z +0.127f - 0.05f + 0.017f;
-											mano1.x = suit->leftfoot.x -0.065f - 0.06f + 1.1f;
-											mano1.y = suit->leftfoot.y +0.051f - 0.28f + 0.007f;
-											mano1.z = suit->leftfoot.z +0.127f - 0.087f + 0.017f;
-											
+											mano2.x = suit->rightfoot.x + 0.099f + 0.042f + 1.1f;
+											mano2.y = suit->rightfoot.y - 0.193f + 0.051f + 0.007f;
+											mano2.z = suit->rightfoot.z + 0.127f - 0.05f + 0.017f;
+											mano1.x = suit->leftfoot.x - 0.065f - 0.06f + 1.1f;
+											mano1.y = suit->leftfoot.y + 0.051f - 0.28f + 0.007f;
+											mano1.z = suit->leftfoot.z + 0.127f - 0.087f + 0.017f;
+
 											anglefeet.x = 0.0f;
 											anglefeet.y = -90.0f;
 											anglefeet.z = -180.0f;
@@ -2530,18 +2530,18 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 										{
 											if (code == apuntarbot)
 											{
-												pie2.x = suit->rightfoot.x +0.099f - 0.009f;
-												pie2.y = suit->rightfoot.y -0.193f - 0.09f;
-												pie2.z = suit->rightfoot.z +0.127f - 0.004f;
-												pie1.x = suit->leftfoot.x -0.065f - 0.108f;
-												pie1.y = suit->leftfoot.y +0.051f - 0.139f;
-												pie1.z = suit->leftfoot.z +0.127f - 0.104f;
-												mano2.x = suit->righthand.x +0.063f - 0.014f;// + 1.061;
+												pie2.x = suit->rightfoot.x + 0.099f - 0.009f;
+												pie2.y = suit->rightfoot.y - 0.193f - 0.09f;
+												pie2.z = suit->rightfoot.z + 0.127f - 0.004f;
+												pie1.x = suit->leftfoot.x - 0.065f - 0.108f;
+												pie1.y = suit->leftfoot.y + 0.051f - 0.139f;
+												pie1.z = suit->leftfoot.z + 0.127f - 0.104f;
+												mano2.x = suit->righthand.x + 0.063f - 0.014f;// + 1.061;
 												mano2.y = suit->righthand.y + 0.024f;// + 0.094;
-												mano2.z = suit->righthand.z +0.124f - 0.066f;// 0.132;
-												mano1.x = suit->righthand.x +0.063f - 0.014f;// + 1.061;
+												mano2.z = suit->righthand.z + 0.124f - 0.066f;// 0.132;
+												mano1.x = suit->righthand.x + 0.063f - 0.014f;// + 1.061;
 												mano1.y = suit->righthand.y + 0.024f;// + 0.094;
-												mano1.z = suit->righthand.z +0.124f - 0.066f;// 0.132;
+												mano1.z = suit->righthand.z + 0.124f - 0.066f;// 0.132;
 												anglefeet.x = 0.0f;
 												anglefeet.y = -90.0f;
 												anglefeet.z = -180.0f;
@@ -2605,19 +2605,19 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 		else {
 			if (code == adelante)
 			{
-				mano2.x = suit->rightfoot.x +0.099f - 0.016F;
-				mano2.y = suit->rightfoot.y -0.193f - 0.515F;
-				mano2.z = suit->rightfoot.z +0.127f + 0.307F;
-				mano1.x = suit->leftfoot.x -0.065f + 0.018F;
-				mano1.y = suit->leftfoot.y +0.051f - 0.9F;
-				mano1.z = suit->leftfoot.z +0.127f + 0.317F;
+				mano2.x = suit->rightfoot.x + 0.099f - 0.016F;
+				mano2.y = suit->rightfoot.y - 0.193f - 0.515F;
+				mano2.z = suit->rightfoot.z + 0.127f + 0.307F;
+				mano1.x = suit->leftfoot.x - 0.065f + 0.018F;
+				mano1.y = suit->leftfoot.y + 0.051f - 0.9F;
+				mano1.z = suit->leftfoot.z + 0.127f + 0.317F;
 
-				pie2.x = suit->rightfoot.x +0.099f - 0.016F;
-				pie2.y = suit->rightfoot.y -0.193f - 0.515F;
-				pie2.z = suit->rightfoot.z +0.127f + 0.307F;
-				pie1.x = suit->leftfoot.x -0.065f + 0.018F;
-				pie1.y = suit->leftfoot.y +0.051f - 0.9F;
-				pie1.z = suit->leftfoot.z +0.127f + 0.317F;
+				pie2.x = suit->rightfoot.x + 0.099f - 0.016F;
+				pie2.y = suit->rightfoot.y - 0.193f - 0.515F;
+				pie2.z = suit->rightfoot.z + 0.127f + 0.307F;
+				pie1.x = suit->leftfoot.x - 0.065f + 0.018F;
+				pie1.y = suit->leftfoot.y + 0.051f - 0.9F;
+				pie1.z = suit->leftfoot.z + 0.127f + 0.317F;
 				anglefeet.x = 0.0f;
 				anglefeet.y = -90.0f;
 				anglefeet.z = 0.0f;
@@ -2633,19 +2633,19 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 			{
 				if (code == atras)
 				{
-					mano2.x = suit->rightfoot.x +0.099f - 0.057F;
-					mano2.y = suit->rightfoot.y -0.193f + 0.778F;
-					mano2.z = suit->rightfoot.z +0.127f + 0.125F;
-					mano1.x = suit->leftfoot.x -0.065f + 0.044F;
-					mano1.y = suit->leftfoot.y +0.051f + 0.482F;
-					mano1.z = suit->leftfoot.z +0.127f + 0.423F;
+					mano2.x = suit->rightfoot.x + 0.099f - 0.057F;
+					mano2.y = suit->rightfoot.y - 0.193f + 0.778F;
+					mano2.z = suit->rightfoot.z + 0.127f + 0.125F;
+					mano1.x = suit->leftfoot.x - 0.065f + 0.044F;
+					mano1.y = suit->leftfoot.y + 0.051f + 0.482F;
+					mano1.z = suit->leftfoot.z + 0.127f + 0.423F;
 
-					pie2.x = suit->rightfoot.x +0.099f - 0.057F;
-					pie2.y = suit->rightfoot.y -0.193f + 0.778F;
-					pie2.z = suit->rightfoot.z +0.127f + 0.125F;
-					pie1.x = suit->leftfoot.x -0.065f + 0.044f;
-					pie1.y = suit->leftfoot.y +0.051f + 0.482f;
-					pie1.z = suit->leftfoot.z +0.127f + 0.423f;
+					pie2.x = suit->rightfoot.x + 0.099f - 0.057F;
+					pie2.y = suit->rightfoot.y - 0.193f + 0.778F;
+					pie2.z = suit->rightfoot.z + 0.127f + 0.125F;
+					pie1.x = suit->leftfoot.x - 0.065f + 0.044f;
+					pie1.y = suit->leftfoot.y + 0.051f + 0.482f;
+					pie1.z = suit->leftfoot.z + 0.127f + 0.423f;
 					anglefeet.x = 0.0f;
 					anglefeet.y = 90.0f;
 					anglefeet.z = 0.0f;
@@ -2661,18 +2661,18 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 				{
 					if (code == izquierda)
 					{
-						pie2.x = suit->rightfoot.x +0.099f + 0.236f;
-						pie2.y = suit->rightfoot.y -0.193f + 0.233f;
-						pie2.z = suit->rightfoot.z +0.127f + 0.028f;
-						pie1.x = suit->leftfoot.x -0.065f + 0.257f;
-						pie1.y = suit->leftfoot.y +0.051f - 0.163f;
-						pie1.z = suit->leftfoot.z +0.127f - 0.096f;
-						mano2.x = suit->righthand.x +0.063f - 0.019f;
+						pie2.x = suit->rightfoot.x + 0.099f + 0.236f;
+						pie2.y = suit->rightfoot.y - 0.193f + 0.233f;
+						pie2.z = suit->rightfoot.z + 0.127f + 0.028f;
+						pie1.x = suit->leftfoot.x - 0.065f + 0.257f;
+						pie1.y = suit->leftfoot.y + 0.051f - 0.163f;
+						pie1.z = suit->leftfoot.z + 0.127f - 0.096f;
+						mano2.x = suit->righthand.x + 0.063f - 0.019f;
 						mano2.y = suit->righthand.y + 0.081f;
-						mano2.z = suit->righthand.z +0.124f - 0.131f;
-						mano1.x = suit->lefthand.x +0.049f - 0.12f;
-						mano1.y = suit->lefthand.y +0.286f - 0.174f;
-						mano1.z = suit->lefthand.z +0.124f - 0.145f;
+						mano2.z = suit->righthand.z + 0.124f - 0.131f;
+						mano1.x = suit->lefthand.x + 0.049f - 0.12f;
+						mano1.y = suit->lefthand.y + 0.286f - 0.174f;
+						mano1.z = suit->lefthand.z + 0.124f - 0.145f;
 						anglefeet.x = 180.0f;
 						anglefeet.y = 0.0f;
 						anglefeet.z = -45.0f;
@@ -2688,18 +2688,18 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 					{
 						if (code == derecha)
 						{
-							pie2.x = suit->rightfoot.x +0.099f - 0.372f;
-							pie2.y = suit->rightfoot.y -0.193f - 0.072f;
-							pie2.z = suit->rightfoot.z +0.127f - 0.096f;
-							pie1.x = suit->leftfoot.x -0.065f - 0.303f;
-							pie1.y = suit->leftfoot.y +0.051f - 0.192f;
-							pie1.z = suit->leftfoot.z +0.127f + 0.141f;
-							mano2.x = suit->righthand.x +0.063f + 0.101f;
+							pie2.x = suit->rightfoot.x + 0.099f - 0.372f;
+							pie2.y = suit->rightfoot.y - 0.193f - 0.072f;
+							pie2.z = suit->rightfoot.z + 0.127f - 0.096f;
+							pie1.x = suit->leftfoot.x - 0.065f - 0.303f;
+							pie1.y = suit->leftfoot.y + 0.051f - 0.192f;
+							pie1.z = suit->leftfoot.z + 0.127f + 0.141f;
+							mano2.x = suit->righthand.x + 0.063f + 0.101f;
 							mano2.y = suit->righthand.y + 0.112f;
-							mano2.z = suit->righthand.z +0.124f - 0.145f;
-							mano1.x = suit->lefthand.x +0.049f;
-							mano1.y = suit->lefthand.y +0.286f - 0.205f;
-							mano1.z = suit->lefthand.z +0.124f - 0.15f;
+							mano2.z = suit->righthand.z + 0.124f - 0.145f;
+							mano1.x = suit->lefthand.x + 0.049f;
+							mano1.y = suit->lefthand.y + 0.286f - 0.205f;
+							mano1.z = suit->lefthand.z + 0.124f - 0.15f;
 							anglefeet.x = -180.0f;
 							anglefeet.y = 0.0f;
 							anglefeet.z = -45.0f;
@@ -2715,19 +2715,19 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 						{
 							if (code == arriba)
 							{
-								pie2.x = suit->rightfoot.x +0.099f - 0.069f;
-								pie2.y = suit->rightfoot.y -0.193f - 0.044f;
-								pie2.z = suit->rightfoot.z +0.127f - 0.035f;
-								pie1.x = suit->leftfoot.x -0.065f + 0.025f;
-								pie1.y = suit->leftfoot.y +0.051f - 0.288f;
-								pie1.z = suit->leftfoot.z +0.127f + 0.035f;
+								pie2.x = suit->rightfoot.x + 0.099f - 0.069f;
+								pie2.y = suit->rightfoot.y - 0.193f - 0.044f;
+								pie2.z = suit->rightfoot.z + 0.127f - 0.035f;
+								pie1.x = suit->leftfoot.x - 0.065f + 0.025f;
+								pie1.y = suit->leftfoot.y + 0.051f - 0.288f;
+								pie1.z = suit->leftfoot.z + 0.127f + 0.035f;
 
-								mano2.x = suit->rightfoot.x +0.099f - 0.069f;
-								mano2.y = suit->rightfoot.y -0.193f - 0.044f;
-								mano2.z = suit->rightfoot.z +0.127f - 0.035f;
-								mano1.x = suit->leftfoot.x -0.065f + 0.025f;
-								mano1.y = suit->leftfoot.y +0.051f - 0.288f;
-								mano1.z = suit->leftfoot.z +0.127f + 0.035f;
+								mano2.x = suit->rightfoot.x + 0.099f - 0.069f;
+								mano2.y = suit->rightfoot.y - 0.193f - 0.044f;
+								mano2.z = suit->rightfoot.z + 0.127f - 0.035f;
+								mano1.x = suit->leftfoot.x - 0.065f + 0.025f;
+								mano1.y = suit->leftfoot.y + 0.051f - 0.288f;
+								mano1.z = suit->leftfoot.z + 0.127f + 0.035f;
 								anglefeet.x = 0.0f;
 								anglefeet.y = -90.0f;
 								anglefeet.z = -180.0f;
@@ -2743,18 +2743,18 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 							{
 								if (code == abajo)
 								{
-									pie2.x = suit->rightfoot.x +0.099f - 0.052f;
-									pie2.y = suit->rightfoot.y -0.193f + 0.306f;
-									pie2.z = suit->rightfoot.z +0.127f - 0.057f;
-									pie1.x = suit->leftfoot.x -0.065f + 0.032f;
-									pie1.y = suit->leftfoot.y +0.051f + 0.058f;
-									pie1.z = suit->leftfoot.z +0.127f + 0.036f;
-									mano2.x = suit->righthand.x +0.063f + 0.094f;
+									pie2.x = suit->rightfoot.x + 0.099f - 0.052f;
+									pie2.y = suit->rightfoot.y - 0.193f + 0.306f;
+									pie2.z = suit->rightfoot.z + 0.127f - 0.057f;
+									pie1.x = suit->leftfoot.x - 0.065f + 0.032f;
+									pie1.y = suit->leftfoot.y + 0.051f + 0.058f;
+									pie1.z = suit->leftfoot.z + 0.127f + 0.036f;
+									mano2.x = suit->righthand.x + 0.063f + 0.094f;
 									mano2.y = suit->righthand.y + 0.225f;
-									mano2.z = suit->righthand.z +0.124f;
-									mano1.x = suit->lefthand.x +0.049f - 0.189f;
-									mano1.y = suit->lefthand.y +0.286f - 0.328f;
-									mano1.z = suit->lefthand.z +0.124f - 0.084f;
+									mano2.z = suit->righthand.z + 0.124f;
+									mano1.x = suit->lefthand.x + 0.049f - 0.189f;
+									mano1.y = suit->lefthand.y + 0.286f - 0.328f;
+									mano1.z = suit->lefthand.z + 0.124f - 0.084f;
 									anglefeet.x = 0.0f;
 									anglefeet.y = -90.0f;
 									anglefeet.z = -180.0f;
@@ -2797,18 +2797,18 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 									{
 										if (code == apuntar)
 										{
-											pie2.x = suit->rightfoot.x +0.099f + 0.042f + 1.1f;
-											pie2.y = suit->rightfoot.y -0.193f + 0.051f + 0.007f;
-											pie2.z = suit->rightfoot.z +0.127f - 0.05f + 0.017f;
-											pie1.x = suit->leftfoot.x -0.065f - 0.06f + 1.1f;
-											pie1.y = suit->leftfoot.y +0.051f - 0.28f + 0.007f;
-											pie1.z = suit->leftfoot.z +0.127f - 0.087f + 0.017f;
-											mano2.x = suit->righthand.x +0.063f - 0.042f + 1.1f;// + 1.061;
+											pie2.x = suit->rightfoot.x + 0.099f + 0.042f + 1.1f;
+											pie2.y = suit->rightfoot.y - 0.193f + 0.051f + 0.007f;
+											pie2.z = suit->rightfoot.z + 0.127f - 0.05f + 0.017f;
+											pie1.x = suit->leftfoot.x - 0.065f - 0.06f + 1.1f;
+											pie1.y = suit->leftfoot.y + 0.051f - 0.28f + 0.007f;
+											pie1.z = suit->leftfoot.z + 0.127f - 0.087f + 0.017f;
+											mano2.x = suit->righthand.x + 0.063f - 0.042f + 1.1f;// + 1.061;
 											mano2.y = suit->righthand.y + 0.096f + 0.007f;// + 0.094;
-											mano2.z = suit->righthand.z +0.124f - 0.15f + 0.017f;// 0.132;
-											mano1.x = suit->righthand.x +0.063f - 0.042f + 1.1f;// + 1.061;
+											mano2.z = suit->righthand.z + 0.124f - 0.15f + 0.017f;// 0.132;
+											mano1.x = suit->righthand.x + 0.063f - 0.042f + 1.1f;// + 1.061;
 											mano1.y = suit->righthand.y + 0.096f + 0.007f;// + 0.094;
-											mano1.z = suit->righthand.z +0.124f - 0.15f + 0.017f;// 0.132;
+											mano1.z = suit->righthand.z + 0.124f - 0.15f + 0.017f;// 0.132;
 											anglefeet.x = 0.0f;
 											anglefeet.y = -90.0f;
 											anglefeet.z = -180.0f;
@@ -2824,18 +2824,18 @@ void JarvisVoice::create_thrusters(int pedid, Ttraje *suit, int code, Tthrusters
 										{
 											if (code == apuntarbot)
 											{
-												pie2.x = suit->rightfoot.x +0.099f - 0.009f;
-												pie2.y = suit->rightfoot.y -0.193f - 0.09f;
-												pie2.z = suit->rightfoot.z +0.127f - 0.004f;
-												pie1.x = suit->leftfoot.x -0.065f - 0.108f;
-												pie1.y = suit->leftfoot.y +0.051f - 0.139f;
-												pie1.z = suit->leftfoot.z +0.127f - 0.104f;
-												mano2.x = suit->righthand.x +0.063f - 0.014f;// + 1.061;
+												pie2.x = suit->rightfoot.x + 0.099f - 0.009f;
+												pie2.y = suit->rightfoot.y - 0.193f - 0.09f;
+												pie2.z = suit->rightfoot.z + 0.127f - 0.004f;
+												pie1.x = suit->leftfoot.x - 0.065f - 0.108f;
+												pie1.y = suit->leftfoot.y + 0.051f - 0.139f;
+												pie1.z = suit->leftfoot.z + 0.127f - 0.104f;
+												mano2.x = suit->righthand.x + 0.063f - 0.014f;// + 1.061;
 												mano2.y = suit->righthand.y + 0.024f;// + 0.094;
-												mano2.z = suit->righthand.z +0.124f - 0.066f;// 0.132;
-												mano1.x = suit->righthand.x +0.063f - 0.014f;// + 1.061;
+												mano2.z = suit->righthand.z + 0.124f - 0.066f;// 0.132;
+												mano1.x = suit->righthand.x + 0.063f - 0.014f;// + 1.061;
 												mano1.y = suit->righthand.y + 0.024f;// + 0.094;
-												mano1.z = suit->righthand.z +0.124f - 0.066f;// 0.132;
+												mano1.z = suit->righthand.z + 0.124f - 0.066f;// 0.132;
 												anglefeet.x = 0.0f;
 												anglefeet.y = -90.0f;
 												anglefeet.z = -180.0f;
@@ -3031,7 +3031,7 @@ void JarvisVoice::aimcar(int carmass, float *x, float *y, float *z, float *x1, f
 	*z = (camaimpoint.z - pointat.z)*5.0f;
 
 
-	float speedfactor= 35.0f + carmass/100.0f;
+	float speedfactor = 35.0f + carmass / 100.0f;
 
 	plugin::scripting::CallCommandById(COMMAND_GET_ACTIVE_CAMERA_POINT_AT, &veloc.x, &veloc.y, &veloc.z);
 	plugin::scripting::CallCommandById(COMMAND_GET_ACTIVE_CAMERA_COORDINATES, &playerpos.x, &playerpos.y, &playerpos.z);
@@ -3097,7 +3097,7 @@ int JarvisVoice::activesuitwearing() {
 			if (mark != 1)
 			{
 				WritePrivateProfileString("CONFIG", "MARK", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-				
+
 			}
 			return 1;
 		}
@@ -3108,7 +3108,7 @@ int JarvisVoice::activesuitwearing() {
 				if (mark != 2)
 				{
 					WritePrivateProfileString("CONFIG", "MARK", "2", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-					
+
 				}
 				return 2;
 			}
@@ -3119,7 +3119,7 @@ int JarvisVoice::activesuitwearing() {
 					if (mark != 3)
 					{
 						WritePrivateProfileString("CONFIG", "MARK", "3", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-						
+
 					}
 					return 3;
 				}
@@ -3130,7 +3130,7 @@ int JarvisVoice::activesuitwearing() {
 						if (mark != 4)
 						{
 							WritePrivateProfileString("CONFIG", "MARK", "4", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-							
+
 						}
 						return 4;
 					}
@@ -3141,7 +3141,7 @@ int JarvisVoice::activesuitwearing() {
 							if (mark != 5)
 							{
 								WritePrivateProfileString("CONFIG", "MARK", "5", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-								
+
 							}
 							return 5;
 						}
@@ -3152,7 +3152,7 @@ int JarvisVoice::activesuitwearing() {
 								if (mark != 6)
 								{
 									WritePrivateProfileString("CONFIG", "MARK", "6", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-									
+
 								}
 								return 6;
 							}
@@ -3163,7 +3163,7 @@ int JarvisVoice::activesuitwearing() {
 									if (mark != 7)
 									{
 										WritePrivateProfileString("CONFIG", "MARK", "7", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-										
+
 									}
 									return 7;
 								}
@@ -3247,7 +3247,7 @@ bool JarvisVoice::is_wearing_suit(int bp) {
 				{
 					if (armorsuit == -1137657761)
 					{
-						if(bp!=1)
+						if (bp != 1)
 							return true;
 						else
 							return false;
@@ -3486,7 +3486,7 @@ bool JarvisVoice::is_wearing_suit_and_not_driving(int bp) {
 	zapas = player->m_pPlayerData->m_pPedClothesDesc->m_anTextureKeys[3];
 	if (error == 0)
 	{
-		if (player->m_nPedState != PEDSTATE_DRIVING) 
+		if (player->m_nPedState != PEDSTATE_DRIVING)
 		{
 			if ((player->m_nModelIndex != 0)) {
 				if (mark > 0)
@@ -3517,7 +3517,7 @@ bool JarvisVoice::is_wearing_suit_and_not_driving(int bp) {
 						if (mark != 1)
 						{
 							WritePrivateProfileString("CONFIG", "MARK", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-							
+
 						}
 						return false;
 					}
@@ -3528,7 +3528,7 @@ bool JarvisVoice::is_wearing_suit_and_not_driving(int bp) {
 							if (mark != 2)
 							{
 								WritePrivateProfileString("CONFIG", "MARK", "2", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-								
+
 							}
 							return true;
 						}
@@ -3539,7 +3539,7 @@ bool JarvisVoice::is_wearing_suit_and_not_driving(int bp) {
 								if (mark != 3)
 								{
 									WritePrivateProfileString("CONFIG", "MARK", "3", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-									
+
 								}
 								return true;
 							}
@@ -3550,7 +3550,7 @@ bool JarvisVoice::is_wearing_suit_and_not_driving(int bp) {
 									if (mark != 4)
 									{
 										WritePrivateProfileString("CONFIG", "MARK", "4", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-										
+
 									}
 									return true;
 								}
@@ -3561,7 +3561,7 @@ bool JarvisVoice::is_wearing_suit_and_not_driving(int bp) {
 										if (mark != 5)
 										{
 											WritePrivateProfileString("CONFIG", "MARK", "5", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-											
+
 										}
 										return true;
 									}
@@ -3572,7 +3572,7 @@ bool JarvisVoice::is_wearing_suit_and_not_driving(int bp) {
 											if (mark != 6)
 											{
 												WritePrivateProfileString("CONFIG", "MARK", "6", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-												
+
 											}
 											return true;
 										}
@@ -3583,7 +3583,7 @@ bool JarvisVoice::is_wearing_suit_and_not_driving(int bp) {
 												if (mark != 7)
 												{
 													WritePrivateProfileString("CONFIG", "MARK", "7", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-													
+
 												}
 												return true;
 											}
@@ -3666,8 +3666,8 @@ bool JarvisVoice::is_wearing_suit_and_not_driving(int bp) {
 																	{
 																		if (bp == 6)
 																		{
-																			if (head==1348958410 ||
-																				shades==672552983)
+																			if (head == 1348958410 ||
+																				shades == 672552983)
 																			{
 																				if (zapas == -592930753 && (reloj == 1142040938 || reloj == -1155750708))
 																				{
@@ -4008,10 +4008,35 @@ bool JarvisVoice::is_aiming() {
 
 	//if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 16) == false)
 	//{
+	plugin::scripting::CallCommandById(COMMAND_GET_CONTROLLER_MODE, &controller);
+	if (jarvisvoice.is_over_ground(2.0f) == false)
+	{
 		plugin::scripting::CallCommandById(COMMAND_GET_CONTROLLER_MODE, &controller);
-		if (jarvisvoice.is_over_ground(2.0f) == false)
+		if (controller == 1) {
+			if (CMouseControllerState().rmb == 1 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 5) == true)
+			{
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else
 		{
-			plugin::scripting::CallCommandById(COMMAND_GET_CONTROLLER_MODE, &controller);
+			if (CMouseControllerState().rmb == 1 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 6) == true)
+			{
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+
+
+	}
+	else {
+		if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 0) == false && plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 1) == false)// && !pad->GetSprint() && !pad->GetDuck())
+		{
 			if (controller == 1) {
 				if (CMouseControllerState().rmb == 1 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 5) == true)
 				{
@@ -4031,41 +4056,16 @@ bool JarvisVoice::is_aiming() {
 					return false;
 				}
 			}
-
-
 		}
-		else {
-			if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 0) == false && plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 1) == false)// && !pad->GetSprint() && !pad->GetDuck())
-			{
-				if (controller == 1) {
-					if (CMouseControllerState().rmb == 1 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 5) == true)
-					{
-						return true;
-					}
-					else {
-						return false;
-					}
-				}
-				else
-				{
-					if (CMouseControllerState().rmb == 1 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 6) == true)
-					{
-						return true;
-					}
-					else {
-						return false;
-					}
-				}
-			}
-			else
-			{
-				return false;
-			}
+		else
+		{
+			return false;
 		}
+	}
 	/*}
 	else
 	{
-		return false;
+	return false;
 	}*/
 }
 
@@ -4191,7 +4191,7 @@ float JarvisVoice::newangle2() {
 	float hd1 = camaimpoint.x - pointat.x;
 	float hd2 = camaimpoint.y - pointat.y;
 	plugin::scripting::CallCommandById(COMMAND_GET_HEADING_FROM_VECTOR_2D, hd1, hd2, &angle);
-	
+
 	return angle;
 }
 
@@ -4286,7 +4286,7 @@ float JarvisVoice::GetXAngleforopcodes() {
 	{
 		static float orx, ory, orz;
 		player->GetOrientation(orx, ory, orz);
-		
+
 		if (orx <= 1.0)
 		{
 			if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 1) == true)
@@ -4363,7 +4363,7 @@ float JarvisVoice::GetXAngle() {
 						orx = -1.5f;
 					}
 				}
-				
+
 				if (orx >= 1.5f)
 				{
 					if (y > 0)
@@ -4381,7 +4381,7 @@ float JarvisVoice::GetXAngle() {
 		{
 			orx *= 0.75;
 		}
-		
+
 		return orx;
 	}
 	else
@@ -4414,7 +4414,7 @@ float JarvisVoice::GetYAngle() {
 		{
 			static int x, y, specialx, specialy;
 			plugin::scripting::CallCommandById(COMMAND_GET_POSITION_OF_ANALOGUE_STICKS, 0, &x, &y, &specialx, &specialy);
-			
+
 			turnrot += (float)x / 2800.0f;
 			if (turnrot <= -2.0)
 			{
@@ -4976,7 +4976,7 @@ void botshootsmissile(Tbotrockets *rocket, bool *completed)
 				plugin::scripting::CallCommandById(COMMAND_ADD_EXPLOSION, misilpos.x, misilpos.y, misilpos.z, 10);
 				plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, rocket->misil);
 				plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, rocket->misil);
-				
+
 				*completed = true;
 				rocket->misil = NULL;
 			}
@@ -5095,7 +5095,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 						speeed.y = (dir.y - origin.y)*10.0f;
 						speeed.z = (dir.z - origin.z)*10.0f;
 						plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VELOCITY, rocket->at(i), speeed.x, speeed.y, speeed.z);
-						
+
 					}
 				}
 			}
@@ -5177,7 +5177,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 									CVector origin;
 									plugin::scripting::CallCommandById(COMMAND_GET_OBJECT_COORDINATES, rocket->at(i), &origin.x, &origin.y, &origin.z);
 									plugin::scripting::CallCommandById(COMMAND_GET_CHAR_COORDINATES, storedtargets[i], &dir.x, &dir.y, &dir.z);
-									
+
 									plugin::scripting::CallCommandById(COMMAND_GET_DISTANCE_BETWEEN_COORDS_2D, origin.x, origin.y, dir.x, dir.y, &fx);
 									fy = dir.z - origin.z;
 
@@ -5350,7 +5350,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 								speeed.y = (dir.y - origin.y)*10.0f;
 								speeed.z = (dir.z - origin.z)*10.0f;
 								plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VELOCITY, rocket->at(i), speeed.x, speeed.y, speeed.z);
-								
+
 							}
 						}
 						else
@@ -5446,7 +5446,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 											speeed.y = (dir.y - origin.y)*10.0f;
 											speeed.z = (dir.z - origin.z)*10.0f;
 											plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VELOCITY, rocket->at(i), speeed.x, speeed.y, speeed.z);
-											
+
 										}
 										else
 										{
@@ -5521,8 +5521,8 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 				storedtargets[4] = 0;
 				static int salud = 0;
 				static int nadapedauto;
-				
-				
+
+
 
 				if (plugin::scripting::CallCommandById(COMMAND_DOES_CHAR_EXIST, storedtargets[1]) != 1)
 				{
@@ -5569,7 +5569,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 							if (fz < 100.0f)
 							{
 								CVehicle *car = CPools::GetVehicle(auto1);
-								
+
 								if (fz <= 3.0f && car->GetVehicleAppearance() != 1)
 								{
 									plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
@@ -5589,7 +5589,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 									int entityfound = (int)entidad;
 									if (entityfound == (int)car &&
 										plugin::scripting::CallCommandById(COMMAND_IS_CHAR_TOUCHING_VEHICLE, player, auto1) == true)
-									{										
+									{
 										done = true;
 										break;
 									}
@@ -5643,7 +5643,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_aimpunch", "ironman", 10.0f, 0, 1, 1, 0, -1);
 									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, head);
 									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, xangle, 0.0f, head);
-									
+
 								}
 								else
 								{
@@ -5672,7 +5672,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_aimpunchSurf", "ironman", 10.0f, 0, 1, 1, 1, -1);
 									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, head);
 									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_VELOCITY, player, veloc.x, veloc.y, veloc.z);
-									
+
 								}
 
 							}
@@ -5705,14 +5705,14 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 					static bool explo, done, explo1;
 					CVector dir;
 					plugin::scripting::CallCommandById(COMMAND_GET_CHAR_COORDINATES, auto1, &dir.x, &dir.y, &dir.z);
-					
+
 					if (done == false
 						&& plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_punchped") == 0)
 					{
 						CVector origin;
 						plugin::scripting::CallCommandById(COMMAND_GET_CHAR_COORDINATES, player, &origin.x, &origin.y, &origin.z);
 
-						
+
 						plugin::scripting::CallCommandById(COMMAND_GET_DISTANCE_BETWEEN_COORDS_3D, origin.x, origin.y, origin.z, dir.x, dir.y, dir.z, &fz);
 
 						if (fz < 100.0f)
@@ -5729,7 +5729,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 								boolvars.timetowait = 100;
 								return storedtargets;
 							}
-							
+
 							if (jarvisvoice.has_obstacles(player, 0.0f, 3.0f, 0.0f, 1, 1, 0, 1, 0) == true)
 							{
 								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
@@ -5767,7 +5767,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_aimpunch", "ironman", 10.0f, 0, 1, 1, 0, -1);
 								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, head);
 								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, xangle, 0.0f, head);
-								
+
 							}
 							else
 							{
@@ -5796,9 +5796,9 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_aimpunchSurf", "ironman", 10.0f, 0, 1, 1, 1, -1);
 								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, head);
 								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_VELOCITY, player, veloc.x, veloc.y, veloc.z);
-								
+
 							}
-							
+
 						}
 						else
 						{
@@ -5812,7 +5812,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 					{
 						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 						boolvars.timetowait = 20;
-						if (explo == true || done==false)
+						if (explo == true || done == false)
 						{
 							explo = false;
 							boolvars.punchedvictim = auto1;
@@ -5977,7 +5977,7 @@ void Movtextures::Loadmenuicons()
 	malarm = new CSprite2d();
 	malarm->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\PlayerInfo\\malarm.png"));
 
-	
+
 	fondo = new CSprite2d();
 	fondo->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\Background\\visor0.png"));
 
@@ -5990,7 +5990,7 @@ void Movtextures::Loadmenuicons()
 	uncheck->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\off.png"));
 	menusel = new CSprite2d();
 	menusel->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\selector.png"));
-	
+
 }
 
 bool JarvisVoice::aimironman() {
@@ -6010,10 +6010,10 @@ bool JarvisVoice::aimironman() {
 	static bool justonce;
 	if (!justonce)
 	{
-		
+
 
 		JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-		
+
 		justonce = true;
 	}
 
@@ -6023,7 +6023,7 @@ bool JarvisVoice::aimironman() {
 	plugin::scripting::CallCommandById(COMMAND_GET_CURRENT_LANGUAGE, &lang);
 
 	std::string lng = "IronMan\\text\\";
-	
+
 	if (langbol == false)
 	{
 		if (lang == 0)
@@ -6046,57 +6046,57 @@ bool JarvisVoice::aimironman() {
 		{
 			lng += "spanish";
 		}
-		
+
 		lng += ".dat";
 		plugin::config_file language(PLUGIN_PATH(lng.data()));
-		
-			boolvars.helptext1.clear();
-			boolvars.helptext2.clear();
-			boolvars.helptext3.clear();
-			boolvars.helptext4.clear();
-			boolvars.helptext5.clear();
-			boolvars.helptext6.clear();
-			boolvars.helptext7.clear();
-			boolvars.helptext8.clear();
-			boolvars.online.clear();
-			boolvars.impulso.clear();
-			boolvars.suitarmormenu.clear();
-			boolvars.Clicoptions.clear();
-			boolvars.Tonyplay.clear();
-			boolvars.Notplay.clear();
-			boolvars.Suitplay.clear();
-			boolvars.Prevmenu.clear();
-			boolvars.Nextmenu.clear();
-			boolvars.Options.clear();
-			boolvars.Closesets.clear();
-			boolvars.menupag1.clear();
-			boolvars.menupag2.clear();
-			boolvars.distan.clear();
-			boolvars.dronfar.clear();
-			boolvars.helptext1 = language["imhelp1"].asString("Elegir arma");
-			boolvars.helptext2 = language["imhelp2"].asString("Apuntar");
-			boolvars.helptext3 = language["imhelp3"].asString("Menu armas");
-			boolvars.helptext4 = language["imhelp4"].asString("Golpear");
-			boolvars.helptext5 = language["imhelp5"].asString("Cambiar velocidad");
-			boolvars.helptext6 = language["imhelp6"].asString("Lanzar vehiculo");
-			boolvars.helptext7 = language["imhelp7"].asString("Disparar");
-			boolvars.helptext8 = language["setsnav"].asString("Usa ARRIBA y ABAJO para navegar, ESPACIO para seleccionar");
-			boolvars.online = language["online"].asString("En linea y listos");
-			boolvars.impulso = language["impulse"].asString("Impulso");
-			boolvars.suitarmormenu = language["menuironman"].asString("menu de skins");
-			boolvars.Clicoptions = language["clicopt"].asString("Clic izquierdo para vestir armadura. Clic derecho para generar bot");
-			boolvars.Tonyplay = language["tsplay"].asString("Clic para jugar como Tony");
-			boolvars.Notplay = language["notply"].asString("Armadura no disponible");
-			boolvars.Suitplay = language["armply"].asString("Clic para usar mark ");
-			boolvars.Prevmenu = language["pmenu"].asString("Clic para retroceder de menu");
-			boolvars.Nextmenu = language["nmenu"].asString("Clic para avanzar de menu");
-			boolvars.Options = language["settings"].asString("Opciones");
-			boolvars.Closesets = language["closets"].asString("Cerrar opciones");
-			boolvars.Closemenu = language["closemenu"].asString("Cerrar menu");
-			boolvars.menupag1 = language["nopag1"].asString("Clic para retroceder pagina");
-			boolvars.menupag2 = language["nopag2"].asString("Clic para avanzar pagina");
-			boolvars.distan = language["distan"].asString("Distancia critica");
-			boolvars.dronfar = language["dronfar"].asString("Pulse 'y' para reagrupar los bots");
+
+		boolvars.helptext1.clear();
+		boolvars.helptext2.clear();
+		boolvars.helptext3.clear();
+		boolvars.helptext4.clear();
+		boolvars.helptext5.clear();
+		boolvars.helptext6.clear();
+		boolvars.helptext7.clear();
+		boolvars.helptext8.clear();
+		boolvars.online.clear();
+		boolvars.impulso.clear();
+		boolvars.suitarmormenu.clear();
+		boolvars.Clicoptions.clear();
+		boolvars.Tonyplay.clear();
+		boolvars.Notplay.clear();
+		boolvars.Suitplay.clear();
+		boolvars.Prevmenu.clear();
+		boolvars.Nextmenu.clear();
+		boolvars.Options.clear();
+		boolvars.Closesets.clear();
+		boolvars.menupag1.clear();
+		boolvars.menupag2.clear();
+		boolvars.distan.clear();
+		boolvars.dronfar.clear();
+		boolvars.helptext1 = language["imhelp1"].asString("Elegir arma");
+		boolvars.helptext2 = language["imhelp2"].asString("Apuntar");
+		boolvars.helptext3 = language["imhelp3"].asString("Menu armas");
+		boolvars.helptext4 = language["imhelp4"].asString("Golpear");
+		boolvars.helptext5 = language["imhelp5"].asString("Cambiar velocidad");
+		boolvars.helptext6 = language["imhelp6"].asString("Lanzar vehiculo");
+		boolvars.helptext7 = language["imhelp7"].asString("Disparar");
+		boolvars.helptext8 = language["setsnav"].asString("Usa ARRIBA y ABAJO para navegar, ESPACIO para seleccionar");
+		boolvars.online = language["online"].asString("En linea y listos");
+		boolvars.impulso = language["impulse"].asString("Impulso");
+		boolvars.suitarmormenu = language["menuironman"].asString("menu de skins");
+		boolvars.Clicoptions = language["clicopt"].asString("Clic izquierdo para vestir armadura. Clic derecho para generar bot");
+		boolvars.Tonyplay = language["tsplay"].asString("Clic para jugar como Tony");
+		boolvars.Notplay = language["notply"].asString("Armadura no disponible");
+		boolvars.Suitplay = language["armply"].asString("Clic para usar mark ");
+		boolvars.Prevmenu = language["pmenu"].asString("Clic para retroceder de menu");
+		boolvars.Nextmenu = language["nmenu"].asString("Clic para avanzar de menu");
+		boolvars.Options = language["settings"].asString("Opciones");
+		boolvars.Closesets = language["closets"].asString("Cerrar opciones");
+		boolvars.Closemenu = language["closemenu"].asString("Cerrar menu");
+		boolvars.menupag1 = language["nopag1"].asString("Clic para retroceder pagina");
+		boolvars.menupag2 = language["nopag2"].asString("Clic para avanzar pagina");
+		boolvars.distan = language["distan"].asString("Distancia critica");
+		boolvars.dronfar = language["dronfar"].asString("Pulse 'y' para reagrupar los bots");
 		langbol = true;
 	}
 
@@ -6104,7 +6104,7 @@ bool JarvisVoice::aimironman() {
 	if (plugin::scripting::CallCommandById(COMMAND_HAS_LANGUAGE_CHANGED) == true)
 	{
 		langbol = false;
-	}	
+	}
 	return true;
 }
 
@@ -6415,14 +6415,14 @@ void JarvisVoice::changeoutfitonair() {
 									{
 										alfafade = 255.0F;
 									}
-									CSprite2d::DrawRect(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(0, 208, 225, (int)alfafade));
+									CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, (unsigned char)alfafade));
 								}
 							}
 							if (alfafade <= 0.0f)
 							{
 								alfafade = 0.0f;
 							}
-							CSprite2d::DrawRect(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(0, 208, 225, (int)alfafade));
+							CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, (unsigned char)alfafade));
 						}
 					}
 				}
@@ -6438,7 +6438,7 @@ void JarvisVoice::changeoutfitonair() {
 								{
 									alfafade = 0.0f;
 								}
-								CSprite2d::DrawRect(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(0, 208, 225, (int)alfafade));
+								CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, (unsigned char)alfafade));
 							}
 							else
 							{
@@ -6447,7 +6447,7 @@ void JarvisVoice::changeoutfitonair() {
 									boolvars.startfade = false;
 									//importing preferences from ini files
 									AudioLib.PlayVoiceEvent(19);
-									
+
 								}
 							}
 						}
@@ -6462,7 +6462,7 @@ void JarvisVoice::changeoutfitonair() {
 							{
 								alfafade = 255.0F;
 							}
-							CSprite2d::DrawRect(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(0, 208, 225, (int)alfafade));
+							CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, (unsigned char)alfafade));
 						}
 					}
 				}
@@ -6501,7 +6501,7 @@ bool JarvisVoice::ironmanpowers() {
 	static int timerforpages;
 	static bool debevolar;
 	static bool onxe;
-	
+
 	std::string nameanim;
 
 	boolvars.mark = GetPrivateProfileInt("CONFIG", "MARK", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
@@ -6584,19 +6584,19 @@ bool JarvisVoice::ironmanpowers() {
 		boolvars.activesuit = jarvisvoice.activesuitwearing();
 
 		boolvars.suit[0] = jarvisvoice.is_wearing_suit(0);
-		
+
 		boolvars.suit[1] = jarvisvoice.is_wearing_suit(1);
-		
+
 		boolvars.suit[2] = jarvisvoice.is_wearing_suit(2);
 
 		boolvars.suit[3] = jarvisvoice.is_wearing_suit(3);
-		
+
 		boolvars.suit[4] = jarvisvoice.is_wearing_suit(4);
-				
+
 		boolvars.suit[5] = jarvisvoice.is_wearing_suit(5);
-		
+
 		boolvars.suit[6] = jarvisvoice.is_wearing_suit(6);
-		
+
 		//WHEN THE PLAYER IS ACTIVE, WE UPDATE THE 3D AUDIO POSITIONS
 		//JarvisVoice::Updateaudiopositions();
 
@@ -6704,11 +6704,11 @@ bool JarvisVoice::ironmanpowers() {
 
 	static int ruidito;
 
-	if(boolvars.indx != 22)
+	if (boolvars.indx != 22)
 	{
 		ruidito = 0;
 	}
-	
+
 	static float hdn, armorperc, carposnx, carposny, carposnz, angle, opsx, opsy, opsz;
 	static bool wasdressed;
 	static bool ordendada;
@@ -6730,7 +6730,7 @@ bool JarvisVoice::ironmanpowers() {
 	pActor = (DWORD*)0xB6F5F0;//pointer of player actor 
 	pCamera = (DWORD*)0xB6F99C;//camera pointer
 
-	//CHECK FOR ROCKETS ACTIVATION
+							   //CHECK FOR ROCKETS ACTIVATION
 	if (boolvars.killedtargetsexist == true)
 	{
 		//WE STORE THE PEDS THAT WE NEUTRALIZE
@@ -6778,7 +6778,7 @@ bool JarvisVoice::ironmanpowers() {
 	}
 
 	if (!en) {
-		
+
 		pedindex = 0;
 		wasdressed = false;
 		menupage = 0;
@@ -7062,7 +7062,7 @@ bool JarvisVoice::ironmanpowers() {
 					return true;
 				}
 			}
-			
+
 		}
 		else
 		{
@@ -7253,7 +7253,7 @@ bool JarvisVoice::ironmanpowers() {
 					goto make_a_clank;
 				}
 			}
-			if (boolvars.landgetup == 1 && debevolar==true)// || 
+			if (boolvars.landgetup == 1 && debevolar == true)// || 
 			{
 				goto make_a_clank;
 			}
@@ -7363,7 +7363,7 @@ bool JarvisVoice::ironmanpowers() {
 	/*
 	if (boolvars.indx != 24 && boolvars.wpmenuisactive == false)
 	{
-		boolvars.wpmenuisactive = false;
+	boolvars.wpmenuisactive = false;
 	}*/
 	if (player)
 	{
@@ -7377,12 +7377,12 @@ bool JarvisVoice::ironmanpowers() {
 				{
 					if (boolvars.fadetime + 1000 > CTimer::m_snTimeInMillisecondsNonClipped)
 					{
-						if (boolvars.fadetime + 180 < CTimer::m_snTimeInMillisecondsNonClipped && plugin::scripting::CallCommandById(COMMAND_HAS_SPECIAL_CHARACTER_LOADED, 7)==1)
+						if (boolvars.fadetime + 180 < CTimer::m_snTimeInMillisecondsNonClipped && plugin::scripting::CallCommandById(COMMAND_HAS_SPECIAL_CHARACTER_LOADED, 7) == 1)
 						{
 							plugin::scripting::CallCommandById(COMMAND_REMOVE_WEAPON_FROM_CHAR, player, 46);
-							
+
 							markk = 7;
-							
+
 							if (!wasdressed)
 							{
 								wasdressed = true;
@@ -7402,7 +7402,7 @@ bool JarvisVoice::ironmanpowers() {
 							boolvars.murio = true;
 							plugin::scripting::CallCommandById(COMMAND_UNLOAD_SPECIAL_CHARACTER, 7);
 							plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, MODEL_SPECIAL07);
-							
+
 							WritePrivateProfileString("CONFIG", "MARK", "7", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ANIM_PLAYING_FLAG, player, "PARA_open", 1);
 							boolvars.landedpara = true;
@@ -7427,10 +7427,10 @@ bool JarvisVoice::ironmanpowers() {
 		chosenmark = -1;
 		boolvars.radarisactive = true;
 
-		en2 = true;		
+		en2 = true;
 	}
 	player = FindPlayerPed(0);
-	
+
 	if (*pActor > 0 && player)
 	{
 		if (boolvars.alphafad > 200)
@@ -7681,11 +7681,11 @@ bool JarvisVoice::ironmanpowers() {
 			{
 				isclicked = false;
 			}
-		
-			
+
+
 			isclicked = false;
 
-			if (iscliqued == true )
+			if (iscliqued == true)
 			{
 				if (chosenmark != 0 &&
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark01") != 0 &&
@@ -7715,7 +7715,7 @@ bool JarvisVoice::ironmanpowers() {
 
 			if (hastoloadskin == true)
 			{
-				
+
 				if (chosenmark != 0 &&
 					settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].texexists == true && settings.folderdirs[boolvars.pageofsuit].suits[chosenmark].mdlexists == true)
 				{
@@ -7819,7 +7819,7 @@ bool JarvisVoice::ironmanpowers() {
 					{
 						/*if(pedindex<contador1 && contador1<20)
 						{
-							pedindex=contador1;
+						pedindex=contador1;
 						}*/
 						CVector posplayer;
 						static float ang;
@@ -8078,7 +8078,7 @@ bool JarvisVoice::ironmanpowers() {
 				}
 			}
 			static int mark;// , error1;
-			
+
 			mark = boolvars.mark;
 			//mark = GetPrivateProfileInt("CONFIG", "MARK", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 			if (mark != 0)
@@ -8089,7 +8089,7 @@ bool JarvisVoice::ironmanpowers() {
 			//error1 = GetPrivateProfileInt("CONFIG", "ERROR", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 			//if (error1 != 0)
 			//{
-				//WritePrivateProfileString("CONFIG", "ERROR", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+			//WritePrivateProfileString("CONFIG", "ERROR", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 			//}
 			if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true || isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
 				JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
@@ -8294,7 +8294,7 @@ bool JarvisVoice::ironmanpowers() {
 									float newpedangle = newpedangle1 * 180.0f / 3.1415926535897932384f;
 									if (newpedangle < 0.0f)
 									{
-										newpedangle = 360.0f + newpedangle;
+									newpedangle = 360.0f + newpedangle;
 									}
 									if (newpedangle >= 90.0f && 270.0f >= newpedangle)
 									{*/
@@ -8317,22 +8317,22 @@ bool JarvisVoice::ironmanpowers() {
 								if (boolvars.immune == true)
 									plugin::scripting::CallCommandById(COMMAND_DAMAGE_CHAR, player, 75, 1);
 								/*if (player->m_fArmour > 75.0f)
-									player->m_fArmour = player->m_fArmour - 75.0f;
+								player->m_fArmour = player->m_fArmour - 75.0f;
 								else
-									player->m_fArmour = 0.0f;
+								player->m_fArmour = 0.0f;
 
-							}
-							else
-							{
+								}
+								else
+								{
 								plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, nameanim.data(), "ironman", 10.0f, 0, 1, 1, 0, -2);
 								//plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, nameanim.data(), "ironman", 4.0f, 0, 1, 1, 1, -2);
 								if (player->m_fArmour > 75.0f)
-									player->m_fArmour = player->m_fArmour - 75.0f;
+								player->m_fArmour = player->m_fArmour - 75.0f;
 								else
-									player->m_fArmour = 0.0f;
+								player->m_fArmour = 0.0f;
 
-							}*/
+								}*/
 
 								nameanim.clear();
 								//if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_FrontExplosion") != 1) {
@@ -8360,6 +8360,7 @@ bool JarvisVoice::ironmanpowers() {
 				{
 					if (boolvars.menuisactive == true)
 					{
+						boolvars.indx = 25;
 						goto suitmenu;
 					}
 					else
@@ -8382,7 +8383,7 @@ bool JarvisVoice::ironmanpowers() {
 								{
 									boolvars.alphafad -= 40;
 									Drawfondo(boolvars.alphafad);
-									//CSprite2d::DrawRect(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(0, 208, 225, (int)boolvars.alphafad));
+									//CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, (int)boolvars.alphafad));
 									return true;
 								}
 								else
@@ -8411,19 +8412,19 @@ bool JarvisVoice::ironmanpowers() {
 							/*
 							if (boolvars.radarisactive == false && cutenabled != 1 && settings.radarmode != 2)
 							{
-								if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_LOADED) == true)
-								{
-									if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_FINISHED) == true)
-									{
-										plugin::scripting::CallCommandById(COMMAND_DISPLAY_RADAR, 1);
-										boolvars.radarisactive = true;
-									}
-								}
-								else
-								{
-									plugin::scripting::CallCommandById(COMMAND_DISPLAY_RADAR, 1);
-									boolvars.radarisactive = true;
-								}
+							if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_LOADED) == true)
+							{
+							if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_FINISHED) == true)
+							{
+							plugin::scripting::CallCommandById(COMMAND_DISPLAY_RADAR, 1);
+							boolvars.radarisactive = true;
+							}
+							}
+							else
+							{
+							plugin::scripting::CallCommandById(COMMAND_DISPLAY_RADAR, 1);
+							boolvars.radarisactive = true;
+							}
 							}*/
 							cursorx = SCREEN_COORD_CENTER_X;
 							cursory = SCREEN_COORD_CENTER_Y;
@@ -8440,17 +8441,17 @@ bool JarvisVoice::ironmanpowers() {
 								CFont::SetScale(SCREEN_MULTIPLIER(settings.vecVehicleNameScale.x), SCREEN_MULTIPLIER(settings.vecVehicleNameScale.y));
 								CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesPosnY), boolvars.online.data());
 							}
-							
+
 							markk = boolvars.mark;
 							//markk = GetPrivateProfileInt("CONFIG", "MARK", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 							boolvars.maxarmor = static_cast<float>(FindPlayerPed(0)->GetPlayerInfoForThisPlayerPed()->m_nMaxArmour);
 
 							if (player->m_fHealth <= 0) {
 								//if (ischoosingwp == true) {
-									//plugin::patch::SetUChar(0x6FF410, 0x8B, 1);
-									//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
-									//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
-									//ischoosingwp = false;
+								//plugin::patch::SetUChar(0x6FF410, 0x8B, 1);
+								//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
+								//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
+								//ischoosingwp = false;
 								//}
 								WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 								boolvars.menuisactive = false;
@@ -8631,9 +8632,9 @@ bool JarvisVoice::ironmanpowers() {
 								}
 
 								//if (ischoosingwp == true) {
-									//plugin::patch::SetUChar(0x6FF410, 0x8B, 1);
-									//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
-									//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
+								//plugin::patch::SetUChar(0x6FF410, 0x8B, 1);
+								//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
+								//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
 								//}
 								if (boolvars.iscjfrozen == true) {
 									boolvars.iscjfrozen = false;
@@ -8673,16 +8674,16 @@ bool JarvisVoice::ironmanpowers() {
 							{
 							}
 
-						code22 = plugin::patch::GetInt(12010652, false);
-						code22 += 4;
-						code22 = plugin::patch::GetInt(code22, false);
-						code23 = 0;*/
-						//ciclos:
+							code22 = plugin::patch::GetInt(12010652, false);
+							code22 += 4;
+							code22 = plugin::patch::GetInt(code22, false);
+							code23 = 0;*/
+							//ciclos:
 
-						//flyground
-						//flyfast
-						//clank
-						//
+							//flyground
+							//flyfast
+							//clank
+							//
 
 
 
@@ -9217,7 +9218,7 @@ bool JarvisVoice::ironmanpowers() {
 																								{
 																									boolvars.indx = 0;
 																									goto ciclobasico;
-																									
+
 																								}
 																							}
 																						}
@@ -9239,8 +9240,8 @@ bool JarvisVoice::ironmanpowers() {
 							/*
 							case 24:
 							{
-								goto wpicons;
-								break;
+							goto wpicons;
+							break;
 							}*/
 						}
 					}
@@ -9290,7 +9291,7 @@ bool JarvisVoice::ironmanpowers() {
 		if (onxe == true)
 		{
 			if (plugin::scripting::CallCommandById(COMMAND_HAS_MODEL_LOADED, 407) != true) { onxe = false; }
-			
+
 			if (plugin::scripting::CallCommandById(COMMAND_HAS_MODEL_LOADED, 594) == true) { onxe = false; }
 
 			if (plugin::scripting::CallCommandById(COMMAND_HAS_MODEL_LOADED, 345) != true) { onxe = false; }
@@ -9313,7 +9314,7 @@ bool JarvisVoice::ironmanpowers() {
 
 			if (player->m_nModelIndex != 0)
 			{
-				 
+
 				plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_MODEL, 0, MODEL_NULL);
 				plugin::scripting::CallCommandById(COMMAND_BUILD_PLAYER_MODEL, 0);
 				//Sleep(200);
@@ -9412,175 +9413,175 @@ bool JarvisVoice::ironmanpowers() {
 	//0
 ciclobasico:
 	{
-	/*
-	CFont::SetBackground(0, 0);
-	CFont::SetOrientation(ALIGN_CENTER);
-	CFont::SetProportional(true);
-	CFont::SetJustify(false);
-	CFont::SetColor(CRGBA(255, 255, 255, 255));
-	CFont::SetFontStyle(FONT_SUBTITLES);
-	CFont::SetEdge(2);
-	CFont::SetCentreSize(SCREEN_WIDTH + SCREEN_COORD(-350));
-	CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
-	CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), lng1.data());
-	*/
-	if (*pActor > 0)
-	{
-		if (boolvars.wpmenuisactive == false && boolvars.indx!=24)
+		/*
+		CFont::SetBackground(0, 0);
+		CFont::SetOrientation(ALIGN_CENTER);
+		CFont::SetProportional(true);
+		CFont::SetJustify(false);
+		CFont::SetColor(CRGBA(255, 255, 255, 255));
+		CFont::SetFontStyle(FONT_SUBTITLES);
+		CFont::SetEdge(2);
+		CFont::SetCentreSize(SCREEN_WIDTH + SCREEN_COORD(-350));
+		CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
+		CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), lng1.data());
+		*/
+		if (*pActor > 0)
 		{
-
-			if (boolvars.activesuit != 0 && player->m_nPedState != PEDSTATE_DRIVING)
+			if (boolvars.wpmenuisactive == false && boolvars.indx != 24)
 			{
 
-				if (boolvars.punchedtargetsexist == true &&
-					boolvars.suit[3] == true)
+				if (boolvars.activesuit != 0 && player->m_nPedState != PEDSTATE_DRIVING)
 				{
-					jarvisvoice.Display_targets_on_screen(boolvars.wpn, boolvars.aimedpeds, imhud2, imhud3);
-					boolvars.indx = 0;
-					*boolvars.aimedpeds = *jarvisvoice.Neutralize_targets(boolvars.wpn, boolvars.aimedpeds, &rockets, &boolvars.punchedtargetsexist);
-					return true;
-				}
-				if (jarvisvoice.is_aiming() == true)
-				{
-					boolvars.indx = 22;
-					return true;
-				}
-				else
-				{
-					if (boolvars.activesuit != -4 && boolvars.activesuit != -5)
+
+					if (boolvars.punchedtargetsexist == true &&
+						boolvars.suit[3] == true)
 					{
-						if (jarvisvoice.is_over_ground(2.0f) == true)
+						jarvisvoice.Display_targets_on_screen(boolvars.wpn, boolvars.aimedpeds, imhud2, imhud3);
+						boolvars.indx = 0;
+						*boolvars.aimedpeds = *jarvisvoice.Neutralize_targets(boolvars.wpn, boolvars.aimedpeds, &rockets, &boolvars.punchedtargetsexist);
+						return true;
+					}
+					if (jarvisvoice.is_aiming() == true)
+					{
+						boolvars.indx = 22;
+						return true;
+					}
+					else
+					{
+						if (boolvars.activesuit != -4 && boolvars.activesuit != -5)
 						{
-							if (!boolvars.mousewheelhacktrigger) {
-								jarvisvoice.SetVelocityUnlimited(true);
-								mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
-								plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
-								plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
-								boolvars.mousewheelhacktrigger = true;
-							}
+							if (jarvisvoice.is_over_ground(2.0f) == true)
+							{
+								if (!boolvars.mousewheelhacktrigger) {
+									jarvisvoice.SetVelocityUnlimited(true);
+									mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
+									plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
+									plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
+									boolvars.mousewheelhacktrigger = true;
+								}
 
-							boolvars.indx = 19;
-							goto controlesdevuelo;
-						}
-						if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_glide") == true ||
-							plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch") == true ||
-							plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch_R") == true)
-						{
-							float altura = 0.0f;
-							//super saltos
-							plugin::scripting::CallCommandById(COMMAND_GET_CHAR_HEIGHT_ABOVE_GROUND, player, &altura);
-							if (altura <= 1.0f)
-							{
-								boolvars.indx = 0;
+								boolvars.indx = 19;
+								goto controlesdevuelo;
 							}
-							else
+							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_glide") == true ||
+								plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch") == true ||
+								plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch_R") == true)
 							{
-								float angleplayer = player->GetHeading();
-								CVector vel = { sinf(angleplayer) * -10.0f, cosf(angleplayer) * 10.0f, 20.0f };
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_VELOCITY, player, vel.x, vel.y, vel.z);
-							}
-							boolvars.indx = 19;
-							goto controlesdevuelo;
-						}
-						
-						if (boolvars.mousewheelhacktrigger == true) {
-							spd = 200.0f;
-							UnhookWindowsHookEx(mousehook);
-							jarvisvoice.SetVelocityUnlimited(false);
-							plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-							boolvars.mousewheelhacktrigger = false;
-						}
-						if (GetKeyState('E') & 0x8000)
-						{
-							boolvars.indx = 7;
-							goto endin;
-						}
-						else
-						{
-							AimedPedReactiontwo(&boolvars.ped);
-
-							if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true || isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								boolvars.thrusterskilled = true;
-
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-							}
-							if (GetKeyState('X') & 0x8000)
-							{
-								boolvars.indx = 21;
-								goto impulsarse;
-							}
-							else
-							{
-								/*if (GetKeyState(VK_MBUTTON) & 0x8000)
+								float altura = 0.0f;
+								//super saltos
+								plugin::scripting::CallCommandById(COMMAND_GET_CHAR_HEIGHT_ABOVE_GROUND, player, &altura);
+								if (altura <= 1.0f)
 								{
+									boolvars.indx = 0;
+								}
+								else
+								{
+									float angleplayer = player->GetHeading();
+									CVector vel = { sinf(angleplayer) * -10.0f, cosf(angleplayer) * 10.0f, 20.0f };
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_VELOCITY, player, vel.x, vel.y, vel.z);
+								}
+								boolvars.indx = 19;
+								goto controlesdevuelo;
+							}
+
+							if (boolvars.mousewheelhacktrigger == true) {
+								spd = 200.0f;
+								UnhookWindowsHookEx(mousehook);
+								jarvisvoice.SetVelocityUnlimited(false);
+								plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+								boolvars.mousewheelhacktrigger = false;
+							}
+							if (GetKeyState('E') & 0x8000)
+							{
+								boolvars.indx = 7;
+								goto endin;
+							}
+							else
+							{
+								AimedPedReactiontwo(&boolvars.ped);
+
+								if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true || isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
+									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+									boolvars.thrusterskilled = true;
+
+									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+								}
+								if (GetKeyState('X') & 0x8000)
+								{
+									boolvars.indx = 21;
+									goto impulsarse;
+								}
+								else
+								{
+									/*if (GetKeyState(VK_MBUTTON) & 0x8000)
+									{
 									boolvars.wpmenuisactive = true;
 									boolvars.indx = 24;
 									goto wpicons;
-								}
-								else
-								{*/
+									}
+									else
+									{*/
 									if (boolvars.iscjfrozen == true)
 									{
 										boolvars.iscjfrozen = false;
 										plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 									}
 									return true;
-								//}
+									//}
+								}
+
 							}
-
 						}
-					}
-					else
-					{
-						//nousatraje
-
-						if (boolvars.iscjfrozen == true)
+						else
 						{
-							boolvars.iscjfrozen = false;
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+							//nousatraje
+
+							if (boolvars.iscjfrozen == true)
+							{
+								boolvars.iscjfrozen = false;
+								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+							}
+							return true;
 						}
-						return true;
 					}
+				}
+				else
+				{
+
+					if (boolvars.mousewheelhacktrigger == true) {
+						spd = 200.0f;
+						UnhookWindowsHookEx(mousehook);
+						jarvisvoice.SetVelocityUnlimited(false);
+						plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+						boolvars.mousewheelhacktrigger = false;
+					}
+					if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true || isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
+						JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+						boolvars.thrusterskilled = true;
+
+						JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+					}
+					if (boolvars.iscjfrozen == true)
+					{
+						boolvars.iscjfrozen = false;
+						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+					}
+					return true;
 				}
 			}
 			else
 			{
-
-				if (boolvars.mousewheelhacktrigger == true) {
-					spd = 200.0f;
-					UnhookWindowsHookEx(mousehook);
-					jarvisvoice.SetVelocityUnlimited(false);
-					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-					boolvars.mousewheelhacktrigger = false;
-				}
-				if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true || isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
-					JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-					boolvars.thrusterskilled = true;
-
-					JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-				}
-				if (boolvars.iscjfrozen == true)
-				{
-					boolvars.iscjfrozen = false;
-					plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-				}
+				boolvars.wpmenuisactive = false;
+				boolvars.indx = 0;
 				return true;
 			}
 		}
 		else
 		{
-			boolvars.wpmenuisactive = false;
-			boolvars.indx = 0;
+			pActor = (DWORD*)0xB6F5F0;
 			return true;
 		}
-	}
-	else
-	{
-		pActor = (DWORD*)0xB6F5F0;
 		return true;
-	}
-	return true;
 	}
 	//7
 levantarauto:
@@ -9719,7 +9720,7 @@ origcareliminate:
 			pActor = (DWORD*)0xB6F5F0;
 			return true;
 		}
-}
+	}
 	//9
 loadmodels:
 	{
@@ -9743,13 +9744,13 @@ loadmodels:
 			}
 			else {
 				/*if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true && plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, objeto1) == true) {
-					if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true && vehic1 != vehic) {
-						plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
-						vehic1 = NULL;
+				if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true && vehic1 != vehic) {
+				plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
+				vehic1 = NULL;
 
-					}
-					boolvars.indx = 11;
-					goto animate;
+				}
+				boolvars.indx = 11;
+				goto animate;
 				}
 				else
 				{*/
@@ -9763,827 +9764,794 @@ loadmodels:
 			pActor = (DWORD*)0xB6F5F0;
 			return true;
 		}
-}
+	}
 	//10
 createandlift:
 	{
 		if (*pActor > 0)
-	{
-
-		plugin::scripting::CallCommandById(COMMAND_CREATE_OBJECT, 1224, carposnx, carposny, carposnz, &objeto1);
-		objectlist[dim] = objeto1;
-		dim++;
-		plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_COLLISION, objeto1, 0);
-		plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_RECORDS_COLLISIONS, objeto1, 0);
-		plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, objeto1, 0.001f);
-		plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, objeto1, 0);
-
-		//Sleep(20);
-		boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
-		boolvars.timetowait = 150;
-
-		if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper12) == true) {
-			plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, helper12);
-			helper12 = NULL;
-		}
-
-		plugin::scripting::CallCommandById(COMMAND_CREATE_CAR, liftedcarmodel, carposnx, carposny, carposnz, &vehic);
-
-		if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true && vehic1 != vehic) {
-			plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
-			vehic1 = NULL;
-
-		}
-		if (liftedcarmodel == 599 || liftedcarmodel == 523 || liftedcarmodel == 596 || liftedcarmodel == 597 || liftedcarmodel == 598) {
-			int level = 0;
-			plugin::scripting::CallCommandById(COMMAND_STORE_WANTED_LEVEL, 0, &level);
-			if (level < 3) {
-				level += 1;
-				plugin::scripting::CallCommandById(COMMAND_ALTER_WANTED_LEVEL_NO_DROP, 0, level);
-			}
-		}
-		/*if (passengers > 0) {
-		if (mdlindex[0] > 0) {
-		CPed *driver;
-		plugin::scripting::CallCommandById(COMMAND_REQUEST_MODEL, mdlindex[0]);
-		plugin::scripting::CallCommandById(COMMAND_CREATE_CHAR_INSIDE_CAR, 4, mdlindex[0], vehi, &driver);
-		plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, mdlindex[0]);
-		plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, driver);
-		driver = NULL;
-		}
-		if (mdlindex[1] > 0) {
-		CPed *pass1;
-		plugin::scripting::CallCommandById(COMMAND_REQUEST_MODEL, mdlindex[1]);
-		plugin::scripting::CallCommandById(COMMAND_CREATE_CHAR_AS_PASSENGER, 4, mdlindex[1], vehi, 0, &pass1);
-		plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, mdlindex[1]);
-		plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, pass1);
-		pass1 = NULL;
-		}
-		if (mdlindex[2] > 0) {
-		CPed *pass2;
-		plugin::scripting::CallCommandById(COMMAND_REQUEST_MODEL, mdlindex[2]);
-		plugin::scripting::CallCommandById(COMMAND_CREATE_CHAR_AS_PASSENGER, 4, mdlindex[2], vehi, 1, &pass2);
-		plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, mdlindex[2]);
-		plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, pass2);
-		pass2 = NULL;
-		}
-		if (mdlindex[3] > 0) {
-		CPed *pass3;
-		plugin::scripting::CallCommandById(COMMAND_REQUEST_MODEL, mdlindex[3]);
-		plugin::scripting::CallCommandById(COMMAND_CREATE_CHAR_AS_PASSENGER, 4, mdlindex[3], vehi, 2, &pass3);
-		plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, mdlindex[3]);
-		plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, pass3);
-		pass3 = NULL;
-		}
-
-		}*/
-		plugin::scripting::CallCommandById(COMMAND_CHANGE_CAR_COLOUR, vehic, clr1, clr2);
-		plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 0);
-
-
-		plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEALTH, vehic, 1000);
-		plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, vehic, 1, 1, 1, 1, 1);
-		plugin::scripting::CallCommandById(COMMAND_SET_CAR_COORDINATES, vehic, carposnx, carposny, carposnz);
-		plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEADING, vehic, angle);
-		
-		if (liftedcarmodel == 537 || liftedcarmodel == 538 || liftedcarmodel == 569 || liftedcarmodel == 570) {
-			u = 2.05f;
-		}
-		else
 		{
-			if (liftedcarmodel == 449)
-			{
-				u = 1.25f;
+
+			plugin::scripting::CallCommandById(COMMAND_CREATE_OBJECT, 1224, carposnx, carposny, carposnz, &objeto1);
+			objectlist[dim] = objeto1;
+			dim++;
+			plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_COLLISION, objeto1, 0);
+			plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_RECORDS_COLLISIONS, objeto1, 0);
+			plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, objeto1, 0.001f);
+			plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, objeto1, 0);
+
+			//Sleep(20);
+			boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
+			boolvars.timetowait = 150;
+
+			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper12) == true) {
+				plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, helper12);
+				helper12 = NULL;
+			}
+
+			plugin::scripting::CallCommandById(COMMAND_CREATE_CAR, liftedcarmodel, carposnx, carposny, carposnz, &vehic);
+
+			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true && vehic1 != vehic) {
+				plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
+				vehic1 = NULL;
+
+			}
+			if (liftedcarmodel == 599 || liftedcarmodel == 523 || liftedcarmodel == 596 || liftedcarmodel == 597 || liftedcarmodel == 598) {
+				int level = 0;
+				plugin::scripting::CallCommandById(COMMAND_STORE_WANTED_LEVEL, 0, &level);
+				if (level < 3) {
+					level += 1;
+					plugin::scripting::CallCommandById(COMMAND_ALTER_WANTED_LEVEL_NO_DROP, 0, level);
+				}
+			}
+			/*if (passengers > 0) {
+			if (mdlindex[0] > 0) {
+			CPed *driver;
+			plugin::scripting::CallCommandById(COMMAND_REQUEST_MODEL, mdlindex[0]);
+			plugin::scripting::CallCommandById(COMMAND_CREATE_CHAR_INSIDE_CAR, 4, mdlindex[0], vehi, &driver);
+			plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, mdlindex[0]);
+			plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, driver);
+			driver = NULL;
+			}
+			if (mdlindex[1] > 0) {
+			CPed *pass1;
+			plugin::scripting::CallCommandById(COMMAND_REQUEST_MODEL, mdlindex[1]);
+			plugin::scripting::CallCommandById(COMMAND_CREATE_CHAR_AS_PASSENGER, 4, mdlindex[1], vehi, 0, &pass1);
+			plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, mdlindex[1]);
+			plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, pass1);
+			pass1 = NULL;
+			}
+			if (mdlindex[2] > 0) {
+			CPed *pass2;
+			plugin::scripting::CallCommandById(COMMAND_REQUEST_MODEL, mdlindex[2]);
+			plugin::scripting::CallCommandById(COMMAND_CREATE_CHAR_AS_PASSENGER, 4, mdlindex[2], vehi, 1, &pass2);
+			plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, mdlindex[2]);
+			plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, pass2);
+			pass2 = NULL;
+			}
+			if (mdlindex[3] > 0) {
+			CPed *pass3;
+			plugin::scripting::CallCommandById(COMMAND_REQUEST_MODEL, mdlindex[3]);
+			plugin::scripting::CallCommandById(COMMAND_CREATE_CHAR_AS_PASSENGER, 4, mdlindex[3], vehi, 2, &pass3);
+			plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, mdlindex[3]);
+			plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, pass3);
+			pass3 = NULL;
+			}
+
+			}*/
+			plugin::scripting::CallCommandById(COMMAND_CHANGE_CAR_COLOUR, vehic, clr1, clr2);
+			plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 0);
+
+
+			plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEALTH, vehic, 1000);
+			plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, vehic, 1, 1, 1, 1, 1);
+			plugin::scripting::CallCommandById(COMMAND_SET_CAR_COORDINATES, vehic, carposnx, carposny, carposnz);
+			plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEADING, vehic, angle);
+
+			if (liftedcarmodel == 537 || liftedcarmodel == 538 || liftedcarmodel == 569 || liftedcarmodel == 570) {
+				u = 2.05f;
 			}
 			else
 			{
-				u = 0.7898f;
+				if (liftedcarmodel == 449)
+				{
+					u = 1.25f;
+				}
+				else
+				{
+					u = 0.7898f;
+				}
 			}
+
+			plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_OBJECT, vehic, objeto1, u, 0.65f, 0.0f, 0.0f, 90.0f, 0.0f);
+			CVehicle *auxil = CPools::GetVehicle(vehic);
+			//auxil->SetRwObjectAlpha(150);
+
+			boolvars.indx = 11;
+			goto animate;
 		}
-
-		plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_OBJECT, vehic, objeto1, u, 0.65f, 0.0f, 0.0f, 90.0f, 0.0f);
-		CVehicle *auxil = CPools::GetVehicle(vehic);
-		//auxil->SetRwObjectAlpha(150);
-
-		boolvars.indx = 11;
-		goto animate;
-	}
 		else {
 			pActor = (DWORD*)0xB6F5F0;
 			return true;
 		}
-}
-//11
+	}
+	//11
 animate:
-{
-if (*pActor > 0)
 	{
-		if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "hold_car") == false)
+		if (*pActor > 0)
 		{
-			plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_SECONDARY, player, "hold_car", "ironman", 18.0f, 1, 1, 1, 0, -1);
-			boolvars.indx = 12;
-			goto endin;
+			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "hold_car") == false)
+			{
+				plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_SECONDARY, player, "hold_car", "ironman", 18.0f, 1, 1, 1, 0, -1);
+				boolvars.indx = 12;
+				goto endin;
+			}
+			else
+			{
+				boolvars.indx = 12;
+				goto attachnewcar;
+			}
 		}
-		else
-		{
-			boolvars.indx = 12;
-			goto attachnewcar;
+		else {
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
 		}
 	}
-else {
-	pActor = (DWORD*)0xB6F5F0;
-	return true;
-}
-}
 	//12
 attachnewcar:
-{
-	if (*pActor > 0)
 	{
-		if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true && vehic != vehic1) {
-			plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
-			vehic1 = NULL;
-		}
-		plugin::scripting::CallCommandById(COMMAND_GET_CAR_MODEL, vehic, &liftedcarmodel);
-		if (liftedcarmodel == 537 || liftedcarmodel == 538 || liftedcarmodel == 449 || liftedcarmodel == 569 || liftedcarmodel == 570)
+		if (*pActor > 0)
 		{
-			//plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, objeto1, 0.01f);
-			//plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, objeto1, 0);
-			//plugin::scripting::CallCommandById(COMMAND_TASK_PICK_UP_OBJECT, player, objeto1, 0.0f, 0.0f, 0.0f, 6, 16, "NULL", "NULL", 1);
-			plugin::scripting::CallCommandById(COMMAND_ATTACH_OBJECT_TO_CHAR, objeto1, player, 0.5f, 0.0959f, 0.879f, -12.0f, -90.0f, 50.0f);
-			plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, objeto1, 0.01f);
-			plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, objeto1, 0);
-		}
-		else
-		{
-			//plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, objeto1, 0.01f);
-			//plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, objeto1, 0);
-			//plugin::scripting::CallCommandById(COMMAND_TASK_PICK_UP_OBJECT, player, objeto1, 0.0f, 0.0f, 0.0f, 6, 16, "NULL", "NULL", 1);
-			plugin::scripting::CallCommandById(COMMAND_ATTACH_OBJECT_TO_CHAR, objeto1, player, 0.5f, 0.0959f, 0.879f, -12.0f, -90.0f, 50.0f);
-			plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, objeto1, 0.01f);
-			plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, objeto1, 0);
-		}
-		//Sleep(200);
-
-		//plugin::scripting::CallCommandById(COMMAND_ATTACH_CAMERA_TO_CHAR, player, 0.0f, -7.0f, 5.0f, 0.0f, 0.0f, 2.0f, 0.0f, 2);
-		//plugin::patch::SetUChar(11988014, 0, 0);
-		plugin::scripting::CallCommandById(COMMAND_POINT_CAMERA_AT_CAR, vehic, 18, 1);
-		plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_IN_CAR_CAMERA_MODE, 2);
-
-		//Sleep(20);
-		plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, 1224);
-		plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, liftedcarmodel);
-		boolvars.indx = 13;
-		boolvars.has_a_car = true;
-		goto throwcar;
-	}
-	else {
-		pActor = (DWORD*)0xB6F5F0;
-		return true;
-	}
-}
-	//13
-throwcar:
-{
-	if (*pActor > 0)
-	{
-		if (boolvars.activesuit!=0 && boolvars.activesuit != -4 && boolvars.activesuit != -5 && boolvars.activesuit != -6)
-		{
-			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true && vehic1 != vehic) {
+			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true && vehic != vehic1) {
 				plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
 				vehic1 = NULL;
 			}
-			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true) {
-				float pesoauto = 0.0f;
-				int classauto;
-				
-				plugin::scripting::CallCommandById(COMMAND_GET_VEHICLE_CLASS, vehic, &classauto);
-				
-				plugin::scripting::CallCommandById(COMMAND_GET_CAR_MASS, vehic, &pesoauto);
-				//char *shades;
-				//std::string shad;
-				//shades = new char[20];
-				// 
-				//sprintf(shades, "%.0f", pesoauto);
-				//"%s", settings.folderdirs[boolvars.yndex].suits[0].pngname); //shades, settings.folderdirs[4].name);
-				/*usas la %d con %d trajes. ", boolvars.yndex, settings.folderdirs[boolvars.yndex].subcontentamnt*/
-				//shad += shades;
-				//shad = ;
-				/*
-				CFont::SetBackground(0, 0);
-				CFont::SetColor(CRGBA(255, 255, 255, 255));
-				CFont::SetOrientation(ALIGN_CENTER);
-				CFont::SetProportional(true);
-				CFont::SetJustify(false);
-				CFont::SetFontStyle(FONT_MENU);
-				CFont::SetScale(SCREEN_MULTIPLIER(settings.vecVehicleNameScale.x), SCREEN_MULTIPLIER(settings.vecVehicleNameScale.y));
-				CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesPosnY), shades);
-				delete[] shades;
-				*/
-				if (classauto == 11)
-				{
-					pesoauto = -2000;
+			plugin::scripting::CallCommandById(COMMAND_GET_CAR_MODEL, vehic, &liftedcarmodel);
+			if (liftedcarmodel == 537 || liftedcarmodel == 538 || liftedcarmodel == 449 || liftedcarmodel == 569 || liftedcarmodel == 570)
+			{
+				//plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, objeto1, 0.01f);
+				//plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, objeto1, 0);
+				//plugin::scripting::CallCommandById(COMMAND_TASK_PICK_UP_OBJECT, player, objeto1, 0.0f, 0.0f, 0.0f, 6, 16, "NULL", "NULL", 1);
+				plugin::scripting::CallCommandById(COMMAND_ATTACH_OBJECT_TO_CHAR, objeto1, player, 0.5f, 0.0959f, 0.879f, -12.0f, -90.0f, 50.0f);
+				plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, objeto1, 0.01f);
+				plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, objeto1, 0);
+			}
+			else
+			{
+				//plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, objeto1, 0.01f);
+				//plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, objeto1, 0);
+				//plugin::scripting::CallCommandById(COMMAND_TASK_PICK_UP_OBJECT, player, objeto1, 0.0f, 0.0f, 0.0f, 6, 16, "NULL", "NULL", 1);
+				plugin::scripting::CallCommandById(COMMAND_ATTACH_OBJECT_TO_CHAR, objeto1, player, 0.5f, 0.0959f, 0.879f, -12.0f, -90.0f, 50.0f);
+				plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, objeto1, 0.01f);
+				plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, objeto1, 0);
+			}
+			//Sleep(200);
+
+			//plugin::scripting::CallCommandById(COMMAND_ATTACH_CAMERA_TO_CHAR, player, 0.0f, -7.0f, 5.0f, 0.0f, 0.0f, 2.0f, 0.0f, 2);
+			//plugin::patch::SetUChar(11988014, 0, 0);
+			plugin::scripting::CallCommandById(COMMAND_POINT_CAMERA_AT_CAR, vehic, 18, 1);
+			plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_IN_CAR_CAMERA_MODE, 2);
+
+			//Sleep(20);
+			plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, 1224);
+			plugin::scripting::CallCommandById(COMMAND_MARK_MODEL_AS_NO_LONGER_NEEDED, liftedcarmodel);
+			boolvars.indx = 13;
+			boolvars.has_a_car = true;
+			goto throwcar;
+		}
+		else {
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
+		}
+	}
+	//13
+throwcar:
+	{
+		if (*pActor > 0)
+		{
+			if (boolvars.activesuit != 0 && boolvars.activesuit != -4 && boolvars.activesuit != -5 && boolvars.activesuit != -6)
+			{
+				if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true && vehic1 != vehic) {
+					plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
+					vehic1 = NULL;
 				}
+				if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true) {
+					float pesoauto = 0.0f;
+					int classauto;
 
-				jarvisvoice.aimcar((int)pesoauto, &pricell.x, &pricell.y, &pricell.z, &pricel2.x, &pricel2.y, &pricel2.z);
-				if (pad->GetCarGunFired() != 0 || CMouseControllerState().lmb == 1 || GetKeyState(VK_LBUTTON) & 0x8000 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 17) == true) {
+					plugin::scripting::CallCommandById(COMMAND_GET_VEHICLE_CLASS, vehic, &classauto);
 
-					pad->bDisablePlayerEnterCar = 0;
-					//pad->bDisablePlayerJump = 0;
-					pad->bDisablePlayerFireWeaponWithL1 = 0;
-					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_NEVER_GETS_TIRED, 0, 0);
-
-					boolvars.has_a_car = false;
-
-					CVehicle *auxil = CPools::GetVehicle(vehic);
-
-					//auxil->SetRwObjectAlpha(255);
-					plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-
-					plugin::scripting::CallCommandById(COMMAND_GET_CAR_MODEL, vehic, &liftedcarmodel);
-					if (liftedcarmodel == 537 || liftedcarmodel == 538 || liftedcarmodel == 449 || liftedcarmodel == 569 || liftedcarmodel == 570)
+					plugin::scripting::CallCommandById(COMMAND_GET_CAR_MASS, vehic, &pesoauto);
+					//char *shades;
+					//std::string shad;
+					//shades = new char[20];
+					// 
+					//sprintf(shades, "%.0f", pesoauto);
+					//"%s", settings.folderdirs[boolvars.yndex].suits[0].pngname); //shades, settings.folderdirs[4].name);
+					/*usas la %d con %d trajes. ", boolvars.yndex, settings.folderdirs[boolvars.yndex].subcontentamnt*/
+					//shad += shades;
+					//shad = ;
+					/*
+					CFont::SetBackground(0, 0);
+					CFont::SetColor(CRGBA(255, 255, 255, 255));
+					CFont::SetOrientation(ALIGN_CENTER);
+					CFont::SetProportional(true);
+					CFont::SetJustify(false);
+					CFont::SetFontStyle(FONT_MENU);
+					CFont::SetScale(SCREEN_MULTIPLIER(settings.vecVehicleNameScale.x), SCREEN_MULTIPLIER(settings.vecVehicleNameScale.y));
+					CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesPosnY), shades);
+					delete[] shades;
+					*/
+					if (classauto == 11)
 					{
-						CVector poss;
-						if (plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, objeto1) == true && objeto1 != NULL) {
-							plugin::scripting::CallCommandById(COMMAND_DETACH_OBJECT, objeto1, 0.0f, 0.0f, 0.0f, 0);
-							plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, objeto1);
-							objeto1 = NULL;
-							plugin::scripting::CallCommandById(COMMAND_DETACH_CAR, vehic, 0.0f, 0.0f, 0.0f, 0);
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 0);
-						}
-						if (liftedcarmodel == 449) {
-							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, player, 0.0f, 1.5f, 1.879f, &poss.x, &poss.y, &poss.z);
-						}
-						else {
-							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, player, 0.0f, 2.5f, 1.879f, &poss.x, &poss.y, &poss.z);
-						}
+						pesoauto = -2000;
+					}
 
-						if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == false) {
-							plugin::scripting::CallCommandById(COMMAND_GET_CAR_HEADING, vehic, &hdn);
-							plugin::scripting::CallCommandById(COMMAND_CREATE_CAR, 407, poss.x, poss.y, poss.z, &helper);
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEADING, helper, hdn);
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_VISIBLE, helper, 0);
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
+					jarvisvoice.aimcar((int)pesoauto, &pricell.x, &pricell.y, &pricell.z, &pricel2.x, &pricel2.y, &pricel2.z);
+					if (pad->GetCarGunFired() != 0 || CMouseControllerState().lmb == 1 || GetKeyState(VK_LBUTTON) & 0x8000 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 17) == true) {
+
+						pad->bDisablePlayerEnterCar = 0;
+						//pad->bDisablePlayerJump = 0;
+						pad->bDisablePlayerFireWeaponWithL1 = 0;
+						plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_NEVER_GETS_TIRED, 0, 0);
+
+						boolvars.has_a_car = false;
+
+						CVehicle *auxil = CPools::GetVehicle(vehic);
+
+						//auxil->SetRwObjectAlpha(255);
+						plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+
+						plugin::scripting::CallCommandById(COMMAND_GET_CAR_MODEL, vehic, &liftedcarmodel);
+						if (liftedcarmodel == 537 || liftedcarmodel == 538 || liftedcarmodel == 449 || liftedcarmodel == 569 || liftedcarmodel == 570)
+						{
+							CVector poss;
+							if (plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, objeto1) == true && objeto1 != NULL) {
+								plugin::scripting::CallCommandById(COMMAND_DETACH_OBJECT, objeto1, 0.0f, 0.0f, 0.0f, 0);
+								plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, objeto1);
+								objeto1 = NULL;
+								plugin::scripting::CallCommandById(COMMAND_DETACH_CAR, vehic, 0.0f, 0.0f, 0.0f, 0);
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 0);
+							}
 							if (liftedcarmodel == 449) {
-								plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, hdn);
+								plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, player, 0.0f, 1.5f, 1.879f, &poss.x, &poss.y, &poss.z);
 							}
 							else {
-								plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 1.5f, 0.0f, 0.0f, hdn);
+								plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, player, 0.0f, 2.5f, 1.879f, &poss.x, &poss.y, &poss.z);
 							}
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
 
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, helper, 1);
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
-						}
-					}
-					else
-					{
-						if (plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, objeto1) == true) {
-							plugin::scripting::CallCommandById(COMMAND_DETACH_OBJECT, objeto1, 0.0f, 0.0f, 0.0f, 0);
-							plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, objeto1);
-							objeto1 = NULL;
-							plugin::scripting::CallCommandById(COMMAND_DETACH_CAR, vehic, 0.0f, 0.0f, 0.0f, 0);
-						}
-						plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
-						plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, vehic, 1);
-						plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, vehic, 0, 0, 0, 0, 0);
+							if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == false) {
+								plugin::scripting::CallCommandById(COMMAND_GET_CAR_HEADING, vehic, &hdn);
+								plugin::scripting::CallCommandById(COMMAND_CREATE_CAR, 407, poss.x, poss.y, poss.z, &helper);
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEADING, helper, hdn);
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_VISIBLE, helper, 0);
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
+								if (liftedcarmodel == 449) {
+									plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, hdn);
+								}
+								else {
+									plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 1.5f, 0.0f, 0.0f, hdn);
+								}
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
 
-					}
-					plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangleposforflight());
-					if (jarvisvoice.is_over_ground(2.0f) == false)
-					{
-						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM, player, "throw_car", "ironman", 20.0f, 0, 0, 0, 0, -1);
-					}
-					else {
-						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "throw_car", "ironman", 10.0f, 0, 0, 0, 0, -1);
-					}
-					boolvars.indx = 14;
-					return true;
-
-				}
-				else
-				{
-					if (GetKeyState(VK_RETURN) & 0x8000 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 15) == true)
-					{
-						boolvars.has_a_car = false;
-						boolvars.indx = 16;
-						goto abort_throw_car;
-					}
-					else
-					{
-						plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_NEVER_GETS_TIRED, 0, 1);
-						pad->bDisablePlayerEnterCar = 1;
-						//pad->bDisablePlayerJump = 1;
-						pad->bDisablePlayerFireWeaponWithL1 = 1;
-
-						plugin::patch::SetUChar(12006502, 0, 0);
-						plugin::patch::SetUChar(12006498, 0, 0);
-						//float coord2dx, coord2dy, w, h;
-						//jarvisvoice.coordstoscreen(pricell.x, pricell.y, pricell.z, &coord2dx, &coord2dy, &w, &h);
-						movtextures.drawindexedtexture(12);
-						
-						if (jarvisvoice.is_over_ground(2.0f)==true)
-						{
-							if (!boolvars.mousewheelhacktrigger) {
-								jarvisvoice.SetVelocityUnlimited(true);
-								mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
-								plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
-								plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
-								boolvars.mousewheelhacktrigger = true;
-							}
-							if (!pad->GetSprint())
-							{
-								boolvars.spdmouse = false;
-								//plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_OBJECT, vehic, objeto1, u, 0.65f, 0.0f, 0.0f, 90.0f, 0.0f);
-								goto controlesdevuelo;
-							}
-							else
-							{
-								boolvars.indx = 16;
-								goto abort_throw_car;
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, helper, 1);
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
 							}
 						}
 						else
 						{
-							if ((isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL)==true) || (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL)==true)) {
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								boolvars.thrusterskilled = true;
+							if (plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, objeto1) == true) {
+								plugin::scripting::CallCommandById(COMMAND_DETACH_OBJECT, objeto1, 0.0f, 0.0f, 0.0f, 0);
+								plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, objeto1);
+								objeto1 = NULL;
+								plugin::scripting::CallCommandById(COMMAND_DETACH_CAR, vehic, 0.0f, 0.0f, 0.0f, 0);
+							}
+							plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
+							plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, vehic, 1);
+							plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, vehic, 0, 0, 0, 0, 0);
 
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-							}
-							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "hold_car") == false)
-							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_SECONDARY, player, "hold_car", "ironman", 18.0f, 1, 1, 1, 0, -1);
-							}
-							if (boolvars.mousewheelhacktrigger == true) {
-								spd = 200.0f;
-								UnhookWindowsHookEx(mousehook);
-								jarvisvoice.SetVelocityUnlimited(false);
-								plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-								boolvars.mousewheelhacktrigger = false;
-							}
-							goto impulsarse;
 						}
-					}
-				}
+						plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangleposforflight());
+						if (jarvisvoice.is_over_ground(2.0f) == false)
+						{
+							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM, player, "throw_car", "ironman", 20.0f, 0, 0, 0, 0, -1);
+						}
+						else {
+							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "throw_car", "ironman", 10.0f, 0, 0, 0, 0, -1);
+						}
+						boolvars.indx = 14;
+						return true;
 
-				//}
-				//else
-				//{
-					//goto abort_throw_car;
-				//}
-			}
-			else
-			{
-				boolvars.indx = 16;
-				goto abort_throw_car;
-			}
-		}
-		else
-		{
-			if (boolvars.mousewheelhacktrigger == true) {
-				spd = 200.0f;
-				UnhookWindowsHookEx(mousehook);
-				jarvisvoice.SetVelocityUnlimited(false);
-				plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-				boolvars.mousewheelhacktrigger = false;
-			}
-			boolvars.has_a_car = false;
-			boolvars.indx = 16;
-			goto abort_throw_car;
-		}
-		return true;
-	}
-else {
-	pActor = (DWORD*)0xB6F5F0;
-	return true;
-}
-}
-	//14
-animthrowcar:
-{
-if (*pActor > 0)
-	{
-
-	if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "throw_car") != false) {
-		boolvars.has_a_car = false;
-		plugin::scripting::CallCommandById(COMMAND_GET_CHAR_ANIM_CURRENT_TIME, player, "throw_car", &time1);
-		if (time1 >= 0.285f) {
-			dir1 = pricel2.x;
-			dir2 = pricel2.y;
-			dir3 = pricel2.z;
-			vel1 = pricell.x;
-			vel2 = pricell.y;
-			vel3 = pricell.z;
-			plugin::scripting::CallCommandById(COMMAND_GET_CAR_HEADING, vehic, &hdn);
-			//plugin::patch::SetUChar(11988014, 1, 0);
-			plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
-			plugin::scripting::CallCommandById(COMMAND_SET_CAMERA_BEHIND_PLAYER);
-			plugin::scripting::CallCommandById(COMMAND_GET_CAR_MODEL, vehic, &liftedcarmodel);
-			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == true)
-			{
-				if (liftedcarmodel == 449) {
-					plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, hdn);
-				}
-				else {
-					if (liftedcarmodel == 537 || liftedcarmodel == 538 || liftedcarmodel == 569 || liftedcarmodel == 570) {
-						plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 1.5f, 0.0f, 0.0f, hdn);
 					}
 					else
 					{
-						plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, helper);
-						helper = NULL;
-						CVehicle *auxil = CPools::GetVehicle(vehic);
-						auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
-						//Sleep(50);
-						carinairtime = CTimer::m_snTimeInMillisecondsNonClipped;
-						boolvars.indx = 15;
-						goto endin;
-					}
-				}
-				plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
+						if (GetKeyState(VK_RETURN) & 0x8000 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 15) == true)
+						{
+							boolvars.has_a_car = false;
+							boolvars.indx = 16;
+							goto abort_throw_car;
+						}
+						else
+						{
+							plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_NEVER_GETS_TIRED, 0, 1);
+							pad->bDisablePlayerEnterCar = 1;
+							//pad->bDisablePlayerJump = 1;
+							pad->bDisablePlayerFireWeaponWithL1 = 1;
 
-				plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
-				plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, helper, 1);
-				plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
-				CVehicle *auxil = CPools::GetVehicle(helper);
-				auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(vel1, vel2, vel3), false);
-				//Sleep(50);
+							plugin::patch::SetUChar(12006502, 0, 0);
+							plugin::patch::SetUChar(12006498, 0, 0);
+							//float coord2dx, coord2dy, w, h;
+							//jarvisvoice.coordstoscreen(pricell.x, pricell.y, pricell.z, &coord2dx, &coord2dy, &w, &h);
+							movtextures.drawindexedtexture(12);
+
+							if (jarvisvoice.is_over_ground(2.0f) == true)
+							{
+								if (!boolvars.mousewheelhacktrigger) {
+									jarvisvoice.SetVelocityUnlimited(true);
+									mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
+									plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
+									plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
+									boolvars.mousewheelhacktrigger = true;
+								}
+								if (!pad->GetSprint())
+								{
+									boolvars.spdmouse = false;
+									//plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_OBJECT, vehic, objeto1, u, 0.65f, 0.0f, 0.0f, 90.0f, 0.0f);
+									goto controlesdevuelo;
+								}
+								else
+								{
+									boolvars.indx = 16;
+									goto abort_throw_car;
+								}
+							}
+							else
+							{
+								if ((isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true) || (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true)) {
+									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+									boolvars.thrusterskilled = true;
+
+									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+								}
+								if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "hold_car") == false)
+								{
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_SECONDARY, player, "hold_car", "ironman", 18.0f, 1, 1, 1, 0, -1);
+								}
+								if (boolvars.mousewheelhacktrigger == true) {
+									spd = 200.0f;
+									UnhookWindowsHookEx(mousehook);
+									jarvisvoice.SetVelocityUnlimited(false);
+									plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+									boolvars.mousewheelhacktrigger = false;
+								}
+								goto impulsarse;
+							}
+						}
+					}
+
+					//}
+					//else
+					//{
+					//goto abort_throw_car;
+					//}
+				}
+				else
+				{
+					boolvars.indx = 16;
+					goto abort_throw_car;
+				}
 			}
 			else
 			{
-				CVehicle *auxil = CPools::GetVehicle(vehic);
-				auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
-				//Sleep(50);
+				if (boolvars.mousewheelhacktrigger == true) {
+					spd = 200.0f;
+					UnhookWindowsHookEx(mousehook);
+					jarvisvoice.SetVelocityUnlimited(false);
+					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+					boolvars.mousewheelhacktrigger = false;
+				}
+				boolvars.has_a_car = false;
+				boolvars.indx = 16;
+				goto abort_throw_car;
 			}
-			carinairtime = CTimer::m_snTimeInMillisecondsNonClipped;
-			boolvars.indx = 15;
 			return true;
-		}
-		else
-		{
-			return true;
-		}
-	}
-	else
-	{
-		if (boolvars.has_a_car == true)
-		{
-			plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "throw_car", "ironman", 10.0f, 0, 0, 0, 0, -1);
 		}
 		else {
-			boolvars.indx = 15;
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
 		}
-		return true;
 	}
-}
-else {
-	pActor = (DWORD*)0xB6F5F0;
-	return true;
-}
-}
-	//15
-carfly:
-{
-	if (*pActor > 0)
+	//14
+animthrowcar:
 	{
+		if (*pActor > 0)
+		{
 
-		boolvars.has_a_car = false;
-	if (CTimer::m_snTimeInMillisecondsNonClipped <= (carinairtime + 500))
-	{
-		if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true) {
-			plugin::scripting::CallCommandById(COMMAND_GET_CAR_MODEL, vehic, &liftedcarmodel);
-			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == true)
-			{
-				plugin::scripting::CallCommandById(COMMAND_GET_CAR_HEADING, vehic, &hdn);
-				if (liftedcarmodel == 449) {
-					plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, hdn);
-					plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
-
-					plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
-					plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, helper, 1);
-					plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
-					CVehicle *auxil = CPools::GetVehicle(helper);
-					auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
-					return true;
-				}
-				else {
-					if (liftedcarmodel == 537 || liftedcarmodel == 538 || liftedcarmodel == 569 || liftedcarmodel == 570) {
-						plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 1.5f, 0.0f, 0.0f, hdn);
+			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "throw_car") != false) {
+				boolvars.has_a_car = false;
+				plugin::scripting::CallCommandById(COMMAND_GET_CHAR_ANIM_CURRENT_TIME, player, "throw_car", &time1);
+				if (time1 >= 0.285f) {
+					dir1 = pricel2.x;
+					dir2 = pricel2.y;
+					dir3 = pricel2.z;
+					vel1 = pricell.x;
+					vel2 = pricell.y;
+					vel3 = pricell.z;
+					plugin::scripting::CallCommandById(COMMAND_GET_CAR_HEADING, vehic, &hdn);
+					//plugin::patch::SetUChar(11988014, 1, 0);
+					plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
+					plugin::scripting::CallCommandById(COMMAND_SET_CAMERA_BEHIND_PLAYER);
+					plugin::scripting::CallCommandById(COMMAND_GET_CAR_MODEL, vehic, &liftedcarmodel);
+					if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == true)
+					{
+						if (liftedcarmodel == 449) {
+							plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, hdn);
+						}
+						else {
+							if (liftedcarmodel == 537 || liftedcarmodel == 538 || liftedcarmodel == 569 || liftedcarmodel == 570) {
+								plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 1.5f, 0.0f, 0.0f, hdn);
+							}
+							else
+							{
+								plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, helper);
+								helper = NULL;
+								CVehicle *auxil = CPools::GetVehicle(vehic);
+								auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
+								//Sleep(50);
+								carinairtime = CTimer::m_snTimeInMillisecondsNonClipped;
+								boolvars.indx = 15;
+								goto endin;
+							}
+						}
 						plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
 
 						plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
 						plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, helper, 1);
 						plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
 						CVehicle *auxil = CPools::GetVehicle(helper);
-						auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
-						return true;
+						auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(vel1, vel2, vel3), false);
+						//Sleep(50);
 					}
-					else {
-						plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, helper);
-						helper = NULL;
+					else
+					{
 						CVehicle *auxil = CPools::GetVehicle(vehic);
 						auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
-						return true;
+						//Sleep(50);
 					}
-				}
-
-			}
-			else
-			{
-				CVehicle *auxil = CPools::GetVehicle(vehic);
-				auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
-				boolvars.indx = 16;
-				goto abort_throw_car; //not sure
-			}
-		}
-		else
-		{
-			boolvars.indx = 16;
-			goto abort_throw_car;
-		}
-	}
-	else
-	{
-		if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == true) {
-			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true) {
-				plugin::scripting::CallCommandById(COMMAND_GET_CAR_HEADING, vehic, &hdn);
-				plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 1.5f, 0.0f, 0.0f, hdn);
-				plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
-
-				plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
-				plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, helper, 1);
-				plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
-				if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true)
-				{
-					plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
-				}
-				plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
-				vehic1 = vehic;
-				vehic = NULL;
-			}
-			plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, helper);
-			helper12 = helper;
-			helper = NULL;
-		}
-		else
-		{
-			helper = NULL;
-
-			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true)
-			{
-				plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
-			}
-			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true)
-			{
-				plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
-				vehic = NULL;
-			}
-			else
-			{
-				vehic = NULL;
-			}
-		}
-		boolvars.indx = 16;
-		goto abort_throw_car;
-	}
-}
-	else {
-		pActor = (DWORD*)0xB6F5F0;
-		return true;
-	}
-}
-	//16
-abort_throw_car:
-{
-if (*pActor > 0)
-	{
-
-	boolvars.has_a_car = false;
-		if (plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, objeto1) == true)
-		{
-			//plugin::scripting::CallCommandById(COMMAND_DETACH_OBJECT, objeto1, 0.0f, 0.0f, 0.0f, 0);
-			plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, objeto1);
-			//plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, objeto1);
-			//Sleep(20);
-			objeto1 = NULL;
-		}
-		if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true) {
-			//plugin::scripting::CallCommandById(COMMAND_DETACH_CAR, vehic, 0.0f, 0.0f, 0.0f, 1);
-			plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
-			plugin::scripting::CallCommandById(COMMAND_SET_VEHICLE_RECORDS_COLLISIONS, vehic, 0);
-			plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, vehic, 1);
-			plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, vehic, 0, 0, 0, 0, 0);
-			CVehicle *auxil = CPools::GetVehicle(vehic);
-			//auxil->SetRwObjectAlpha(255);
-			auxil->ApplyGravity();
-			unholdtime = CTimer::m_snTimeInMillisecondsNonClipped;
-			//plugin::patch::SetUChar(11988014, 1, 0);
-			plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
-			plugin::scripting::CallCommandById(COMMAND_SET_CAMERA_BEHIND_PLAYER);
-			pad->bDisablePlayerEnterCar = 0;
-			//pad->bDisablePlayerJump = 0;
-			pad->bDisablePlayerFireWeaponWithL1 = 0;
-			plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_NEVER_GETS_TIRED, 0, 0);
-			plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-			boolvars.indx = 17;
-			goto unload_car;
-		}
-		else {
-			boolvars.indx = 0;
-			pad->bDisablePlayerEnterCar = 0;
-			//pad->bDisablePlayerJump = 0;
-			pad->bDisablePlayerFireWeaponWithL1 = 0;
-			plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_NEVER_GETS_TIRED, 0, 0);
-			plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-			return true;
-		}
-	}
-else {
-	pActor = (DWORD*)0xB6F5F0;
-	return true;
-}
-}
-	//17
-unload_car: 
-{
-if (*pActor > 0)
-	{
-	boolvars.has_a_car = false;
-		if (CTimer::m_snTimeInMillisecondsNonClipped > (unholdtime + 500)) {
-			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true) {
-				CVehicle *auxil = CPools::GetVehicle(vehic);
-
-				//auxil->SetRwObjectAlpha(255);
-				if (plugin::scripting::CallCommandById(COMMAND_IS_CAR_STOPPED, vehic) && plugin::scripting::CallCommandById(COMMAND_IS_CAR_IN_AIR_PROPER, vehic)) {
-					plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
-					if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == true) {
-						plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, helper);
-						helper = NULL;
-					}
-				}
-				else {
-					plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
-					if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == true) {
-						plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, helper);
-						helper = NULL;
-					}
-				}
-				if (plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, objeto1) == true) {
-					plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, objeto1);
-					objeto1 = NULL;
-				}
-				vehic = NULL;
-				boolvars.indx = 0;
-			}
-			boolvars.indx = 0;
-			return true;
-		}
-		else
-		{
-			//i keep on waiting
-			goto endin;
-		}
-	}
-else {
-	pActor = (DWORD*)0xB6F5F0;
-	return true;
-}
-}
-	
-cleartask:
-{
-	if (*pActor > 0)
-	{
-		if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "lift_car") != false) {
-			plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-		}
-		boolvars.indx = 0;
-		return true;
-	}
-	else {
-		pActor = (DWORD*)0xB6F5F0;
-		return true;
-	}
-}
-
-volaralto:
-{
-	if (*pActor > 0)
-	{
-		if (!boolvars.mousewheelhacktrigger) {
-			jarvisvoice.SetVelocityUnlimited(true);
-			mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
-			plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
-			plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
-			boolvars.mousewheelhacktrigger = true;
-		}
-		markk = boolvars.mark;
-		//markk = GetPrivateProfileInt("CONFIG", "MARK", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-		if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-		{
-			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == false)
-			{
-				if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Start") == false
-					&& boolvars.landgetup == 0
-					&& plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_BackExplosion") == false
-					&& plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_FrontExplosion") == false)
-				{
-					boolvars.flytime = CTimer::m_snTimeInMillisecondsNonClipped;
-				}
-				else
-				{
-					JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-					boolvars.thrusterskilled = true;
-					JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-				}
-				
-			}
-		}
-		else
-		{
-			JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-				boolvars.thrusterskilled = true;
-				JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-			
-
-		}
-		if (boolvars.flytime + 500 < CTimer::m_snTimeInMillisecondsNonClipped 
-			|| boolvars.landgetup == 1
-			|| plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_BackExplosion") == true
-			|| plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_FrontExplosion") == true)
-		{
-			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == false)
-			{
-				JarvisVoice::PlayAudiostream(audiostream[flyfast], 0, &IMStream[0]);
-
-			}
-
-			if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-				JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, im_flyfast, &propellers);
-
-			}
-			float angx = jarvisvoice.GetXAngle();
-			float angy = jarvisvoice.GetYAngle();
-			float angz = jarvisvoice.newangleposforflight();
-			if (jarvisvoice.has_obstacles(player, 0.0f, 3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
-				boolvars.iscjfrozen = true;				
-				plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-				plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Fast", "ironman", 10.0f, 0, 0, 0, 0, -1);
-				plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, angz);
-				//player->SetHeading(angz * 3.1415926535897932384 / 180.0f);
-				plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, angx * 180.0f / 3.1415926535897932384f, angy * 180.0f / 3.1415926535897932384f, angz);
-				//player->SetOrientation(angx, angy, angz * 3.1415926535897932384 / 180.0f);
-
-				return true;
-			}
-			else
-			{
-				boolvars.iscjfrozen = false;
-				plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-				plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Fast", "ironman", 10.0f, 0, 0, 0, 0, -1);
-				plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, angz);
-				//player->SetHeading(angz * 3.1415926535897932384 / 180.0f);
-				plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, angx * 180.0f / 3.1415926535897932384f, angy * 180.0f / 3.1415926535897932384f, angz);
-				//player->SetOrientation(angx, angy, angz * 3.1415926535897932384 / 180.0f);
-
-				if (!boolvars.vueloconmouse)
-				{
-					boolvars.spdmouse = true;
-					if (zDelta2 != 0) {
-						zDelta1 = zDelta;
-						if (zDelta2 > 0)
-							sum = 1;
-						else {
-							if (spd == 200.0f)
-							{
-								sum = 0;
-							}
-							else
-							{
-								if (zDelta2 < 0 && spd > 199.9f)
-									sum = -1;
-								else {
-									sum = 0;
-									if (spd <= 200.0f)
-									{
-										spd = 200.0f;
-									}
-								}
-							}
-						}
-						spd += sum;
-					}
-					zDelta2 = zDelta - zDelta1;
-					jarvisvoice.setvelocityindirection(player, 0.0f, spd, 0.0f);
-					//player->SetOrientation(jarvisvoice.GetXAngle(), cursorxxx, jarvisvoice.newanglepos());
+					carinairtime = CTimer::m_snTimeInMillisecondsNonClipped;
+					boolvars.indx = 15;
 					return true;
 				}
 				else
 				{
-					if (jarvisvoice.Va_adelante()) {
+					return true;
+				}
+			}
+			else
+			{
+				if (boolvars.has_a_car == true)
+				{
+					plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "throw_car", "ironman", 10.0f, 0, 0, 0, 0, -1);
+				}
+				else {
+					boolvars.indx = 15;
+				}
+				return true;
+			}
+		}
+		else {
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
+		}
+	}
+	//15
+carfly:
+	{
+		if (*pActor > 0)
+		{
+
+			boolvars.has_a_car = false;
+			if (CTimer::m_snTimeInMillisecondsNonClipped <= (carinairtime + 500))
+			{
+				if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true) {
+					plugin::scripting::CallCommandById(COMMAND_GET_CAR_MODEL, vehic, &liftedcarmodel);
+					if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == true)
+					{
+						plugin::scripting::CallCommandById(COMMAND_GET_CAR_HEADING, vehic, &hdn);
+						if (liftedcarmodel == 449) {
+							plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, hdn);
+							plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
+
+							plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
+							plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, helper, 1);
+							plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
+							CVehicle *auxil = CPools::GetVehicle(helper);
+							auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
+							return true;
+						}
+						else {
+							if (liftedcarmodel == 537 || liftedcarmodel == 538 || liftedcarmodel == 569 || liftedcarmodel == 570) {
+								plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 1.5f, 0.0f, 0.0f, hdn);
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
+
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, helper, 1);
+								plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
+								CVehicle *auxil = CPools::GetVehicle(helper);
+								auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
+								return true;
+							}
+							else {
+								plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, helper);
+								helper = NULL;
+								CVehicle *auxil = CPools::GetVehicle(vehic);
+								auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
+								return true;
+							}
+						}
+
+					}
+					else
+					{
+						CVehicle *auxil = CPools::GetVehicle(vehic);
+						auxil->ApplyForce(CVector(dir1, dir2, dir3), CVector(0.0f, 0.0f, 0.5f), false);
+						boolvars.indx = 16;
+						goto abort_throw_car; //not sure
+					}
+				}
+				else
+				{
+					boolvars.indx = 16;
+					goto abort_throw_car;
+				}
+			}
+			else
+			{
+				if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == true) {
+					if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true) {
+						plugin::scripting::CallCommandById(COMMAND_GET_CAR_HEADING, vehic, &hdn);
+						plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_CAR, vehic, helper, 0.0f, 0.0f, 1.5f, 0.0f, 0.0f, hdn);
+						plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
+
+						plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, helper, 1);
+						plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, helper, 1);
+						plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, helper, 1, 1, 1, 1, 1);
+						if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true)
+						{
+							plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
+						}
+						plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
+						vehic1 = vehic;
+						vehic = NULL;
+					}
+					plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, helper);
+					helper12 = helper;
+					helper = NULL;
+				}
+				else
+				{
+					helper = NULL;
+
+					if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true)
+					{
+						plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
+					}
+					if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true)
+					{
+						plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
+						vehic = NULL;
+					}
+					else
+					{
+						vehic = NULL;
+					}
+				}
+				boolvars.indx = 16;
+				goto abort_throw_car;
+			}
+		}
+		else {
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
+		}
+	}
+	//16
+abort_throw_car:
+	{
+		if (*pActor > 0)
+		{
+
+			boolvars.has_a_car = false;
+			if (plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, objeto1) == true)
+			{
+				//plugin::scripting::CallCommandById(COMMAND_DETACH_OBJECT, objeto1, 0.0f, 0.0f, 0.0f, 0);
+				plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, objeto1);
+				//plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, objeto1);
+				//Sleep(20);
+				objeto1 = NULL;
+			}
+			if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true) {
+				//plugin::scripting::CallCommandById(COMMAND_DETACH_CAR, vehic, 0.0f, 0.0f, 0.0f, 1);
+				plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 1);
+				plugin::scripting::CallCommandById(COMMAND_SET_VEHICLE_RECORDS_COLLISIONS, vehic, 0);
+				plugin::scripting::CallCommandById(COMMAND_SET_CAR_HEAVY, vehic, 1);
+				plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, vehic, 0, 0, 0, 0, 0);
+				CVehicle *auxil = CPools::GetVehicle(vehic);
+				//auxil->SetRwObjectAlpha(255);
+				auxil->ApplyGravity();
+				unholdtime = CTimer::m_snTimeInMillisecondsNonClipped;
+				//plugin::patch::SetUChar(11988014, 1, 0);
+				plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
+				plugin::scripting::CallCommandById(COMMAND_SET_CAMERA_BEHIND_PLAYER);
+				pad->bDisablePlayerEnterCar = 0;
+				//pad->bDisablePlayerJump = 0;
+				pad->bDisablePlayerFireWeaponWithL1 = 0;
+				plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_NEVER_GETS_TIRED, 0, 0);
+				plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+				boolvars.indx = 17;
+				goto unload_car;
+			}
+			else {
+				boolvars.indx = 0;
+				pad->bDisablePlayerEnterCar = 0;
+				//pad->bDisablePlayerJump = 0;
+				pad->bDisablePlayerFireWeaponWithL1 = 0;
+				plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_NEVER_GETS_TIRED, 0, 0);
+				plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+				return true;
+			}
+		}
+		else {
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
+		}
+	}
+	//17
+unload_car:
+	{
+		if (*pActor > 0)
+		{
+			boolvars.has_a_car = false;
+			if (CTimer::m_snTimeInMillisecondsNonClipped > (unholdtime + 500)) {
+				if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic) == true) {
+					CVehicle *auxil = CPools::GetVehicle(vehic);
+
+					//auxil->SetRwObjectAlpha(255);
+					if (plugin::scripting::CallCommandById(COMMAND_IS_CAR_STOPPED, vehic) && plugin::scripting::CallCommandById(COMMAND_IS_CAR_IN_AIR_PROPER, vehic)) {
+						plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
+						if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == true) {
+							plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, helper);
+							helper = NULL;
+						}
+					}
+					else {
+						plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
+						if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, helper) == true) {
+							plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, helper);
+							helper = NULL;
+						}
+					}
+					if (plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, objeto1) == true) {
+						plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, objeto1);
+						objeto1 = NULL;
+					}
+					vehic = NULL;
+					boolvars.indx = 0;
+				}
+				boolvars.indx = 0;
+				return true;
+			}
+			else
+			{
+				//i keep on waiting
+				goto endin;
+			}
+		}
+		else {
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
+		}
+	}
+
+cleartask:
+	{
+		if (*pActor > 0)
+		{
+			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "lift_car") != false) {
+				plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+			}
+			boolvars.indx = 0;
+			return true;
+		}
+		else {
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
+		}
+	}
+
+volaralto:
+	{
+		if (*pActor > 0)
+		{
+			if (!boolvars.mousewheelhacktrigger) {
+				jarvisvoice.SetVelocityUnlimited(true);
+				mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
+				plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
+				plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
+				boolvars.mousewheelhacktrigger = true;
+			}
+			markk = boolvars.mark;
+			//markk = GetPrivateProfileInt("CONFIG", "MARK", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+			if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+			{
+				if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == false)
+				{
+					if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Start") == false
+						&& boolvars.landgetup == 0
+						&& plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_BackExplosion") == false
+						&& plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_FrontExplosion") == false)
+					{
+						boolvars.flytime = CTimer::m_snTimeInMillisecondsNonClipped;
+					}
+					else
+					{
+						JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+						boolvars.thrusterskilled = true;
+						JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+					}
+
+				}
+			}
+			else
+			{
+				JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+				boolvars.thrusterskilled = true;
+				JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+
+			}
+			if (boolvars.flytime + 500 < CTimer::m_snTimeInMillisecondsNonClipped
+				|| boolvars.landgetup == 1
+				|| plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_BackExplosion") == true
+				|| plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_FrontExplosion") == true)
+			{
+				if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == false)
+				{
+					JarvisVoice::PlayAudiostream(audiostream[flyfast], 0, &IMStream[0]);
+
+				}
+
+				if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+					JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, im_flyfast, &propellers);
+
+				}
+				float angx = jarvisvoice.GetXAngle();
+				float angy = jarvisvoice.GetYAngle();
+				float angz = jarvisvoice.newangleposforflight();
+				if (jarvisvoice.has_obstacles(player, 0.0f, 3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+					boolvars.iscjfrozen = true;
+					plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+					plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Fast", "ironman", 10.0f, 0, 0, 0, 0, -1);
+					plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, angz);
+					//player->SetHeading(angz * 3.1415926535897932384 / 180.0f);
+					plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, angx * 180.0f / 3.1415926535897932384f, angy * 180.0f / 3.1415926535897932384f, angz);
+					//player->SetOrientation(angx, angy, angz * 3.1415926535897932384 / 180.0f);
+
+					return true;
+				}
+				else
+				{
+					boolvars.iscjfrozen = false;
+					plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+					plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Fast", "ironman", 10.0f, 0, 0, 0, 0, -1);
+					plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, angz);
+					//player->SetHeading(angz * 3.1415926535897932384 / 180.0f);
+					plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, angx * 180.0f / 3.1415926535897932384f, angy * 180.0f / 3.1415926535897932384f, angz);
+					//player->SetOrientation(angx, angy, angz * 3.1415926535897932384 / 180.0f);
+
+					if (!boolvars.vueloconmouse)
+					{
 						boolvars.spdmouse = true;
 						if (zDelta2 != 0) {
 							zDelta1 = zDelta;
@@ -10614,103 +10582,9 @@ volaralto:
 						//player->SetOrientation(jarvisvoice.GetXAngle(), cursorxxx, jarvisvoice.newanglepos());
 						return true;
 					}
-					else {
-						boolvars.spdmouse = false;
-						jarvisvoice.setvelocityindirection(player, 0.0f, 100.0f, 0.0f);
-						//player->SetOrientation(jarvisvoice.GetXAngle(), cursorxxx, jarvisvoice.newanglepos());
-						return true;
-					}
-				}
-			}
-		}
-		else
-		{
-			boolvars.iscjfrozen = true;
-			plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-			plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Start", "ironman", 10.0f, 0, 0, 0, 0, -1);
-			plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangleposforflight());
-			plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newangleposforflight());
-			//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newangleposforflight());
-			return true;
-		}
-	}
-else {
-	pActor = (DWORD*)0xB6F5F0;
-	return true;
-}
-}
-//18
-volarbajo:
-{
-if (*pActor > 0)
-	{
-	//si mantiene presionado vuelo
-	//volar cerca del suelo hasta que suelte las teclas de volar
-	//if (pad->GetSprint())
-	//{
-		if (boolvars.indx == 13)
-		{
-			boolvars.indx = 16; //abort throw car
-			return true;
-		}
-		else
-		{
-			boolvars.indx = 18;
-			if (!boolvars.mousewheelhacktrigger) {
-				jarvisvoice.SetVelocityUnlimited(true);
-				mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
-				plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
-				plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
-				boolvars.mousewheelhacktrigger = true;
-			}
-			markk = boolvars.mark;
-			//markk = GetPrivateProfileInt("CONFIG", "MARK", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-
-			static float xangk;
-			xangk = jarvisvoice.GetXAngleforopcodes();
-			
-			if (jarvisvoice.is_over_ground(2.0f) == false)
-			{
-				if (pad->GetSprint() == true)
-				{
-
-					if (xangk <= 1.0f)
+					else
 					{
-
-						if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-						{
-							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_FastSurf") == false)
-							{
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								boolvars.thrusterskilled = true;
-
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-
-							}
-
-							if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL)==false) {
-								JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, im_flyfast, &propellers);
-
-							}
-						}
-						else
-						{
-							JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								boolvars.thrusterskilled = true;
-
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-							
-
-						}
-
-						boolvars.iscjfrozen = false;
-						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_FastSurf", "ironman", 1.0f, 0, 1, 1, 1, -1);
-						//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());				
-						plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangleposforflight());// jarvisvoice.newangle2());
-						//player->SetHeading(jarvisvoice.newanglepos());
-						if (!boolvars.vueloconmouse)
-						{
+						if (jarvisvoice.Va_adelante()) {
 							boolvars.spdmouse = true;
 							if (zDelta2 != 0) {
 								zDelta1 = zDelta;
@@ -10727,7 +10601,7 @@ if (*pActor > 0)
 											sum = -1;
 										else {
 											sum = 0;
-											if (spd <= 199.9f)
+											if (spd <= 200.0f)
 											{
 												spd = 200.0f;
 											}
@@ -10737,14 +10611,107 @@ if (*pActor > 0)
 								spd += sum;
 							}
 							zDelta2 = zDelta - zDelta1;
-
 							jarvisvoice.setvelocityindirection(player, 0.0f, spd, 0.0f);
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ANIM_SPEED, player, "fly_FastSurf", 2.0f);
+							//player->SetOrientation(jarvisvoice.GetXAngle(), cursorxxx, jarvisvoice.newanglepos());
 							return true;
 						}
-						else
+						else {
+							boolvars.spdmouse = false;
+							jarvisvoice.setvelocityindirection(player, 0.0f, 100.0f, 0.0f);
+							//player->SetOrientation(jarvisvoice.GetXAngle(), cursorxxx, jarvisvoice.newanglepos());
+							return true;
+						}
+					}
+				}
+			}
+			else
+			{
+				boolvars.iscjfrozen = true;
+				plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+				plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Start", "ironman", 10.0f, 0, 0, 0, 0, -1);
+				plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangleposforflight());
+				plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newangleposforflight());
+				//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newangleposforflight());
+				return true;
+			}
+		}
+		else {
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
+		}
+	}
+	//18
+volarbajo:
+	{
+		if (*pActor > 0)
+		{
+			//si mantiene presionado vuelo
+			//volar cerca del suelo hasta que suelte las teclas de volar
+			//if (pad->GetSprint())
+			//{
+			if (boolvars.indx == 13)
+			{
+				boolvars.indx = 16; //abort throw car
+				return true;
+			}
+			else
+			{
+				boolvars.indx = 18;
+				if (!boolvars.mousewheelhacktrigger) {
+					jarvisvoice.SetVelocityUnlimited(true);
+					mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
+					plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
+					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
+					boolvars.mousewheelhacktrigger = true;
+				}
+				markk = boolvars.mark;
+				//markk = GetPrivateProfileInt("CONFIG", "MARK", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+
+				static float xangk;
+				xangk = jarvisvoice.GetXAngleforopcodes();
+
+				if (jarvisvoice.is_over_ground(2.0f) == false)
+				{
+					if (pad->GetSprint() == true)
+					{
+
+						if (xangk <= 1.0f)
 						{
-							if (jarvisvoice.Va_adelante()) {
+
+							if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+							{
+								if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_FastSurf") == false)
+								{
+									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+									boolvars.thrusterskilled = true;
+
+									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+								}
+
+								if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+									JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, im_flyfast, &propellers);
+
+								}
+							}
+							else
+							{
+								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+								boolvars.thrusterskilled = true;
+
+								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+
+							}
+
+							boolvars.iscjfrozen = false;
+							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_FastSurf", "ironman", 1.0f, 0, 1, 1, 1, -1);
+							//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());				
+							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangleposforflight());// jarvisvoice.newangle2());
+																																	 //player->SetHeading(jarvisvoice.newanglepos());
+							if (!boolvars.vueloconmouse)
+							{
 								boolvars.spdmouse = true;
 								if (zDelta2 != 0) {
 									zDelta1 = zDelta;
@@ -10776,162 +10743,196 @@ if (*pActor > 0)
 								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ANIM_SPEED, player, "fly_FastSurf", 2.0f);
 								return true;
 							}
-							else {
-								boolvars.spdmouse = false;
+							else
+							{
+								if (jarvisvoice.Va_adelante()) {
+									boolvars.spdmouse = true;
+									if (zDelta2 != 0) {
+										zDelta1 = zDelta;
+										if (zDelta2 > 0)
+											sum = 1;
+										else {
+											if (spd == 200.0f)
+											{
+												sum = 0;
+											}
+											else
+											{
+												if (zDelta2 < 0 && spd > 199.9f)
+													sum = -1;
+												else {
+													sum = 0;
+													if (spd <= 199.9f)
+													{
+														spd = 200.0f;
+													}
+												}
+											}
+										}
+										spd += sum;
+									}
+									zDelta2 = zDelta - zDelta1;
+
+									jarvisvoice.setvelocityindirection(player, 0.0f, spd, 0.0f);
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ANIM_SPEED, player, "fly_FastSurf", 2.0f);
+									return true;
+								}
+								else {
+									boolvars.spdmouse = false;
+									jarvisvoice.setvelocityindirection(player, 0.0f, 100.0f, 0.0f);
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ANIM_SPEED, player, "fly_FastSurf", 1.0f);
+									return true;
+								}
+							}
+						}
+						else {
+							if (xangk >= 6.0f)
+							{
+								if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == false)
+								{
+									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+									boolvars.thrusterskilled = true;
+
+									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+								}
+								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Fast", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
+								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangleposforflight());
+								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newangleposforflight());
+								//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newangleposforflight());
+								//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newangle2());
 								jarvisvoice.setvelocityindirection(player, 0.0f, 100.0f, 0.0f);
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ANIM_SPEED, player, "fly_FastSurf", 1.0f);
-								return true;
-							}
-						}
-					}
-					else {
-						if (xangk >= 6.0f)
-						{
-							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == false)
-							{
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								boolvars.thrusterskilled = true;
-
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-
-							}
-							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Fast", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangleposforflight());
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newangleposforflight());
-							//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newangleposforflight());
-							//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newangle2());
-							jarvisvoice.setvelocityindirection(player, 0.0f, 100.0f, 0.0f);
-							boolvars.indx = 19;
-							boolvars.flytime = 0;
-							goto volaralto;
-						}
-						else
-						{
-
-							if (boolvars.landgetup != 1 && !boolvars.has_a_car)
-							{
-
-								boolvars.indx = 20;
-								goto make_a_clank;
-								/*
-								plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 10.0f, 0, 0, 0, 0, 1000);
-								//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-								//player->SetHeading(jarvisvoice.newanglepos());
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, newangle1());*/
-							}
-							if (!boolvars.has_a_car)
-							{
-								boolvars.indx = 20;
-								goto make_a_clank;
+								boolvars.indx = 19;
+								boolvars.flytime = 0;
+								goto volaralto;
 							}
 							else
 							{
-								boolvars.indx = 16;
-								goto abort_throw_car;
+
+								if (boolvars.landgetup != 1 && !boolvars.has_a_car)
+								{
+
+									boolvars.indx = 20;
+									goto make_a_clank;
+									/*
+									plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 10.0f, 0, 0, 0, 0, 1000);
+									//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+									//player->SetHeading(jarvisvoice.newanglepos());
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, newangle1());*/
+								}
+								if (!boolvars.has_a_car)
+								{
+									boolvars.indx = 20;
+									goto make_a_clank;
+								}
+								else
+								{
+									boolvars.indx = 16;
+									goto abort_throw_car;
+								}
 							}
 						}
-					}
 
-				}
-				else
-				{
-					boolvars.spdmouse = false;
-					if (boolvars.landgetup != 1 && !boolvars.has_a_car)
-					{
-
-						boolvars.indx = 20;
-						goto make_a_clank;
-						/*
-						plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 10.0f, 0, 0, 0, 0, 1000);
-						//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-						//player->SetHeading(jarvisvoice.newanglepos());
-						plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-
-						plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, newangle1());*/
-					}
-					if (!boolvars.has_a_car)
-					{
-						boolvars.indx = 20;
-						goto make_a_clank;
 					}
 					else
 					{
-						boolvars.indx = 16;
-						goto abort_throw_car;
+						boolvars.spdmouse = false;
+						if (boolvars.landgetup != 1 && !boolvars.has_a_car)
+						{
+
+							boolvars.indx = 20;
+							goto make_a_clank;
+							/*
+							plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 10.0f, 0, 0, 0, 0, 1000);
+							//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+							//player->SetHeading(jarvisvoice.newanglepos());
+							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+
+							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, newangle1());*/
+						}
+						if (!boolvars.has_a_car)
+						{
+							boolvars.indx = 20;
+							goto make_a_clank;
+						}
+						else
+						{
+							boolvars.indx = 16;
+							goto abort_throw_car;
+						}
 					}
 				}
-			}
-			else
-			{
-				boolvars.indx = 19;
-				return true;
-			}
-		}
-		return true;
-	}
-else {
-	pActor = (DWORD*)0xB6F5F0;
-	return true;
-}
-}
-
-//24
-wpicons:
-{
-	if (*pActor > 0)
-	{
-		cutenabled = plugin::patch::GetUChar(11989093, false);
-		if (cutenabled != 1 && settings.radarmode != 2)
-		{
-			if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_LOADED) == true)
-			{
-				if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_FINISHED) == false)
+				else
 				{
-					boolvars.wpmenuisactive = false;
-					//if (ischoosingwp == true) {
+					boolvars.indx = 19;
+					return true;
+				}
+			}
+			return true;
+		}
+		else {
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
+		}
+	}
+
+	//24
+wpicons:
+	{
+		if (*pActor > 0)
+		{
+			cutenabled = plugin::patch::GetUChar(11989093, false);
+			if (cutenabled != 1 && settings.radarmode != 2)
+			{
+				if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_LOADED) == true)
+				{
+					if (plugin::scripting::CallCommandById(COMMAND_HAS_CUTSCENE_FINISHED) == false)
+					{
+						boolvars.wpmenuisactive = false;
+						//if (ischoosingwp == true) {
 						//plugin::patch::SetUChar(0x6FF410, 0x8B, 1);
 						//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
 						//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
 						//ischoosingwp = false;
-					//}
-					boolvars.indx = 0;
-					return true;
+						//}
+						boolvars.indx = 0;
+						return true;
+					}
 				}
 			}
-		}
-		else {
-			boolvars.wpmenuisactive = false;
-			//if (ischoosingwp == true) {
+			else {
+				boolvars.wpmenuisactive = false;
+				//if (ischoosingwp == true) {
 				//plugin::patch::SetUChar(0x6FF410, 0x8B, 1);
 				//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
 				//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
 				//ischoosingwp = false;
-			//}
-			boolvars.indx = 0;
-			return true;
-		}
-		if (cutenabled != 1 &&
-			boolvars.wpmenuisactive == true &&
-			boolvars.menuisactive == false &&
-			plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_ARRESTED, player) == false &&
-			plugin::scripting::CallCommandById(COMMAND_IS_CHAR_DEAD, player) == false &&
-			plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false &&
-			boolvars.has_a_car == false &&
-			boolvars.aims == false)
-		{
-			boolvars.indx = 24;
-			static int iconsel;
-			//if (!ischoosingwp)
-			//{
+				//}
+				boolvars.indx = 0;
+				return true;
+			}
+			if (cutenabled != 1 &&
+				boolvars.wpmenuisactive == true &&
+				boolvars.menuisactive == false &&
+				plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_ARRESTED, player) == false &&
+				plugin::scripting::CallCommandById(COMMAND_IS_CHAR_DEAD, player) == false &&
+				plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false &&
+				boolvars.has_a_car == false &&
+				boolvars.aims == false)
+			{
+				boolvars.indx = 24;
+				static int iconsel;
+				//if (!ischoosingwp)
+				//{
 				//plugin::scripting::CallCommandById(COMMAND_SET_TIME_SCALE, 0.0);
 				//plugin::scripting::CallCommandById(COMMAND_SET_EVERYONE_IGNORE_PLAYER, 0, 1);
 				//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 0);
-				
+
 
 
 				//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
@@ -10961,216 +10962,230 @@ wpicons:
 				//TheCamera.m_bCameraPersistTrack = true;
 				//iconsel = 0;
 				//ischoosingwp = true;
-			//}
+				//}
 
-			float movspeed = 0.05f;
-			float movx, movy;
-			plugin::scripting::CallCommandById(COMMAND_GET_PC_MOUSE_MOVEMENT, &movx, &movy);
-			if (plugin::scripting::CallCommandById(COMMAND_IS_MOUSE_USING_VERTICAL_INVERSION) != NULL)
-			{
-				movy *= -1;
-			}
-			int movfactor = 0;
+				float movspeed = 0.05f;
+				float movx, movy;
+				plugin::scripting::CallCommandById(COMMAND_GET_PC_MOUSE_MOVEMENT, &movx, &movy);
+				if (plugin::scripting::CallCommandById(COMMAND_IS_MOUSE_USING_VERTICAL_INVERSION) != NULL)
+				{
+					movy *= -1;
+				}
+				int movfactor = 0;
 
-			movfactor = plugin::patch::GetInt(11987996, false) / 100000000;
-			movx *= movfactor;
-			movy *= movfactor;
-			movx *= movspeed;
-			movy *= movspeed;
-			cursorx += movx;
-			cursory += movy;
-			if (cursorx < SCREEN_COORD(0.0f)) {
-				cursorx = SCREEN_COORD(0.0f);
-			}
+				movfactor = plugin::patch::GetInt(11987996, false) / 100000000;
+				movx *= movfactor;
+				movy *= movfactor;
+				movx *= movspeed;
+				movy *= movspeed;
+				cursorx += movx;
+				cursory += movy;
+				if (cursorx < SCREEN_COORD(0.0f)) {
+					cursorx = SCREEN_COORD(0.0f);
+				}
 
-			if (cursorx > SCREEN_WIDTH) {
-				cursorx = SCREEN_WIDTH;
-			}
+				if (cursorx > SCREEN_WIDTH) {
+					cursorx = SCREEN_WIDTH;
+				}
 
-			if (cursory < SCREEN_COORD(0.0f)) {
-				cursory = SCREEN_COORD(0.0f);
-			}
+				if (cursory < SCREEN_COORD(0.0f)) {
+					cursory = SCREEN_COORD(0.0f);
+				}
 
-			if (cursory > SCREEN_HEIGHT) {
-				cursory = SCREEN_HEIGHT;
-			}
-			//update mouse position end
-			static bool hoverclose, hoverclose1, hoverclose2, hoverclose3, hoverclose4;
+				if (cursory > SCREEN_HEIGHT) {
+					cursory = SCREEN_HEIGHT;
+				}
+				//update mouse position end
+				static bool hoverclose, hoverclose1, hoverclose2, hoverclose3, hoverclose4;
 
-			CSprite2d::DrawRect(CRect(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(11, 26, 59, 100));
-			wpmenu->Draw(CRect(SCREEN_COORD_CENTER_LEFT(200.0f), SCREEN_COORD_CENTER_UP(200.0f), SCREEN_COORD_CENTER_RIGHT(200.0f), SCREEN_COORD_CENTER_DOWN(200.0f)), CRGBA(255, 255, 255, 255));
-			static float ang;
-			ang = -90.0f;
-			CVector2D wpcoords;
+				CSprite2d::DrawRect(CRect(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(11, 26, 59, 100));
+				wpmenu->Draw(CRect(SCREEN_COORD_CENTER_LEFT(200.0f), SCREEN_COORD_CENTER_UP(200.0f), SCREEN_COORD_CENTER_RIGHT(200.0f), SCREEN_COORD_CENTER_DOWN(200.0f)), CRGBA(255, 255, 255, 255));
+				static float ang;
+				ang = -90.0f;
+				CVector2D wpcoords;
 
 
-			//for(float ang=90.0f; ang<=450.0f; ang += 72){
-			plugin::scripting::CallCommandById(COMMAND_SIN, ang, &wpcoords.y);
-			plugin::scripting::CallCommandById(COMMAND_COS, ang, &wpcoords.x);
-			wpcoords.y *= 152.0f;
-			wpcoords.x *= 152.0f;
-			/*
-			if(DrawClickIconAtCoords(true, wp1, hwp1, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory)==true)
-			{
+				//for(float ang=90.0f; ang<=450.0f; ang += 72){
+				plugin::scripting::CallCommandById(COMMAND_SIN, ang, &wpcoords.y);
+				plugin::scripting::CallCommandById(COMMAND_COS, ang, &wpcoords.x);
+				wpcoords.y *= 152.0f;
+				wpcoords.x *= 152.0f;
+				/*
+				if(DrawClickIconAtCoords(true, wp1, hwp1, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory)==true)
+				{
 				if (iconsel != 1)
 				{
-					iconsel = 1;
+				iconsel = 1;
 				}
-			}*/
-			ang += 72.0f;
-			plugin::scripting::CallCommandById(COMMAND_SIN, ang, &wpcoords.y);
-			plugin::scripting::CallCommandById(COMMAND_COS, ang, &wpcoords.x);
-			wpcoords.y *= 152.0f;
-			wpcoords.x *= 152.0f;
+				}*/
+				ang += 72.0f;
+				plugin::scripting::CallCommandById(COMMAND_SIN, ang, &wpcoords.y);
+				plugin::scripting::CallCommandById(COMMAND_COS, ang, &wpcoords.x);
+				wpcoords.y *= 152.0f;
+				wpcoords.x *= 152.0f;
 
-			//DrawClickIconAtCoords(true, wp2, hwp2, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose1);
-			if (hoverclose1 == true) {
-				if (iconsel != 2)
-				{
-					iconsel = 2;
-				}
-			}
-			ang += 72.0f;
-			plugin::scripting::CallCommandById(COMMAND_SIN, ang, &wpcoords.y);
-			plugin::scripting::CallCommandById(COMMAND_COS, ang, &wpcoords.x);
-			wpcoords.y *= 152.0f;
-			wpcoords.x *= 152.0f;
-
-			//DrawClickIconAtCoords(true, wp3, hwp3, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose2);
-			if (hoverclose2 == true) {
-				if (iconsel != 3)
-				{
-					iconsel = 3;
-				}
-			}
-			ang += 72.0f;
-			plugin::scripting::CallCommandById(COMMAND_SIN, ang, &wpcoords.y);
-			plugin::scripting::CallCommandById(COMMAND_COS, ang, &wpcoords.x);
-			wpcoords.y *= 152.0f;
-			wpcoords.x *= 152.0f;
-
-			//DrawClickIconAtCoords(true, wp4, hwp4, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose3);
-			if (hoverclose3 == true) {
-				if (iconsel != 4)
-				{
-					iconsel = 4;
-				}
-			}
-			ang += 72.0f;
-			plugin::scripting::CallCommandById(COMMAND_SIN, ang, &wpcoords.y);
-			plugin::scripting::CallCommandById(COMMAND_COS, ang, &wpcoords.x);
-			wpcoords.y *= 152.0f;
-			wpcoords.x *= 152.0f;
-
-			//DrawClickIconAtCoords(true, wp5, hwp5, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose4);
-			if (hoverclose4 == true) {
-				if (iconsel != 5)
-				{
-					iconsel = 5;
-				}
-			}
-			cursor->Draw(CRect(cursorx, cursory, cursorx + SCREEN_COORD(20.0f), cursory + SCREEN_COORD(20.0f)), CRGBA(255, 255, 255, 255));
-
-			if (iconsel <= 0 || iconsel > 5)
-			{
-				iconsel = 0;
-			}
-
-			if (jarvisvoice.is_over_ground(2.0f))
-			{
-				if (!boolvars.mousewheelhacktrigger) {
-					jarvisvoice.SetVelocityUnlimited(true);
-					mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
-					plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
-					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
-					boolvars.mousewheelhacktrigger = true;
-				}
-				//CVector playpos = player->GetPosition();
-				CVector waterpos, playerpos;
-				int waterfx;
-				float waterh;
-
-				//plugin::scripting::CallCommandById(COMMAND_GET_GROUND_Z_FOR_3D_COORD, playpos.x, playpos.y, playpos.z, &waterh);
-				
-				float waterhei = waterh;
-				waterh += 15.0f;
-				playerpos = player->GetPosition();
-				plugin::scripting::CallCommandById(COMMAND_GET_WATER_HEIGHT_AT_COORDS, playerpos.x, playerpos.y, 0, &waterh);
-
-				if (plugin::scripting::CallCommandById(COMMAND_IS_LINE_OF_SIGHT_CLEAR, playerpos.x, playerpos.y, playerpos.z, playerpos.x, playerpos.y, waterhei, 1, 1, 0, 1, 0) == true) {
-					if (waterh >= playerpos.z && playerpos.z >= 0.0f && is_on_foot() == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false)
+				//DrawClickIconAtCoords(true, wp2, hwp2, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose1);
+				if (hoverclose1 == true) {
+					if (iconsel != 2)
 					{
-						plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, player, 0.0f, 0.0f, 0.0f, &waterpos.x, &waterpos.y, &waterpos.z);
-						waterh += -17.5;
-						plugin::scripting::CallCommandById(COMMAND_CREATE_FX_SYSTEM, "WATER_SB", waterpos.x, waterpos.y, waterh, 1, &waterfx);
-						//plugin::scripting::CallCommandById(COMMAND_PLAY_FX_SYSTEM, waterfx);
-						plugin::scripting::CallCommandById(COMMAND_PLAY_AND_KILL_FX_SYSTEM, waterfx);
+						iconsel = 2;
 					}
 				}
+				ang += 72.0f;
+				plugin::scripting::CallCommandById(COMMAND_SIN, ang, &wpcoords.y);
+				plugin::scripting::CallCommandById(COMMAND_COS, ang, &wpcoords.x);
+				wpcoords.y *= 152.0f;
+				wpcoords.x *= 152.0f;
 
-				spd = 200.0F;
-				if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
-					JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-					JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-					boolvars.thrusterskilled = true;
-
-				}
-
-
-				//AimedPedReactiontwo(&boolvars.ped);
-				if (boolvars.iscjfrozen == false)
-				{
-					boolvars.iscjfrozen = true;
-
-					plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-				}
-				//if(plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Hover") == false)
-				//{
-				plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Hover", "ironman", 10.0f, 0, 0, 0, 0, -1);
-				//}
-				//player->SetHeading(jarvisvoice.newanglepos());
-				if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-				{
-					if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == false) {
-						JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 0, flotar, &propellers);
-
-
+				//DrawClickIconAtCoords(true, wp3, hwp3, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose2);
+				if (hoverclose2 == true) {
+					if (iconsel != 3)
+					{
+						iconsel = 3;
 					}
 				}
-				else
+				ang += 72.0f;
+				plugin::scripting::CallCommandById(COMMAND_SIN, ang, &wpcoords.y);
+				plugin::scripting::CallCommandById(COMMAND_COS, ang, &wpcoords.x);
+				wpcoords.y *= 152.0f;
+				wpcoords.x *= 152.0f;
+
+				//DrawClickIconAtCoords(true, wp4, hwp4, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose3);
+				if (hoverclose3 == true) {
+					if (iconsel != 4)
+					{
+						iconsel = 4;
+					}
+				}
+				ang += 72.0f;
+				plugin::scripting::CallCommandById(COMMAND_SIN, ang, &wpcoords.y);
+				plugin::scripting::CallCommandById(COMMAND_COS, ang, &wpcoords.x);
+				wpcoords.y *= 152.0f;
+				wpcoords.x *= 152.0f;
+
+				//DrawClickIconAtCoords(true, wp5, hwp5, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose4);
+				if (hoverclose4 == true) {
+					if (iconsel != 5)
+					{
+						iconsel = 5;
+					}
+				}
+				cursor->Draw(CRect(cursorx, cursory, cursorx + SCREEN_COORD(20.0f), cursory + SCREEN_COORD(20.0f)), CRGBA(255, 255, 255, 255));
+
+				if (iconsel <= 0 || iconsel > 5)
 				{
-					JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+					iconsel = 0;
+				}
+
+				if (jarvisvoice.is_over_ground(2.0f))
+				{
+					if (!boolvars.mousewheelhacktrigger) {
+						jarvisvoice.SetVelocityUnlimited(true);
+						mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
+						plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
+						plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
+						boolvars.mousewheelhacktrigger = true;
+					}
+					//CVector playpos = player->GetPosition();
+					CVector waterpos, playerpos;
+					int waterfx;
+					float waterh;
+
+					//plugin::scripting::CallCommandById(COMMAND_GET_GROUND_Z_FOR_3D_COORD, playpos.x, playpos.y, playpos.z, &waterh);
+
+					float waterhei = waterh;
+					waterh += 15.0f;
+					playerpos = player->GetPosition();
+					plugin::scripting::CallCommandById(COMMAND_GET_WATER_HEIGHT_AT_COORDS, playerpos.x, playerpos.y, 0, &waterh);
+
+					if (plugin::scripting::CallCommandById(COMMAND_IS_LINE_OF_SIGHT_CLEAR, playerpos.x, playerpos.y, playerpos.z, playerpos.x, playerpos.y, waterhei, 1, 1, 0, 1, 0) == true) {
+						if (waterh >= playerpos.z && playerpos.z >= 0.0f && is_on_foot() == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false)
+						{
+							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, player, 0.0f, 0.0f, 0.0f, &waterpos.x, &waterpos.y, &waterpos.z);
+							waterh += -17.5;
+							plugin::scripting::CallCommandById(COMMAND_CREATE_FX_SYSTEM, "WATER_SB", waterpos.x, waterpos.y, waterh, 1, &waterfx);
+							//plugin::scripting::CallCommandById(COMMAND_PLAY_FX_SYSTEM, waterfx);
+							plugin::scripting::CallCommandById(COMMAND_PLAY_AND_KILL_FX_SYSTEM, waterfx);
+						}
+					}
+
+					spd = 200.0F;
+					if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
+						JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+						JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+						boolvars.thrusterskilled = true;
+
+					}
+
+
+					//AimedPedReactiontwo(&boolvars.ped);
+					if (boolvars.iscjfrozen == false)
+					{
+						boolvars.iscjfrozen = true;
+
+						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+					}
+					//if(plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Hover") == false)
+					//{
+					plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Hover", "ironman", 10.0f, 0, 0, 0, 0, -1);
+					//}
+					//player->SetHeading(jarvisvoice.newanglepos());
+					if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+					{
+						if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == false) {
+							JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 0, flotar, &propellers);
+
+
+						}
+					}
+					else
+					{
+						JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 						boolvars.thrusterskilled = true;
 
 						JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-					
 
+
+					}
 				}
-			}
 
 
-			if (CMouseControllerState().lmb != 1 && (GetKeyState(VK_LBUTTON) & 0x8000) == false)
-			{
-				return true;
-			}
-			else
-			{
-				if (iconsel > 0 && iconsel < 6)
+				if (CMouseControllerState().lmb != 1 && (GetKeyState(VK_LBUTTON) & 0x8000) == false)
 				{
-					char *numb;
-					numb = new char[4];
-					sprintf(numb, "%d", iconsel);
-					WritePrivateProfileString("CONFIG", "WEAPON", numb, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-					delete[] numb;
+					return true;
 				}
-				//escribir en ini
-				boolvars.indx = 0;
-				boolvars.wpmenuisactive = false;
-				//if (ischoosingwp == true) {
+				else
+				{
+					if (iconsel > 0 && iconsel < 6)
+					{
+						char *numb;
+						numb = new char[4];
+						sprintf(numb, "%d", iconsel);
+						WritePrivateProfileString("CONFIG", "WEAPON", numb, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+						delete[] numb;
+					}
+					//escribir en ini
+					boolvars.indx = 0;
+					boolvars.wpmenuisactive = false;
+					//if (ischoosingwp == true) {
 					//plugin::patch::SetUChar(0x6FF410, 0x8B, 1);
 					//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
 					//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
 					//ischoosingwp = false;
+					//}
+					return true;
+				}
+			}
+			else
+			{
+				boolvars.indx = 0;
+				boolvars.wpmenuisactive = false;
+				boolvars.landgetup = 0;
+				//if (ischoosingwp == true) {
+				//plugin::patch::SetUChar(0x6FF410, 0x8B, 1);
+				//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
+				//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
+				//ischoosingwp = false;
 				//}
 				return true;
 			}
@@ -11179,77 +11194,95 @@ wpicons:
 		{
 			boolvars.indx = 0;
 			boolvars.wpmenuisactive = false;
-			boolvars.landgetup = 0;
 			//if (ischoosingwp == true) {
-				//plugin::patch::SetUChar(0x6FF410, 0x8B, 1);
-				//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
-				//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
-				//ischoosingwp = false;
-			//}
-			return true;
-		}
-	}
-	else
-	{
-		boolvars.indx = 0;
-		boolvars.wpmenuisactive = false;
-		//if (ischoosingwp == true) {
 			//plugin::patch::SetUChar(0x6FF410, 0x8B, 1);
 			//plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
 			//plugin::scripting::CallCommandById(COMMAND_RESTORE_CAMERA_JUMPCUT);
 			//ischoosingwp = false;
-		//}
-		return true;
+			//}
+			return true;
+		}
 	}
-}
-//19
+	//19
 
 controlesdevuelo:
-{
-if (debevolar == false && boolvars.escudoactivo == true)
-{
-	boolvars.indx = 22;
-	goto aimin;
-}
-if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timetowait)
-{
-	/*
-	if (boolvars.indx == 24 || boolvars.wpmenuisactive == true)
 	{
-		boolvars.indx = 24;
-		boolvars.wpmenuisactive = true;
-		return true;
-	}
-	else
-	{*/
-		if (*pActor > 0)
+		if (debevolar == false && boolvars.escudoactivo == true)
 		{
-			static int timefalling;
-			if (boolvars.landedpara == true)
+			boolvars.indx = 22;
+			goto aimin;
+		}
+		if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timetowait)
+		{
+			/*
+			if (boolvars.indx == 24 || boolvars.wpmenuisactive == true)
 			{
-				if (boolvars.fadetime + 1000 < CTimer::m_snTimeInMillisecondsNonClipped)
+			boolvars.indx = 24;
+			boolvars.wpmenuisactive = true;
+			return true;
+			}
+			else
+			{*/
+			if (*pActor > 0)
+			{
+				static int timefalling;
+				if (boolvars.landedpara == true)
 				{
-					boolvars.landedpara = false;
-					boolvars.flytime = CTimer::m_snTimeInMillisecondsNonClipped;
-					plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "skydive_FallStop", "ironman", 2.5, 0, 0, 0, 0, -1);
-					//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());
-					if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
-						JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-						boolvars.thrusterskilled = true;
-
-						JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-					}
-					JarvisVoice::PlayAudiostream(audiostream[23], 0, &IMStream[2]);
-					return true;
-				}
-				else
-				{
-					if (jarvisvoice.is_over_ground(2.0f))
+					if (boolvars.fadetime + 1000 < CTimer::m_snTimeInMillisecondsNonClipped)
 					{
+						boolvars.landedpara = false;
 						boolvars.flytime = CTimer::m_snTimeInMillisecondsNonClipped;
-						boolvars.iscjfrozen = false;
-						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "FALL_skyDive", "parachute", 10.0f, 0, 0, 0, 0, -1);
+						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "skydive_FallStop", "ironman", 2.5, 0, 0, 0, 0, -1);
+						//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());
+						if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
+							JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+							boolvars.thrusterskilled = true;
+
+							JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+						}
+						JarvisVoice::PlayAudiostream(audiostream[23], 0, &IMStream[2]);
+						return true;
+					}
+					else
+					{
+						if (jarvisvoice.is_over_ground(2.0f))
+						{
+							boolvars.flytime = CTimer::m_snTimeInMillisecondsNonClipped;
+							boolvars.iscjfrozen = false;
+							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "FALL_skyDive", "parachute", 10.0f, 0, 0, 0, 0, -1);
+							if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
+								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+								boolvars.thrusterskilled = true;
+
+								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+							}
+							return true;
+						}
+						else
+						{
+							if (!boolvars.has_a_car)
+							{
+								boolvars.indx = 20;
+								boolvars.landedpara = false;
+								goto make_a_clank;
+							}
+							else
+							{
+								boolvars.indx = 16;
+								boolvars.landedpara = false;
+								goto abort_throw_car;
+							}
+						}
+					}
+				}
+				if (boolvars.landgetup == 0 &&
+					(plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Stop") == 1 ||
+						plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Start") == 1 ||
+						plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_hover_start") == 1))
+				{
+					if (CTimer::m_snTimeInMillisecondsNonClipped < boolvars.flytime + 200)
+					{
 						if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
 							JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 							boolvars.thrusterskilled = true;
@@ -11258,401 +11291,177 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 						}
 						return true;
 					}
+				}
+				static int dust;
+				static bool duststart;
+				if (!duststart)
+				{
+					dust = 0;
+					duststart = true;
+				}
+				if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "skydive_FallStop") == true)
+				{
+					if (jarvisvoice.is_over_ground(2.0f))
+					{
+						if (CTimer::m_snTimeInMillisecondsNonClipped < boolvars.flytime + 1200)
+						{
+							if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.flytime + 400)
+							{
+								boolvars.iscjfrozen = true;
+								//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+								if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+									//JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+									JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, stopcaida, &propellers);
+									boolvars.thrusterskilled = true;
+
+									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+									if (dust == 0)
+									{
+										CVector posfordust = player->GetPosition();
+										plugin::scripting::CallCommandById(COMMAND_GET_GROUND_Z_FOR_3D_COORD, posfordust.x, posfordust.y, posfordust.z, &posfordust.z);
+										plugin::scripting::CallCommandById(COMMAND_CREATE_FX_SYSTEM, "heli_dust", posfordust.x, posfordust.y, posfordust.z, 1, &dust);
+										plugin::scripting::CallCommandById(COMMAND_PLAY_FX_SYSTEM, dust);
+									}
+								}
+							}
+							return true;
+						}
+					}
 					else
 					{
 						if (!boolvars.has_a_car)
 						{
 							boolvars.indx = 20;
-							boolvars.landedpara = false;
 							goto make_a_clank;
 						}
 						else
 						{
 							boolvars.indx = 16;
-							boolvars.landedpara = false;
 							goto abort_throw_car;
 						}
 					}
 				}
-			}
-			if (boolvars.landgetup == 0 &&
-				(plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Stop") == 1 ||
-					plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Start") == 1 ||
-					plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_hover_start") == 1))
-			{
-				if (CTimer::m_snTimeInMillisecondsNonClipped < boolvars.flytime + 200)
-				{
-					if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
-						JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-						boolvars.thrusterskilled = true;
-
-						JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-					}
-					return true;
-				}
-			}
-			static int dust;
-			static bool duststart;
-			if (!duststart)
-			{
-				dust = 0;
-				duststart = true;
-			}
-			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "skydive_FallStop") == true)
-			{
-				if (jarvisvoice.is_over_ground(2.0f))
-				{
-					if (CTimer::m_snTimeInMillisecondsNonClipped < boolvars.flytime + 1200)
-					{
-						if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.flytime + 400)
-						{
-							boolvars.iscjfrozen = true;
-							//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-							if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-								//JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, stopcaida, &propellers);
-								boolvars.thrusterskilled = true;
-
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-
-								if (dust == 0)
-								{
-									CVector posfordust = player->GetPosition();
-									plugin::scripting::CallCommandById(COMMAND_GET_GROUND_Z_FOR_3D_COORD, posfordust.x, posfordust.y, posfordust.z, &posfordust.z);
-									plugin::scripting::CallCommandById(COMMAND_CREATE_FX_SYSTEM, "heli_dust", posfordust.x, posfordust.y, posfordust.z, 1, &dust);
-									plugin::scripting::CallCommandById(COMMAND_PLAY_FX_SYSTEM, dust);
-								}
-							}
-						}
-						return true;
-					}
-				}
 				else
 				{
-					if (!boolvars.has_a_car)
-					{
-						boolvars.indx = 20;
-						goto make_a_clank;
-					}
-					else
-					{
-						boolvars.indx = 16;
-						goto abort_throw_car;
+					if (dust != 0) {
+						plugin::scripting::CallCommandById(COMMAND_KILL_FX_SYSTEM, dust);
+						dust = 0;
 					}
 				}
-			}
-			else
-			{
-				if (dust != 0) {
-					plugin::scripting::CallCommandById(COMMAND_KILL_FX_SYSTEM, dust);
-					dust = 0;
-				}
-			}
-			/*
-			if ((GetKeyState(VK_MBUTTON) & 0x8000) && boolvars.has_a_car == false && boolvars.wpmenuisactive == false)
-			{
-			boolvars.wpmenuisactive = true;
-			boolvars.indx = 24;
-			return true;
-			}*/
-			if (boolvars.has_a_car == false)
-			{
-				boolvars.indx = 19;
-			}
-			if (jarvisvoice.is_over_ground(2.0f))
-			{
-				if (!boolvars.mousewheelhacktrigger) {
-					jarvisvoice.SetVelocityUnlimited(true);
-					mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
-					plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
-					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
-					boolvars.mousewheelhacktrigger = true;
-				}
-				CVector playpos = player->GetPosition();
-				CVector waterpos, playerpos;
-				int waterfx;
-				float waterh;
-				static int groundfx;
-				static float groundat;
-				plugin::scripting::CallCommandById(COMMAND_GET_WATER_HEIGHT_AT_COORDS, playpos.x, playpos.y, 0, &waterh);
-				plugin::scripting::CallCommandById(COMMAND_GET_GROUND_Z_FOR_3D_COORD, playpos.x, playpos.y, playpos.z, &groundat);
-
-				float waterhei = waterh;
-
-				waterh += 15.0f;
-				playerpos = player->GetPosition();
-
-				if (is_on_foot() == false && boolvars.altitude >= 0.0f && boolvars.altitude < 10.0f)
+				/*
+				if ((GetKeyState(VK_MBUTTON) & 0x8000) && boolvars.has_a_car == false && boolvars.wpmenuisactive == false)
 				{
-					if (plugin::scripting::CallCommandById(COMMAND_IS_LINE_OF_SIGHT_CLEAR, playerpos.x, playerpos.y, playerpos.z, playerpos.x, playerpos.y, waterhei, 1, 1, 0, 1, 0) == true)
+				boolvars.wpmenuisactive = true;
+				boolvars.indx = 24;
+				return true;
+				}*/
+				if (boolvars.has_a_car == false)
+				{
+					boolvars.indx = 19;
+				}
+				if (jarvisvoice.is_over_ground(2.0f))
+				{
+					if (!boolvars.mousewheelhacktrigger) {
+						jarvisvoice.SetVelocityUnlimited(true);
+						mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
+						plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
+						plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
+						boolvars.mousewheelhacktrigger = true;
+					}
+					CVector playpos = player->GetPosition();
+					CVector waterpos, playerpos;
+					int waterfx;
+					float waterh;
+					static int groundfx;
+					static float groundat;
+					plugin::scripting::CallCommandById(COMMAND_GET_WATER_HEIGHT_AT_COORDS, playpos.x, playpos.y, 0, &waterh);
+					plugin::scripting::CallCommandById(COMMAND_GET_GROUND_Z_FOR_3D_COORD, playpos.x, playpos.y, playpos.z, &groundat);
+
+					float waterhei = waterh;
+
+					waterh += 15.0f;
+					playerpos = player->GetPosition();
+
+					if (is_on_foot() == false && boolvars.altitude >= 0.0f && boolvars.altitude < 10.0f)
 					{
-						if (waterh >= playpos.z && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false)
+						if (plugin::scripting::CallCommandById(COMMAND_IS_LINE_OF_SIGHT_CLEAR, playerpos.x, playerpos.y, playerpos.z, playerpos.x, playerpos.y, waterhei, 1, 1, 0, 1, 0) == true)
 						{
-							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, player, 0.0f, 0.0f, 0.0f, &waterpos.x, &waterpos.y, &waterpos.z);
-							waterh += -17.5;
-							plugin::scripting::CallCommandById(COMMAND_CREATE_FX_SYSTEM, "im_watersprk", waterpos.x, waterpos.y, waterh, 1, &waterfx);
-							//plugin::scripting::CallCommandById(COMMAND_PLAY_FX_SYSTEM, waterfx);
-							plugin::scripting::CallCommandById(COMMAND_PLAY_AND_KILL_FX_SYSTEM, waterfx);
+							if (waterh >= playpos.z && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false)
+							{
+								plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, player, 0.0f, 0.0f, 0.0f, &waterpos.x, &waterpos.y, &waterpos.z);
+								waterh += -17.5;
+								plugin::scripting::CallCommandById(COMMAND_CREATE_FX_SYSTEM, "im_watersprk", waterpos.x, waterpos.y, waterh, 1, &waterfx);
+								//plugin::scripting::CallCommandById(COMMAND_PLAY_FX_SYSTEM, waterfx);
+								plugin::scripting::CallCommandById(COMMAND_PLAY_AND_KILL_FX_SYSTEM, waterfx);
+							}
+							else
+							{
+								plugin::scripting::CallCommandById(COMMAND_CREATE_FX_SYSTEM, "im_dust", playpos.x, playpos.y, groundat, 1, &groundfx);
+								plugin::scripting::CallCommandById(COMMAND_PLAY_AND_KILL_FX_SYSTEM, groundfx);
+							}
 						}
 						else
 						{
-							plugin::scripting::CallCommandById(COMMAND_CREATE_FX_SYSTEM, "im_dust", playpos.x, playpos.y, groundat, 1, &groundfx);
+							CVector posfordust = player->GetPosition();
+							plugin::scripting::CallCommandById(COMMAND_GET_GROUND_Z_FOR_3D_COORD, posfordust.x, posfordust.y, posfordust.z, &posfordust.z);
+							plugin::scripting::CallCommandById(COMMAND_CREATE_FX_SYSTEM, "im_dust", posfordust.x, posfordust.y, posfordust.z, 1, &groundfx);
 							plugin::scripting::CallCommandById(COMMAND_PLAY_AND_KILL_FX_SYSTEM, groundfx);
 						}
 					}
-					else
+
+					if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_glide") == true ||
+						plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch") == true ||
+						plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch_R") == true)
 					{
-						CVector posfordust = player->GetPosition();
-						plugin::scripting::CallCommandById(COMMAND_GET_GROUND_Z_FOR_3D_COORD, posfordust.x, posfordust.y, posfordust.z, &posfordust.z);
-						plugin::scripting::CallCommandById(COMMAND_CREATE_FX_SYSTEM, "im_dust", posfordust.x, posfordust.y, posfordust.z, 1, &groundfx);
-						plugin::scripting::CallCommandById(COMMAND_PLAY_AND_KILL_FX_SYSTEM, groundfx);
-					}
-				}
-
-				if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_glide") == true || 
-					plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch") == true ||
-					plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch_R") == true)
-				{
-					plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-					plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_hover_start", "ironman", 10.0f, 0, 0, 0, 0, 1000);
-
-					JarvisVoice::PlayAudiostream(audiostream[takeoff], 0, &IMStream[2]);
-					JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-					JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-					boolvars.thrusterskilled = true;
-				}
-			}
-
-			AimedPedReactiontwo(&boolvars.ped);
-			if (!pad->GetJump())
-			{
-				if (jarvisvoice.nosemueve() == true)
-				{
-					if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == true)
-					{
-						if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Stop") == false)
-						{
-							JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-							JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-							boolvars.thrusterskilled = true;
-						}
-						boolvars.flytime = CTimer::m_snTimeInMillisecondsNonClipped;
-						plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-						boolvars.iscjfrozen = true;
 						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Stop", "ironman", 10.0f, 0, 0, 0, 0, -1);
-						plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangleposforflight());
-						plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newangleposforflight());
-						//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newangleposforflight());
-						JarvisVoice::PlayAudiostream(audiostream[flystop], 0, &IMStream[2]);
-						return true;
-					}
-					//NO SE MUEVE TRUE
-					/*spd = 200.0F;
-					if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL)==true) {
-					JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-					boolvars.thrusterskilled = true;
+						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_hover_start", "ironman", 10.0f, 0, 0, 0, 0, 1000);
 
-					}
-					JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-					*/
-
-					if (jarvisvoice.is_aiming() == false) {
-						//AimedPedReactiontwo(&boolvars.ped);
-
-						if (jarvisvoice.is_over_ground(2.0f) == true)
-						{
-							if (!boolvars.mousewheelhacktrigger) {
-								jarvisvoice.SetVelocityUnlimited(true);
-								mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
-								plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
-								plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
-								boolvars.mousewheelhacktrigger = true;
-							}
-							/*if (boolvars.has_a_car == false)
-							{
-							if (boolvars.action == 1 || boolvars.action == 2 || boolvars.action == 3 || boolvars.action == 4 || boolvars.action == 5)
-							{
-							boolvars.action = 0;
-							}
-							}*/
-							/*
-							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carHover") == false &&
-							plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Hover") == false)
-							{
-							JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-							JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-							boolvars.thrusterskilled = true;
-							//JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.yndex].suits[markk], 0, flotar, &propellers);
-
-							}*/
-							boolvars.iscjfrozen = true;
-
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-							if (boolvars.has_a_car == true)
-							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carHover", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
-							else {
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Hover", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
-							//player->SetHeading(jarvisvoice.newanglepos());
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-							if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-							{
-								if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
-									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-									boolvars.thrusterskilled = true;
-
-									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-								}
-
-								if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == false) {
-									JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 0, flotar, &propellers);
-
-
-								}
-							}
-							else
-							{
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								boolvars.thrusterskilled = true;
-
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-
-
-							}
-						}
-						return true;
-					}
-					else
-					{
-						if (boolvars.has_a_car == false)
-						{
-							boolvars.indx = 22;
-							return true;
-						}
-						else {
-							return true;
-						}
-					}
-
-				}
-				else
-				{
-					if ((isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true) || (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true)) {
+						JarvisVoice::PlayAudiostream(audiostream[takeoff], 0, &IMStream[2]);
 						JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-						boolvars.thrusterskilled = true;
-
 						JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+						boolvars.thrusterskilled = true;
 					}
-					if (pad->GetSprint())
-					{
-						boolvars.flytime = 0;
-						if (boolvars.indx == 13)
-						{
-							boolvars.indx = 16; //abort throw car
-							return true;
-						}
-						else
-						{
-							if (jarvisvoice.is_over_ground(2.0f)) {
+				}
 
-								goto volaralto;
-							}
-							else
-							{
-								boolvars.indx = 18;
-								goto volarbajo;
-							}
-						}
-					}
-					else
+				AimedPedReactiontwo(&boolvars.ped);
+				if (!pad->GetJump())
+				{
+					if (jarvisvoice.nosemueve() == true)
 					{
-						boolvars.spdmouse = false;
 						if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == true)
 						{
+							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Stop") == false)
+							{
+								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+								boolvars.thrusterskilled = true;
+							}
 							boolvars.flytime = CTimer::m_snTimeInMillisecondsNonClipped;
 							plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 							boolvars.iscjfrozen = true;
 							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
 							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Stop", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-							if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								boolvars.thrusterskilled = true;
-
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-							}
+							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangleposforflight());
+							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newangleposforflight());
+							//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newangleposforflight());
 							JarvisVoice::PlayAudiostream(audiostream[flystop], 0, &IMStream[2]);
 							return true;
 						}
-						if (pad->GetDuck())
-						{
-							if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-							{
+						//NO SE MUEVE TRUE
+						/*spd = 200.0F;
+						if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL)==true) {
+						JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+						boolvars.thrusterskilled = true;
 
-								if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-									JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, abajo, &propellers);
-
-								}
-							}
-							else
-							{
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-								boolvars.thrusterskilled = true;
-
-
-
-
-							}
-							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveDown") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carDown") == false) {
-								plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-							}
-
-							if (jarvisvoice.has_obstacles(player, 0.0f, 0.0f, -3.0f, 1, 1, 0, 1, 0) == false) {
-								if (!boolvars.mousewheelhacktrigger) {
-									jarvisvoice.SetVelocityUnlimited(true);
-									mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
-									plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
-									plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
-									boolvars.mousewheelhacktrigger = true;
-								}
-
-								if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carDown") == false &&
-									plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveDown") == false)
-								{
-									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-									boolvars.thrusterskilled = true;
-								}
-								boolvars.iscjfrozen = false;
-								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-								if (boolvars.has_a_car == true)
-								{
-									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carDown", "ironman", 10.0f, 0, 0, 0, 0, -1);
-								}
-								else {
-									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveDown", "ironman", 10.0f, 0, 0, 0, 0, -1);
-								}
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-								//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-								//player->SetHeading(jarvisvoice.newanglepos());
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-								jarvisvoice.setvelocityindirection(player, 0.0f, 0.0f, -30.0);
-								return true;
-							}
-							else
-							{
-								boolvars.indx = 20;
-								goto make_a_clank;
-							}
 						}
-						else {
+						JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+						*/
+
+						if (jarvisvoice.is_aiming() == false) {
+							//AimedPedReactiontwo(&boolvars.ped);
+
 							if (jarvisvoice.is_over_ground(2.0f) == true)
 							{
 								if (!boolvars.mousewheelhacktrigger) {
@@ -11662,71 +11471,204 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 									plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
 									boolvars.mousewheelhacktrigger = true;
 								}
-
-								int x, y, specialx, specialy;
-								plugin::scripting::CallCommandById(COMMAND_GET_POSITION_OF_ANALOGUE_STICKS, 0, &x, &y, &specialx, &specialy);
-								if (y < 0)
+								/*if (boolvars.has_a_car == false)
 								{
-									if (x > 0) {
-										if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-										{
+								if (boolvars.action == 1 || boolvars.action == 2 || boolvars.action == 3 || boolvars.action == 4 || boolvars.action == 5)
+								{
+								boolvars.action = 0;
+								}
+								}*/
+								/*
+								if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carHover") == false &&
+								plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Hover") == false)
+								{
+								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+								boolvars.thrusterskilled = true;
+								//JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.yndex].suits[markk], 0, flotar, &propellers);
 
-											if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-												JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, adelante, &propellers);
+								}*/
+								boolvars.iscjfrozen = true;
 
+								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+								if (boolvars.has_a_car == true)
+								{
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carHover", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								}
+								else {
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Hover", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								}
+								//player->SetHeading(jarvisvoice.newanglepos());
+								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+								if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+								{
+									if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
+										JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+										boolvars.thrusterskilled = true;
 
-
-											}
-										}
-										else
-										{
-											JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-											boolvars.thrusterskilled = true;
-
-											JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-
-
-
-										}
-
-										if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false) {
-											plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-											JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-											JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-											boolvars.thrusterskilled = true;
-										}
-										if (jarvisvoice.has_obstacles(player, 3.0f, 3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
-											boolvars.iscjfrozen = true;
-											plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-											if (boolvars.has_a_car == true)
-											{
-												plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-											}
-											else {
-												plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-											}
-											player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
-											return true;
-										}
-										else {
-											boolvars.iscjfrozen = false;
-											plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-											if (boolvars.has_a_car == true)
-											{
-												plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-											}
-											else {
-												plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-											}
-											player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
-											jarvisvoice.setvelocityindirection(player, 0.0f, 30.0f, 0.0);
-											return true;
-										}
+										JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 									}
-									else
+
+									if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == false) {
+										JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 0, flotar, &propellers);
+
+
+									}
+								}
+								else
+								{
+									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+									boolvars.thrusterskilled = true;
+
+									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+
+								}
+							}
+							return true;
+						}
+						else
+						{
+							if (boolvars.has_a_car == false)
+							{
+								boolvars.indx = 22;
+								return true;
+							}
+							else {
+								return true;
+							}
+						}
+
+					}
+					else
+					{
+						if ((isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true) || (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true)) {
+							JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+							boolvars.thrusterskilled = true;
+
+							JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+						}
+						if (pad->GetSprint())
+						{
+							boolvars.flytime = 0;
+							if (boolvars.indx == 13)
+							{
+								boolvars.indx = 16; //abort throw car
+								return true;
+							}
+							else
+							{
+								if (jarvisvoice.is_over_ground(2.0f)) {
+
+									goto volaralto;
+								}
+								else
+								{
+									boolvars.indx = 18;
+									goto volarbajo;
+								}
+							}
+						}
+						else
+						{
+							boolvars.spdmouse = false;
+							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == true)
+							{
+								boolvars.flytime = CTimer::m_snTimeInMillisecondsNonClipped;
+								plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+								boolvars.iscjfrozen = true;
+								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_Stop", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+								if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
+									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+									boolvars.thrusterskilled = true;
+
+									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+								}
+								JarvisVoice::PlayAudiostream(audiostream[flystop], 0, &IMStream[2]);
+								return true;
+							}
+							if (pad->GetDuck())
+							{
+								if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+								{
+
+									if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+										JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, abajo, &propellers);
+
+									}
+								}
+								else
+								{
+									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+									boolvars.thrusterskilled = true;
+
+
+
+
+								}
+								if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveDown") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carDown") == false) {
+									plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+								}
+
+								if (jarvisvoice.has_obstacles(player, 0.0f, 0.0f, -3.0f, 1, 1, 0, 1, 0) == false) {
+									if (!boolvars.mousewheelhacktrigger) {
+										jarvisvoice.SetVelocityUnlimited(true);
+										mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
+										plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
+										plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
+										boolvars.mousewheelhacktrigger = true;
+									}
+
+									if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carDown") == false &&
+										plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveDown") == false)
 									{
-										if (x < 0)
-										{
+										JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+										JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+										boolvars.thrusterskilled = true;
+									}
+									boolvars.iscjfrozen = false;
+									plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+									if (boolvars.has_a_car == true)
+									{
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carDown", "ironman", 10.0f, 0, 0, 0, 0, -1);
+									}
+									else {
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveDown", "ironman", 10.0f, 0, 0, 0, 0, -1);
+									}
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+									//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+									//player->SetHeading(jarvisvoice.newanglepos());
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+									jarvisvoice.setvelocityindirection(player, 0.0f, 0.0f, -30.0);
+									return true;
+								}
+								else
+								{
+									boolvars.indx = 20;
+									goto make_a_clank;
+								}
+							}
+							else {
+								if (jarvisvoice.is_over_ground(2.0f) == true)
+								{
+									if (!boolvars.mousewheelhacktrigger) {
+										jarvisvoice.SetVelocityUnlimited(true);
+										mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
+										plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
+										plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
+										boolvars.mousewheelhacktrigger = true;
+									}
+
+									int x, y, specialx, specialy;
+									plugin::scripting::CallCommandById(COMMAND_GET_POSITION_OF_ANALOGUE_STICKS, 0, &x, &y, &specialx, &specialy);
+									if (y < 0)
+									{
+										if (x > 0) {
 											if (jarvisvoice.Has_not_switched_enviroment(&propellers))
 											{
 
@@ -11741,18 +11683,20 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 											{
 												JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 												boolvars.thrusterskilled = true;
+
 												JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 
 
 
 											}
+
 											if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false) {
 												plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 												JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 												JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 												boolvars.thrusterskilled = true;
 											}
-											if (jarvisvoice.has_obstacles(player, -3.0f, 3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+											if (jarvisvoice.has_obstacles(player, 3.0f, 3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
 												boolvars.iscjfrozen = true;
 												plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
 												if (boolvars.has_a_car == true)
@@ -11762,195 +11706,7 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 												else {
 													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 												}
-												player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
-												return true;
-											}
-											else
-											{
-												boolvars.iscjfrozen = false;
-												plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-												if (boolvars.has_a_car == true)
-												{
-													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-												}
-												else {
-													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-												}
-												player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
-												jarvisvoice.setvelocityindirection(player, 0.0f, 30.0f, 0.0);
-												return true;
-											}
-										}
-										else
-										{
-											if (jarvisvoice.has_obstacles(player, 0.0f, 3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
-												boolvars.iscjfrozen = true;
-												plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-												if (pad->GetSprint()) {
-													if (boolvars.indx == 13)
-													{
-														boolvars.indx = 16; //abort throw car
-														return true;
-													}
-													else
-													{
-														goto volaralto;
-													}
-												}
-												else
-												{
-													boolvars.spdmouse = false;
-													if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-													{
-
-														if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-															JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, adelante, &propellers);
-
-
-
-														}
-													}
-													else
-													{
-														JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-														boolvars.thrusterskilled = true;
-														JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-
-
-
-													}
-													if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false) {
-														plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-														JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-														JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-														boolvars.thrusterskilled = true;
-													}
-
-													if (boolvars.has_a_car == true)
-													{
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-													}
-													else {
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-													}
-													//player->SetHeading(jarvisvoice.newanglepos());
-													//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-													//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-													plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-
-													plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-													return true;
-												}
-
-											}
-											else
-											{
-												if (pad->GetSprint()) {
-													if (boolvars.indx == 13)
-													{
-														boolvars.indx = 16; //abort throw car
-														return true;
-													}
-													else
-													{
-														if (jarvisvoice.is_over_ground(2.0f)) {
-															goto volaralto;
-														}
-														else
-														{
-															boolvars.indx = 18;
-															goto volarbajo;
-														}
-													}
-												}
-												else {
-													boolvars.spdmouse = false;
-													if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-													{
-
-														if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-															JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, adelante, &propellers);
-
-
-														}
-													}
-													else
-													{
-														JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-														boolvars.thrusterskilled = true;
-														JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-
-
-
-													}
-													if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false) {
-														plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-														JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-														JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-														boolvars.thrusterskilled = true;
-													}
-													boolvars.iscjfrozen = false;
-													plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-													if (boolvars.has_a_car == true)
-													{
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-													}
-													else {
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-													}
-													//player->SetHeading(jarvisvoice.newanglepos());
-													//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-													//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-													plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-													plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-
-													jarvisvoice.setvelocityindirection(player, 0.0f, 30.0f, 0.0);
-													return true;
-												}
-											}
-										}
-									}
-
-								}
-								else {
-									if (y > 0)
-									{
-										if (x > 0) {
-											if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-											{
-
-												if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-													JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, atras, &propellers);
-
-												}
-											}
-											else
-											{
-												JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-												boolvars.thrusterskilled = true;
-												JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-
-
-
-											}
-											if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveBWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carBWD") == false) {
-												plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-
-												JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-												JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-												boolvars.thrusterskilled = true;
-											}
-											if (jarvisvoice.has_obstacles(player, 3.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
-												boolvars.iscjfrozen = true;
-												plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-												if (boolvars.has_a_car == true)
-												{
-													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-												}
-												else {
-													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-												}
-												player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
+												player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
 												return true;
 											}
 											else {
@@ -11958,13 +11714,13 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 												plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 												if (boolvars.has_a_car == true)
 												{
-													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 												}
 												else {
-													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 												}
-												player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
-												jarvisvoice.setvelocityindirection(player, 0.0f, -30.0f, 0.0);
+												player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
+												jarvisvoice.setvelocityindirection(player, 0.0f, 30.0f, 0.0);
 												return true;
 											}
 										}
@@ -11974,8 +11730,11 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 											{
 												if (jarvisvoice.Has_not_switched_enviroment(&propellers))
 												{
+
 													if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-														JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, atras, &propellers);
+														JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, adelante, &propellers);
+
+
 
 													}
 												}
@@ -11988,24 +11747,23 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 
 
 												}
-												if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveBWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carBWD") == false) {
+												if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false) {
 													plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-
 													JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 													JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 													boolvars.thrusterskilled = true;
 												}
-												if (jarvisvoice.has_obstacles(player, -3.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+												if (jarvisvoice.has_obstacles(player, -3.0f, 3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
 													boolvars.iscjfrozen = true;
 													plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
 													if (boolvars.has_a_car == true)
 													{
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 													}
 													else {
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 													}
-													player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
+													player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
 													return true;
 												}
 												else
@@ -12014,89 +11772,154 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 													plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 													if (boolvars.has_a_car == true)
 													{
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 													}
 													else {
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 													}
-													player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
-													jarvisvoice.setvelocityindirection(player, 0.0f, -30.0f, 0.0);
+													player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
+													jarvisvoice.setvelocityindirection(player, 0.0f, 30.0f, 0.0);
 													return true;
 												}
 											}
 											else
 											{
-												if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-												{
-													if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-														JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, atras, &propellers);
-
-													}
-												}
-												else
-												{
-													JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-													boolvars.thrusterskilled = true;
-													JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-
-
-
-												}
-												if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveBWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carBWD") == false) {
-													plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-													JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-													JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-													boolvars.thrusterskilled = true;
-
-												}
-												if (jarvisvoice.has_obstacles(player, 0.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+												if (jarvisvoice.has_obstacles(player, 0.0f, 3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
 													boolvars.iscjfrozen = true;
 													plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-													if (boolvars.has_a_car == true)
+													if (pad->GetSprint()) {
+														if (boolvars.indx == 13)
+														{
+															boolvars.indx = 16; //abort throw car
+															return true;
+														}
+														else
+														{
+															goto volaralto;
+														}
+													}
+													else
 													{
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-													}
-													else {
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-													}
-													//player->SetHeading(jarvisvoice.newanglepos());
-													//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-													//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-													plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-													plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+														boolvars.spdmouse = false;
+														if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+														{
 
-													return true;
+															if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+																JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, adelante, &propellers);
+
+
+
+															}
+														}
+														else
+														{
+															JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+															boolvars.thrusterskilled = true;
+															JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+
+
+														}
+														if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false) {
+															plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+															JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+															JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+															boolvars.thrusterskilled = true;
+														}
+
+														if (boolvars.has_a_car == true)
+														{
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+														}
+														else {
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+														}
+														//player->SetHeading(jarvisvoice.newanglepos());
+														//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+														//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+														plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+
+														plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+														return true;
+													}
+
 												}
 												else
 												{
-													boolvars.iscjfrozen = false;
-													plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-													if (boolvars.has_a_car == true)
-													{
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+													if (pad->GetSprint()) {
+														if (boolvars.indx == 13)
+														{
+															boolvars.indx = 16; //abort throw car
+															return true;
+														}
+														else
+														{
+															if (jarvisvoice.is_over_ground(2.0f)) {
+																goto volaralto;
+															}
+															else
+															{
+																boolvars.indx = 18;
+																goto volarbajo;
+															}
+														}
 													}
 													else {
-														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
-													}
-													//player->SetHeading(jarvisvoice.newanglepos());
-													//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-													//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-													plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-													plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+														boolvars.spdmouse = false;
+														if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+														{
 
-													jarvisvoice.setvelocityindirection(player, 0.0f, -30.0f, 0.0);
-													return true;
+															if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+																JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, adelante, &propellers);
+
+
+															}
+														}
+														else
+														{
+															JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+															boolvars.thrusterskilled = true;
+															JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+
+
+														}
+														if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false) {
+															plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+															JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+															JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+															boolvars.thrusterskilled = true;
+														}
+														boolvars.iscjfrozen = false;
+														plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+														if (boolvars.has_a_car == true)
+														{
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+														}
+														else {
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+														}
+														//player->SetHeading(jarvisvoice.newanglepos());
+														//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+														//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+														plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+														plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+
+														jarvisvoice.setvelocityindirection(player, 0.0f, 30.0f, 0.0);
+														return true;
+													}
 												}
 											}
 										}
+
 									}
-									else
-									{
-										if (x > 0)
+									else {
+										if (y > 0)
 										{
-											if (y > 0) {
+											if (x > 0) {
 												if (jarvisvoice.Has_not_switched_enviroment(&propellers))
 												{
+
 													if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
 														JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, atras, &propellers);
 
@@ -12117,9 +11940,8 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 													JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 													JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 													boolvars.thrusterskilled = true;
-
 												}
-												if (jarvisvoice.has_obstacles(player, -3.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+												if (jarvisvoice.has_obstacles(player, 3.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
 													boolvars.iscjfrozen = true;
 													plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
 													if (boolvars.has_a_car == true)
@@ -12149,11 +11971,12 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 											}
 											else
 											{
-												if (y < 0) {
+												if (x < 0)
+												{
 													if (jarvisvoice.Has_not_switched_enviroment(&propellers))
 													{
 														if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-															JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, adelante, &propellers);
+															JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, atras, &propellers);
 
 														}
 													}
@@ -12166,38 +11989,39 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 
 
 													}
-													if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false) {
+													if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveBWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carBWD") == false) {
 														plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+
 														JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 														JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 														boolvars.thrusterskilled = true;
-
 													}
-													if (jarvisvoice.has_obstacles(player, 3.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+													if (jarvisvoice.has_obstacles(player, -3.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
 														boolvars.iscjfrozen = true;
 														plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
 														if (boolvars.has_a_car == true)
 														{
-															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 														}
 														else {
-															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 														}
 														player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
 														return true;
 													}
-													else {
+													else
+													{
 														boolvars.iscjfrozen = false;
 														plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 														if (boolvars.has_a_car == true)
 														{
-															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 														}
 														else {
-															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 														}
 														player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
-														jarvisvoice.setvelocityindirection(player, 0.0f, 30.0f, 0.0);
+														jarvisvoice.setvelocityindirection(player, 0.0f, -30.0f, 0.0);
 														return true;
 													}
 												}
@@ -12206,7 +12030,7 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 													if (jarvisvoice.Has_not_switched_enviroment(&propellers))
 													{
 														if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-															JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, derecha, &propellers);
+															JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, atras, &propellers);
 
 														}
 													}
@@ -12217,22 +12041,24 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 														JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 
 
+
 													}
-													if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveR") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carR") == false) {
+													if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveBWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carBWD") == false) {
 														plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 														JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 														JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 														boolvars.thrusterskilled = true;
+
 													}
-													if (jarvisvoice.has_obstacles(player, 3.0f, 0.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+													if (jarvisvoice.has_obstacles(player, 0.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
 														boolvars.iscjfrozen = true;
 														plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
 														if (boolvars.has_a_car == true)
 														{
-															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carR", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 														}
 														else {
-															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveR", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 														}
 														//player->SetHeading(jarvisvoice.newanglepos());
 														//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
@@ -12248,10 +12074,10 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 														plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 														if (boolvars.has_a_car == true)
 														{
-															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carR", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 														}
 														else {
-															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveR", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 														}
 														//player->SetHeading(jarvisvoice.newanglepos());
 														//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
@@ -12259,7 +12085,7 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 														plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
 														plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
 
-														jarvisvoice.setvelocityindirection(player, 30.0f, 0.0f, 0.0);
+														jarvisvoice.setvelocityindirection(player, 0.0f, -30.0f, 0.0);
 														return true;
 													}
 												}
@@ -12267,7 +12093,7 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 										}
 										else
 										{
-											if (x < 0)
+											if (x > 0)
 											{
 												if (y > 0) {
 													if (jarvisvoice.Has_not_switched_enviroment(&propellers))
@@ -12286,12 +12112,13 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 
 
 													}
-
 													if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveBWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carBWD") == false) {
 														plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+
 														JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 														JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 														boolvars.thrusterskilled = true;
+
 													}
 													if (jarvisvoice.has_obstacles(player, -3.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
 														boolvars.iscjfrozen = true;
@@ -12303,7 +12130,7 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 														else {
 															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 														}
-														player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
+														player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
 														return true;
 													}
 													else {
@@ -12316,7 +12143,7 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 														else {
 															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 														}
-														player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
+														player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
 														jarvisvoice.setvelocityindirection(player, 0.0f, -30.0f, 0.0);
 														return true;
 													}
@@ -12340,12 +12167,12 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 
 
 														}
-
-														if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false) {
+														if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false) {
 															plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 															JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 															JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 															boolvars.thrusterskilled = true;
+
 														}
 														if (jarvisvoice.has_obstacles(player, 3.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
 															boolvars.iscjfrozen = true;
@@ -12357,7 +12184,7 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 															else {
 																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 															}
-															player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
+															player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
 															return true;
 														}
 														else {
@@ -12370,7 +12197,7 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 															else {
 																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
 															}
-															player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
+															player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
 															jarvisvoice.setvelocityindirection(player, 0.0f, 30.0f, 0.0);
 															return true;
 														}
@@ -12380,7 +12207,7 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 														if (jarvisvoice.Has_not_switched_enviroment(&propellers))
 														{
 															if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-																JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, izquierda, &propellers);
+																JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, derecha, &propellers);
 
 															}
 														}
@@ -12391,24 +12218,22 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 															JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 
 
-
 														}
-
-														if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carL") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveL") == false) {
+														if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveR") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carR") == false) {
 															plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 															JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
 															JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 															boolvars.thrusterskilled = true;
 														}
-														if (jarvisvoice.has_obstacles(player, -3.0f, 0.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+														if (jarvisvoice.has_obstacles(player, 3.0f, 0.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
 															boolvars.iscjfrozen = true;
 															plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
 															if (boolvars.has_a_car == true)
 															{
-																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carL", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carR", "ironman", 10.0f, 0, 0, 0, 0, -1);
 															}
 															else {
-																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveL", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveR", "ironman", 10.0f, 0, 0, 0, 0, -1);
 															}
 															//player->SetHeading(jarvisvoice.newanglepos());
 															//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
@@ -12424,10 +12249,10 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 															plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 															if (boolvars.has_a_car == true)
 															{
-																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carL", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carR", "ironman", 10.0f, 0, 0, 0, 0, -1);
 															}
 															else {
-																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveL", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveR", "ironman", 10.0f, 0, 0, 0, 0, -1);
 															}
 															//player->SetHeading(jarvisvoice.newanglepos());
 															//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
@@ -12435,212 +12260,688 @@ if (CTimer::m_snTimeInMillisecondsNonClipped > boolvars.waiter + boolvars.timeto
 															plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
 															plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
 
-															jarvisvoice.setvelocityindirection(player, -30.0f, 0.0f, 0.0);
+															jarvisvoice.setvelocityindirection(player, 30.0f, 0.0f, 0.0);
 															return true;
+														}
+													}
+												}
+											}
+											else
+											{
+												if (x < 0)
+												{
+													if (y > 0) {
+														if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+														{
+															if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+																JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, atras, &propellers);
+
+															}
+														}
+														else
+														{
+															JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+															boolvars.thrusterskilled = true;
+															JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+
+
+														}
+
+														if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveBWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carBWD") == false) {
+															plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+															JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+															JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+															boolvars.thrusterskilled = true;
+														}
+														if (jarvisvoice.has_obstacles(player, -3.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+															boolvars.iscjfrozen = true;
+															plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+															if (boolvars.has_a_car == true)
+															{
+																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															}
+															else {
+																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															}
+															player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
+															return true;
+														}
+														else {
+															boolvars.iscjfrozen = false;
+															plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+															if (boolvars.has_a_car == true)
+															{
+																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															}
+															else {
+																plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveBWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+															}
+															player->SetHeading(jarvisvoice.newanglepos() - 45.0f);
+															jarvisvoice.setvelocityindirection(player, 0.0f, -30.0f, 0.0);
+															return true;
+														}
+													}
+													else
+													{
+														if (y < 0) {
+															if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+															{
+																if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+																	JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, adelante, &propellers);
+
+																}
+															}
+															else
+															{
+																JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+																boolvars.thrusterskilled = true;
+																JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+
+
+															}
+
+															if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carFWD") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveFWD") == false) {
+																plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+																JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+																JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+																boolvars.thrusterskilled = true;
+															}
+															if (jarvisvoice.has_obstacles(player, 3.0f, -3.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+																boolvars.iscjfrozen = true;
+																plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+																if (boolvars.has_a_car == true)
+																{
+																	plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																}
+																else {
+																	plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																}
+																player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
+																return true;
+															}
+															else {
+																boolvars.iscjfrozen = false;
+																plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+																if (boolvars.has_a_car == true)
+																{
+																	plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																}
+																else {
+																	plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveFWD", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																}
+																player->SetHeading(jarvisvoice.newanglepos() + 45.0f);
+																jarvisvoice.setvelocityindirection(player, 0.0f, 30.0f, 0.0);
+																return true;
+															}
+														}
+														else
+														{
+															if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+															{
+																if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+																	JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, izquierda, &propellers);
+
+																}
+															}
+															else
+															{
+																JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+																boolvars.thrusterskilled = true;
+																JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+
+
+															}
+
+															if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carL") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveL") == false) {
+																plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+																JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+																JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+																boolvars.thrusterskilled = true;
+															}
+															if (jarvisvoice.has_obstacles(player, -3.0f, 0.0f, 0.0f, 1, 1, 0, 1, 0) == true) {
+																boolvars.iscjfrozen = true;
+																plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+																if (boolvars.has_a_car == true)
+																{
+																	plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carL", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																}
+																else {
+																	plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveL", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																}
+																//player->SetHeading(jarvisvoice.newanglepos());
+																//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+																//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+																plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+																plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+
+																return true;
+															}
+															else
+															{
+																boolvars.iscjfrozen = false;
+																plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+																if (boolvars.has_a_car == true)
+																{
+																	plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carL", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																}
+																else {
+																	plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveL", "ironman", 10.0f, 0, 0, 0, 0, -1);
+																}
+																//player->SetHeading(jarvisvoice.newanglepos());
+																//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+																//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+																plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+																plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+
+																jarvisvoice.setvelocityindirection(player, -30.0f, 0.0f, 0.0);
+																return true;
+															}
 														}
 													}
 												}
 											}
 										}
 									}
+
+									return true;
 								}
+								else
+								{
+									if (pad->GetSprint())
+									{
+										if (boolvars.indx == 13)
+										{
+											boolvars.indx = 16; //abort throw car
+											return true;
+										}
+										else
+										{
+											if (!boolvars.mousewheelhacktrigger) {
+												jarvisvoice.SetVelocityUnlimited(true);
+												mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
+												plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
+												plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
+												boolvars.mousewheelhacktrigger = true;
+											}
+											if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == false) {
+
+												boolvars.indx = 18;
+												goto volarbajo;
+											}
+											else
+											{
+												boolvars.indx = 0;
+												return true;
+											}
+										}
+									}
+									else {
+										boolvars.spdmouse = false;
+										/*
+										if (boolvars.landgetup != 1)
+										{
+										if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_land") == false) {
+										plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+										JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+										JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+										boolvars.thrusterskilled = true;
+										}
+										plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 10.0f, 0, 1, 1, 0, -1);
+										//player->SetHeading(jarvisvoice.newanglepos());
+										plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+										//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+										plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, newangle1());
+										}*/
+										boolvars.indx = 20;
+										goto make_a_clank;
+									}
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					if (jarvisvoice.is_aiming() == true)
+					{
+						if (boolvars.has_a_car == false)
+						{
+							boolvars.indx = 22;
+							return true;
+						}
+						else {
+							return true;
+						}
+					}
+					else
+					{
+						if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+						{
+
+							if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+								JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, arriba, &propellers);
+
+
+
+							}
+						}
+						else
+						{
+							JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+							boolvars.thrusterskilled = true;
+
+							JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+
+
+						}
+						if (jarvisvoice.is_over_ground(2.0f) == true)
+						{
+							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveUp") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carUp") == false) {
+								plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+
+								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+								boolvars.thrusterskilled = true;
+							}
+							if (jarvisvoice.has_obstacles(player, 0.0f, 0.0f, 3.0f, 1, 1, 0, 1, 0) == true) {
+
+								boolvars.iscjfrozen = true;
+								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+								if (boolvars.has_a_car == true)
+								{
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								}
+								else {
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								}
+								//player->SetHeading(jarvisvoice.newanglepos());
+								//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+								//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
 
 								return true;
 							}
 							else
 							{
-								if (pad->GetSprint())
+								boolvars.iscjfrozen = false;
+								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+								if (boolvars.has_a_car == true)
 								{
-									if (boolvars.indx == 13)
-									{
-										boolvars.indx = 16; //abort throw car
-										return true;
-									}
-									else
-									{
-										if (!boolvars.mousewheelhacktrigger) {
-											jarvisvoice.SetVelocityUnlimited(true);
-											mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
-											plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
-											plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
-											boolvars.mousewheelhacktrigger = true;
-										}
-										if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_Fast") == false) {
-
-											boolvars.indx = 18;
-											goto volarbajo;
-										}
-										else
-										{
-											boolvars.indx = 0;
-											return true;
-										}
-									}
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
 								}
 								else {
-									boolvars.spdmouse = false;
-									/*
-									if (boolvars.landgetup != 1)
-									{
-									if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_land") == false) {
-									plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-									boolvars.thrusterskilled = true;
-									}
-									plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 10.0f, 0, 1, 1, 0, -1);
-									//player->SetHeading(jarvisvoice.newanglepos());
-									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-									//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, newangle1());
-									}*/
-									boolvars.indx = 20;
-									goto make_a_clank;
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								}
+								//player->SetHeading(jarvisvoice.newanglepos());
+								//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+								//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+
+								jarvisvoice.setvelocityindirection(player, 0.0f, 0.0f, 30.0);
+								return true;
+							}
+						}
+						else
+						{
+							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_glide") == true ||
+								plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch") == true ||
+								plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch_R") == true)
+							{
+								float altura = 0.0f;
+								//super saltos
+								plugin::scripting::CallCommandById(COMMAND_GET_CHAR_HEIGHT_ABOVE_GROUND, player, &altura);
+								if (altura <= 1.0f)
+								{
+									boolvars.indx = 0;
+								}
+								else
+								{
+									float angleplayer = player->GetHeading();
+									CVector vel = { sinf(angleplayer) * -10.0f, cosf(angleplayer) * 10.0f, 20.0f };
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_VELOCITY, player, vel.x, vel.y, vel.z);
 								}
 							}
+							else
+							{
+								boolvars.indx = 0;
+							}
+							return true;
 						}
 					}
 				}
 			}
-			else
+
+			//}
+		}
+		else
+		{
+			if (is_on_foot() == true)
 			{
-				if (jarvisvoice.is_aiming() == true)
+				if (boolvars.has_a_car == false)
 				{
-					if (boolvars.has_a_car == false)
+					boolvars.indx = 20;
+				}
+				else
+				{
+					boolvars.indx = 16;
+					goto abort_throw_car;
+				}
+				boolvars.landgetup = 1;
+				if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getup") != true
+					&& plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getupfront") != true)
+				{
+					if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_FrontExplosion") == true)
 					{
-						boolvars.indx = 22;
-						return true;
+						JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+						JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+						boolvars.thrusterskilled = true;
+						if (boolvars.mousewheelhacktrigger == true) {
+							spd = 200.0f;
+							UnhookWindowsHookEx(mousehook);
+							jarvisvoice.SetVelocityUnlimited(false);
+							plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+							boolvars.mousewheelhacktrigger = false;
+						}
+						//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "getupfront", "ironman", 4.0f, 0, 1, 1, 0, -1);
+						//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+						//player->SetHeading(jarvisvoice.newanglepos());
+						//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
 					}
-					else {
-						return true;
+					else
+					{
+						if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_BackExplosion") == true)
+						{
+							JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+							JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+							boolvars.thrusterskilled = true;
+							if (boolvars.mousewheelhacktrigger == true) {
+								spd = 200.0f;
+								UnhookWindowsHookEx(mousehook);
+								jarvisvoice.SetVelocityUnlimited(false);
+								plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+								boolvars.mousewheelhacktrigger = false;
+							}
+							//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "getup", "ironman", 4.0f, 0, 1, 1, 0, -1);
+							//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+							//player->SetHeading(jarvisvoice.newanglepos());
+							//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
+						}
 					}
 				}
 				else
 				{
-					if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-					{
-
-						if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
-							JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, arriba, &propellers);
-
-
-
-						}
-					}
-					else
-					{
-						JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-						boolvars.thrusterskilled = true;
-
-						JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-
-
-
-					}
-					if (jarvisvoice.is_over_ground(2.0f) == true)
-					{
-						if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveUp") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carUp") == false) {
-							plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-
-							JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-							JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-							boolvars.thrusterskilled = true;
-						}
-						if (jarvisvoice.has_obstacles(player, 0.0f, 0.0f, 3.0f, 1, 1, 0, 1, 0) == true) {
-
-							boolvars.iscjfrozen = true;
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-							if (boolvars.has_a_car == true)
-							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
-							else {
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
-							//player->SetHeading(jarvisvoice.newanglepos());
-							//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-							//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-
-							return true;
-						}
-						else
-						{
-							boolvars.iscjfrozen = false;
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-							if (boolvars.has_a_car == true)
-							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
-							else {
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
-							//player->SetHeading(jarvisvoice.newanglepos());
-							//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-							//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, 0.0f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-
-							jarvisvoice.setvelocityindirection(player, 0.0f, 0.0f, 30.0);
-							return true;
-						}
-					}
-					else
-					{
-						if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_glide") == true ||
-							plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch") == true ||
-							plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "JUMP_launch_R") == true)
-						{
-							float altura = 0.0f;
-							//super saltos
-							plugin::scripting::CallCommandById(COMMAND_GET_CHAR_HEIGHT_ABOVE_GROUND, player, &altura);
-							if (altura <= 1.0f)
-							{
-								boolvars.indx = 0;
-							}
-							else
-							{
-								float angleplayer = player->GetHeading();
-								CVector vel = { sinf(angleplayer) * -10.0f, cosf(angleplayer) * 10.0f, 20.0f };
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_VELOCITY, player, vel.x, vel.y, vel.z);
-							}
-						}
-						else
-						{
-							boolvars.indx = 0;
-						}
-						return true;
-					}
+					boolvars.landgetup = 1;
 				}
+				goto make_a_clank;
 			}
 		}
 
-	//}
-}
-else
-{
-	if (is_on_foot() == true)
+		return true;
+	}
+	//20
+make_a_clank:
 	{
-		if (boolvars.has_a_car == false)
+		static int timeclankin;
+		if (*pActor > 0)
 		{
-			boolvars.indx = 20;
-		}
-		else
-		{
-			boolvars.indx = 16;
-			goto abort_throw_car;
-		}
-		boolvars.landgetup = 1;
-		if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getup") != true
-			&& plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getupfront") != true)
-		{
-			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_FrontExplosion") == true)
+			JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+			JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+			boolvars.thrusterskilled = true;
+
+			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false)// && boolvars.has_a_car==false)
 			{
-				JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-				JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-				boolvars.thrusterskilled = true;
+				if ((boolvars.landgetup == 1 || boolvars.has_a_car == true)
+					&& CTimer::m_snTimeInMillisecondsNonClipped > clanktime + timeclankin)
+				{
+					if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_land") == true
+						|| plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getup") == true
+						|| plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getupfront") == true
+						|| jarvisvoice.is_over_ground(2.0f) == true)
+					{
+						if (jarvisvoice.is_over_ground(1.5f) == false)
+						{
+							//if (CTimer::m_snTimeInMillisecondsNonClipped > (m_nLastTimeWhenAnyActionWasEnabled + 200)) {
+							if (boolvars.mousewheelhacktrigger == true) {
+								spd = 200.0f;
+								UnhookWindowsHookEx(mousehook);
+								jarvisvoice.SetVelocityUnlimited(false);
+								plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+								boolvars.mousewheelhacktrigger = false;
+							}
+							if (boolvars.systemerror == true) {
+								AudioLib.PlayVoiceEvent(25);
+								boolvars.systemerror = false;
+							}
+
+							boolvars.landgetup = 0;
+							plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+							//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());
+							//player->SetHeading(jarvisvoice.newanglepos());
+							//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
+							boolvars.indx = 0;
+
+							return true;
+						}
+						else {/*
+							  if (jarvisvoice.is_over_ground(2.0f) == true)
+							  {*/
+
+							if (boolvars.systemerror == true) {
+								AudioLib.PlayVoiceEvent(25);
+								boolvars.systemerror = false;
+							}
+
+							boolvars.landgetup = 0;
+							boolvars.indx = 19;
+							return true;
+
+							/*
+							}
+							else {
+							if (boolvars.mousewheelhacktrigger == true) {
+							spd = 200.0f;
+							UnhookWindowsHookEx(mousehook);
+							jarvisvoice.SetVelocityUnlimited(false);
+							plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+							boolvars.mousewheelhacktrigger = false;
+							}
+							if (boolvars.iscjfrozen == true)
+							{
+							boolvars.iscjfrozen = false;
+							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+							}
+							jarvisvoice.setvelocityindirection(player, 0.0f, 0.0f, -10.0);
+							//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());
+							//player->SetHeading(jarvisvoice.newanglepos());
+							//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
+							return true;
+							}*/
+						}
+					}
+					else {
+						boolvars.indx = 0;
+
+						if (boolvars.systemerror == true) {
+							AudioLib.PlayVoiceEvent(25);
+							boolvars.systemerror = false;
+						}
+
+						boolvars.landgetup = 0;
+						return true;
+					}
+				}
+				else {
+					if (debevolar == true)
+					{
+						if (boolvars.landgetup == 1)
+						{
+							boolvars.landgetup = 1;
+							if (jarvisvoice.is_over_ground(1.5f) == false)
+							{
+								clanktime = CTimer::m_snTimeInMillisecondsNonClipped;
+								timeclankin = 1500;
+								if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getup") != true
+									&& plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getupfront") != true)
+								{
+									if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_FrontExplosion") == true)
+									{
+										JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+										JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+										boolvars.thrusterskilled = true;
+										if (boolvars.mousewheelhacktrigger == true) {
+											spd = 200.0f;
+											UnhookWindowsHookEx(mousehook);
+											jarvisvoice.SetVelocityUnlimited(false);
+											plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+											boolvars.mousewheelhacktrigger = false;
+										}
+										//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "getupfront", "ironman", 4.0f, 0, 1, 1, 0, -1);
+										//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+										//player->SetHeading(jarvisvoice.newanglepos());
+										//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
+										return true;
+									}
+									else
+									{
+										if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_BackExplosion") == true)
+										{
+											JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+											JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+											boolvars.thrusterskilled = true;
+											if (boolvars.mousewheelhacktrigger == true) {
+												spd = 200.0f;
+												UnhookWindowsHookEx(mousehook);
+												jarvisvoice.SetVelocityUnlimited(false);
+												plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+												boolvars.mousewheelhacktrigger = false;
+											}
+											boolvars.landgetup = 1;
+											//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+											plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "getup", "ironman", 4.0f, 0, 1, 1, 0, -1);
+											//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+											//player->SetHeading(jarvisvoice.newanglepos());
+											//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
+											return true;
+										}
+										return true;
+									}
+								}
+							}
+							else
+							{
+								if (debevolar == true)
+								{
+									plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+									boolvars.landgetup = 0;
+									boolvars.indx = 19;
+								}
+								else
+								{
+									boolvars.indx = 22;
+								}
+								return true;
+							}
+							return true;
+						}
+						else
+						{
+							if (boolvars.has_a_car == true)
+							{
+								clanktime = CTimer::m_snTimeInMillisecondsNonClipped;
+								timeclankin = 500;
+								return true;
+							}
+							else
+							{
+								static bool clanktrigger;
+								//plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 20.0f, 0, 0, 0, 1, 1000);
+								//plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 10.0f, 0, 0, 0, 0, 500);
+								//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());
+								if (jarvisvoice.is_over_ground(2.0f) == false)
+								{
+									if (clanktrigger == false)
+									{
+										clanktrigger = true;
+										if (boolvars.activesuit != -4 && boolvars.activesuit != -5 && boolvars.activesuit != -6 && boolvars.activesuit != 0)
+										{
+											if (IsAudioStreamPlayed(IMStream[2], audiostream[clank]) == false)
+											{
+
+												PlayAudiostream(audiostream[clank], 0, &IMStream[2]);
+												clanktime = CTimer::m_snTimeInMillisecondsNonClipped;
+												plugin::scripting::CallCommandById(COMMAND_SHAKE_CAM, 100);
+											}
+										}
+										else
+										{
+											clanktime = CTimer::m_snTimeInMillisecondsNonClipped;
+										}
+										//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 10.0f, 0, 1, 1, 0, -1);
+										plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+										//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+										//player->SetHeading(jarvisvoice.newanglepos());
+
+										plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, newangle1());
+										if (boolvars.mousewheelhacktrigger == true) {
+											spd = 200.0f;
+											UnhookWindowsHookEx(mousehook);
+											jarvisvoice.SetVelocityUnlimited(false);
+											plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+											boolvars.mousewheelhacktrigger = false;
+										}
+										boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
+										boolvars.timetowait = 500;
+									}
+									else
+									{
+										clanktrigger = false;
+										boolvars.indx = 0;
+										plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+										boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
+										boolvars.timetowait = 200;
+										return true;
+									}
+								}
+								else
+								{
+									clanktrigger = false;
+									boolvars.indx = 19;
+									plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+									return true;
+								}
+							}
+							//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+							jarvisvoice.setvelocityindirection(player, 0.0f, 0.0f, -10.0);
+							//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());
+							//player->SetHeading(jarvisvoice.newanglepos());
+							//m_nLastTimeWhenAnyActionWasEnabled = CTimer::m_snTimeInMillisecondsNonClipped;
+
+							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, newangle1());
+
+
+							return true;
+						}
+					}
+					else
+					{
+						boolvars.indx = 22;
+						goto aimin;
+					}
+				}
+			}
+			else {
+
 				if (boolvars.mousewheelhacktrigger == true) {
 					spd = 200.0f;
 					UnhookWindowsHookEx(mousehook);
@@ -12648,530 +12949,230 @@ else
 					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
 					boolvars.mousewheelhacktrigger = false;
 				}
-				//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-				plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "getupfront", "ironman", 4.0f, 0, 1, 1, 0, -1);
-				//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-				//player->SetHeading(jarvisvoice.newanglepos());
-				//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
-			}
-			else
-			{
-				if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_BackExplosion") == true)
-				{
-					JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-					JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-					boolvars.thrusterskilled = true;
-					if (boolvars.mousewheelhacktrigger == true) {
-						spd = 200.0f;
-						UnhookWindowsHookEx(mousehook);
-						jarvisvoice.SetVelocityUnlimited(false);
-						plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-						boolvars.mousewheelhacktrigger = false;
-					}
-					//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-					plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "getup", "ironman", 4.0f, 0, 1, 1, 0, -1);
-					//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-					//player->SetHeading(jarvisvoice.newanglepos());
-					//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
-				}
-			}
-		}
-		else
-		{
-			boolvars.landgetup = 1;
-		}
-		goto make_a_clank;
-	}
-}
-
-return true;
-}
-//20
-make_a_clank:
-{
-static int timeclankin;
-if (*pActor > 0)
-	{
-		JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-		JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-		boolvars.thrusterskilled = true;
-
-	if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false)// && boolvars.has_a_car==false)
-	{
-		if ((boolvars.landgetup == 1 || boolvars.has_a_car == true)
-			&& CTimer::m_snTimeInMillisecondsNonClipped > clanktime + timeclankin)
-		{
-			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_land") == true
-				|| plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getup") == true
-				|| plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getupfront") == true
-				|| jarvisvoice.is_over_ground(2.0f) == true)
-			{
-				if (jarvisvoice.is_over_ground(1.5f) == false)
-				{
-					//if (CTimer::m_snTimeInMillisecondsNonClipped > (m_nLastTimeWhenAnyActionWasEnabled + 200)) {
-					if (boolvars.mousewheelhacktrigger == true) {
-						spd = 200.0f;
-						UnhookWindowsHookEx(mousehook);
-						jarvisvoice.SetVelocityUnlimited(false);
-						plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-						boolvars.mousewheelhacktrigger = false;
-					}
-					if (boolvars.systemerror == true) {
-						AudioLib.PlayVoiceEvent(25);
-						boolvars.systemerror = false;
-					}
-
-					boolvars.landgetup = 0;
-					plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-					//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());
-					//player->SetHeading(jarvisvoice.newanglepos());
-					//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
-					boolvars.indx = 0;
-
-					return true;
-				}
-				else {/*
-					  if (jarvisvoice.is_over_ground(2.0f) == true)
-					  {*/
-
-					if (boolvars.systemerror == true) {
-						AudioLib.PlayVoiceEvent(25);
-						boolvars.systemerror = false;
-					}
-
-						boolvars.landgetup = 0;
-						boolvars.indx = 19;
-						return true;
-					
-					/*
-					}
-					else {
-					if (boolvars.mousewheelhacktrigger == true) {
-					spd = 200.0f;
-					UnhookWindowsHookEx(mousehook);
-					jarvisvoice.SetVelocityUnlimited(false);
-					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-					boolvars.mousewheelhacktrigger = false;
-					}
-					if (boolvars.iscjfrozen == true)
-					{
-					boolvars.iscjfrozen = false;
-					plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-					}
-					jarvisvoice.setvelocityindirection(player, 0.0f, 0.0f, -10.0);
-					//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());
-					//player->SetHeading(jarvisvoice.newanglepos());
-					//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
-					return true;
-					}*/
-				}
-			}
-			else {
-				boolvars.indx = 0;
-
-				if (boolvars.systemerror == true) {
-					AudioLib.PlayVoiceEvent(25);
-					boolvars.systemerror = false;
-				}
-
 				boolvars.landgetup = 0;
+				if (boolvars.has_a_car == false)
+				{
+					boolvars.indx = 0;
+				}
+				else
+				{
+					boolvars.indx = 13;
+				}
 				return true;
 			}
 		}
 		else {
-			if (debevolar == true)
-			{
-				if (boolvars.landgetup == 1)
-				{
-					boolvars.landgetup = 1;
-					if (jarvisvoice.is_over_ground(1.5f) == false)
-					{
-						clanktime = CTimer::m_snTimeInMillisecondsNonClipped;
-						timeclankin = 1500;
-						if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getup") != true
-							&& plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "getupfront") != true)
-						{
-							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_FrontExplosion") == true)
-							{
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-								boolvars.thrusterskilled = true;
-								if (boolvars.mousewheelhacktrigger == true) {
-									spd = 200.0f;
-									UnhookWindowsHookEx(mousehook);
-									jarvisvoice.SetVelocityUnlimited(false);
-									plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-									boolvars.mousewheelhacktrigger = false;
-								}
-								//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "getupfront", "ironman", 4.0f, 0, 1, 1, 0, -1);
-								//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-								//player->SetHeading(jarvisvoice.newanglepos());
-								//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
-								return true;
-							}
-							else
-							{
-								if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "Fall_BackExplosion") == true)
-								{
-									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-									boolvars.thrusterskilled = true;
-									if (boolvars.mousewheelhacktrigger == true) {
-										spd = 200.0f;
-										UnhookWindowsHookEx(mousehook);
-										jarvisvoice.SetVelocityUnlimited(false);
-										plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-										boolvars.mousewheelhacktrigger = false;
-									}
-									boolvars.landgetup = 1;
-									//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "getup", "ironman", 4.0f, 0, 1, 1, 0, -1);
-									//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-									//player->SetHeading(jarvisvoice.newanglepos());
-									//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
-									return true;
-								}
-								return true;
-							}
-						}
-					}
-					else
-					{
-						if (debevolar==true)
-						{
-							plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-							boolvars.landgetup = 0;
-							boolvars.indx = 19;
-						}
-						else
-						{
-							boolvars.indx = 22;
-						}
-						return true;
-					}
-					return true;
-				}
-				else
-				{
-					if (boolvars.has_a_car == true)
-					{
-						clanktime = CTimer::m_snTimeInMillisecondsNonClipped;
-						timeclankin = 500;
-						return true;
-					}
-					else
-					{
-						static bool clanktrigger;
-						//plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 20.0f, 0, 0, 0, 1, 1000);
-						//plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 10.0f, 0, 0, 0, 0, 500);
-						//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());
-						if (jarvisvoice.is_over_ground(2.0f) == false)
-						{
-							if (clanktrigger == false)
-							{
-								clanktrigger = true;
-								if (boolvars.activesuit != -4 && boolvars.activesuit != -5 && boolvars.activesuit != -6 && boolvars.activesuit != 0)
-								{
-									if (IsAudioStreamPlayed(IMStream[2], audiostream[clank]) == false)
-									{
-
-										PlayAudiostream(audiostream[clank], 0, &IMStream[2]);
-										clanktime = CTimer::m_snTimeInMillisecondsNonClipped;
-										plugin::scripting::CallCommandById(COMMAND_SHAKE_CAM, 100);
-									}
-								}
-								else
-								{
-									clanktime = CTimer::m_snTimeInMillisecondsNonClipped;
-								}
-								//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_land", "ironman", 10.0f, 0, 1, 1, 0, -1);
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-								//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-								//player->SetHeading(jarvisvoice.newanglepos());
-
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, newangle1());
-								if (boolvars.mousewheelhacktrigger == true) {
-									spd = 200.0f;
-									UnhookWindowsHookEx(mousehook);
-									jarvisvoice.SetVelocityUnlimited(false);
-									plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-									boolvars.mousewheelhacktrigger = false;
-								}
-								boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
-								boolvars.timetowait = 500;
-							}
-							else
-							{
-								clanktrigger = false;
-								boolvars.indx = 0;
-								plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-								boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
-								boolvars.timetowait = 200;
-								return true;
-							}
-						}
-						else
-						{
-							clanktrigger = false;
-							boolvars.indx = 19;
-							plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-							return true;
-						}
-					}
-					//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-					jarvisvoice.setvelocityindirection(player, 0.0f, 0.0f, -10.0);
-					//player->SetOrientation(0.0f, 0.0f, jarvisvoice.newanglepos());
-					//player->SetHeading(jarvisvoice.newanglepos());
-					//m_nLastTimeWhenAnyActionWasEnabled = CTimer::m_snTimeInMillisecondsNonClipped;
-
-					plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, newangle1());
-
-
-					return true;
-				}
-			}
-			else
-			{
-				boolvars.indx = 22;
-				goto aimin;
-			}
-		}
-	}
-	else {
-		
-		if (boolvars.mousewheelhacktrigger == true) {
-			spd = 200.0f;
-			UnhookWindowsHookEx(mousehook);
-			jarvisvoice.SetVelocityUnlimited(false);
-			plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-			boolvars.mousewheelhacktrigger = false;
-		}
-		boolvars.landgetup = 0;
-		if (boolvars.has_a_car == false)
-		{
-			boolvars.indx = 0;
-		}
-		else
-		{
-			boolvars.indx = 13;
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
 		}
 		return true;
 	}
-	}
-else {
-	pActor = (DWORD*)0xB6F5F0;
-	return true;
-}
-return true;
-}
-//21
+	//21
 impulsarse:
-{
-if (*pActor > 0)
-{
-	if (GetKeyState('X') & 0x8000)
 	{
-		if (impulse < 100)
+		if (*pActor > 0)
 		{
-			impulse++;
-		}
-		if (boolvars.indx != 13 && boolvars.has_a_car == false)
-		{
-			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_impulse") == false)
+			if (GetKeyState('X') & 0x8000)
 			{
-				plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM, player, "fly_impulse", "ironman", 2.5, 0, 0, 0, 1, 2);
-			}
-			else
-			{
-				plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ANIM_PLAYING_FLAG, player, "fly_impulse", 0);
-				plugin::scripting::CallCommandById(COMMAND_SHAKE_CAM, impulse);
-
-			}
-		}
-		else
-		{
-			plugin::scripting::CallCommandById(COMMAND_SHAKE_CAM, impulse);
-		}
-		std::string impul = boolvars.impulso.c_str();
-		float pR, pG;
-		int R, G;
-		char *numb1;
-		numb1 = new char[17];
-		sprintf(numb1, ": %d", impulse);
-		impul += numb1;
-
-		pR = (float)(255 * impulse / 50);
-		pG = (float)(255 * (100 - impulse) / 50);
-		if (pR > 255.0f) {
-			pR = 255.0f;
-		}
-		if (pG > 255.0f) {
-			pG = 255.0f;
-		}
-		R = (int)pR;
-		G = (int)pG;
-		CFont::SetBackground(0, 0);
-		CFont::SetColor(CRGBA(R, G, 0, 255));
-		CFont::SetOrientation(ALIGN_CENTER);
-		CFont::SetProportional(true);
-		CFont::SetJustify(false);
-		CFont::SetFontStyle(FONT_MENU);
-		CFont::SetScale(SCREEN_MULTIPLIER(settings.vecVehicleNameScale.x), SCREEN_MULTIPLIER(settings.vecVehicleNameScale.y));
-		CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesPosnY), impul.data());
-		delete[] numb1;
-		impul.clear();
-		return true;
-	}
-	else {
-		if (impulse > 0 && impulse <= 100)
-		{
-			if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false && (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_impulse") == true || (boolvars.indx == 13)))
-			{
-				if (boolvars.indx == 13)
+				if (impulse < 100)
 				{
-					boolvars.has_a_car = true;
+					impulse++;
+				}
+				if (boolvars.indx != 13 && boolvars.has_a_car == false)
+				{
+					if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_impulse") == false)
+					{
+						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM, player, "fly_impulse", "ironman", 2.5, 0, 0, 0, 1, 2);
+					}
+					else
+					{
+						plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ANIM_PLAYING_FLAG, player, "fly_impulse", 0);
+						plugin::scripting::CallCommandById(COMMAND_SHAKE_CAM, impulse);
+
+					}
 				}
 				else
 				{
-					plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ANIM_PLAYING_FLAG, player, "fly_impulse", 1);
-					boolvars.iscjfrozen = false;
-					plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+					plugin::scripting::CallCommandById(COMMAND_SHAKE_CAM, impulse);
 				}
-				boolvars.indx = 23;
-				return true;
-			}
-			else
-			{
-				if (boolvars.indx != 13)
-				{
-					boolvars.indx = 0;
+				std::string impul = boolvars.impulso.c_str();
+				float pR, pG;
+				unsigned char R, G;
+				char *numb1;
+				numb1 = new char[17];
+				sprintf(numb1, ": %d", impulse);
+				impul += numb1;
+
+				pR = (float)(255 * impulse / 50);
+				pG = (float)(255 * (100 - impulse) / 50);
+				if (pR > 255.0f) {
+					pR = 255.0f;
 				}
+				if (pG > 255.0f) {
+					pG = 255.0f;
+				}
+				R = (unsigned char)pR;
+				G = (unsigned char)pG;
+				CFont::SetBackground(0, 0);
+				CFont::SetColor(CRGBA(R, G, 0, 255));
+				CFont::SetOrientation(ALIGN_CENTER);
+				CFont::SetProportional(true);
+				CFont::SetJustify(false);
+				CFont::SetFontStyle(FONT_MENU);
+				CFont::SetScale(SCREEN_MULTIPLIER(settings.vecVehicleNameScale.x), SCREEN_MULTIPLIER(settings.vecVehicleNameScale.y));
+				CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesPosnY), impul.data());
+				delete[] numb1;
+				impul.clear();
 				return true;
-			}
-		}
-		else
-		{
-			if (boolvars.indx == 13)
-			{
-				boolvars.has_a_car = true;
 			}
 			else {
-				boolvars.indx = 0;
+				if (impulse > 0 && impulse <= 100)
+				{
+					if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false && (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_impulse") == true || (boolvars.indx == 13)))
+					{
+						if (boolvars.indx == 13)
+						{
+							boolvars.has_a_car = true;
+						}
+						else
+						{
+							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ANIM_PLAYING_FLAG, player, "fly_impulse", 1);
+							boolvars.iscjfrozen = false;
+							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+						}
+						boolvars.indx = 23;
+						return true;
+					}
+					else
+					{
+						if (boolvars.indx != 13)
+						{
+							boolvars.indx = 0;
+						}
+						return true;
+					}
+				}
+				else
+				{
+					if (boolvars.indx == 13)
+					{
+						boolvars.has_a_car = true;
+					}
+					else {
+						boolvars.indx = 0;
+					}
+					return true;
+				}
 			}
+		}
+		else {
+			pActor = (DWORD*)0xB6F5F0;
 			return true;
 		}
 	}
-}
-else {
-	pActor = (DWORD*)0xB6F5F0;
-	return true;
-}
-}
 
-//23
+	//23
 volarsolo:
-{
-if (*pActor > 0)
-{
-if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-{
-
-	if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL)==false) {
-		JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, arriba, &propellers);
-	}
-}
-else
-{
-		JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-		JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-		boolvars.thrusterskilled = true;
-	
-}
-
-if (jarvisvoice.has_obstacles(player, 0.0f, 0.0f, 3.0f, 1, 1, 0, 1, 0) == true) {
-	impulse = 0;
-	if (boolvars.has_a_car == true)
 	{
-		boolvars.indx = 13;
-	}
-	else
-	{
-		boolvars.indx = 19;
-	}
-	return true;
-}
-else
-{
-	if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carUp") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveUp") == false)
-	{
-		JarvisVoice::PlayAudiostream(audiostream[takeoff], 0, &IMStream[2]);
-		JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-		JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-		boolvars.thrusterskilled = true;
-	}
-	boolvars.iscjfrozen = false;
-	plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-	if (boolvars.has_a_car == true)
-	{
-		plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
-	}
-	else
-	{
-		plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
-	}
-	jarvisvoice.setvelocityindirection(player, 0.0f, 0.0f, impulse + 10.0f);
-	if (!boolvars.mousewheelhacktrigger) {
-		jarvisvoice.SetVelocityUnlimited(true);
-		mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
-		plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
-		plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
-		boolvars.mousewheelhacktrigger = true;
-	}
-	if (jarvisvoice.is_over_ground((float)impulse))//se mueve o llego al limite
-	{
-		impulse = 0;
-		if (boolvars.has_a_car == true)
+		if (*pActor > 0)
 		{
-			boolvars.indx = 13;
-		}
-		else
-		{
-			boolvars.indx = 19;
-		}
-	}
-	else
-	{
-		if (jarvisvoice.nosemueve() == false)
-		{
-			impulse = 0;
-			if (boolvars.has_a_car == true)
+			if (jarvisvoice.Has_not_switched_enviroment(&propellers))
 			{
-				boolvars.indx = 13;
+
+				if (isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == false) {
+					JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 1, arriba, &propellers);
+				}
 			}
 			else
 			{
-				boolvars.indx = 19;
+				JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+				JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+				boolvars.thrusterskilled = true;
+
+			}
+
+			if (jarvisvoice.has_obstacles(player, 0.0f, 0.0f, 3.0f, 1, 1, 0, 1, 0) == true) {
+				impulse = 0;
+				if (boolvars.has_a_car == true)
+				{
+					boolvars.indx = 13;
+				}
+				else
+				{
+					boolvars.indx = 19;
+				}
+				return true;
+			}
+			else
+			{
+				if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_carUp") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "fly_MoveUp") == false)
+				{
+					JarvisVoice::PlayAudiostream(audiostream[takeoff], 0, &IMStream[2]);
+					JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+					JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+					boolvars.thrusterskilled = true;
+				}
+				boolvars.iscjfrozen = false;
+				plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+				if (boolvars.has_a_car == true)
+				{
+					plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_carUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
+				}
+				else
+				{
+					plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_MoveUp", "ironman", 10.0f, 0, 0, 0, 0, -1);
+				}
+				jarvisvoice.setvelocityindirection(player, 0.0f, 0.0f, impulse + 10.0f);
+				if (!boolvars.mousewheelhacktrigger) {
+					jarvisvoice.SetVelocityUnlimited(true);
+					mousehook = SetWindowsHookExA(WH_MOUSE_LL, MouseHookProc, NULL, 0);
+					plugin::scripting::CallCommandById(COMMAND_SET_CURRENT_CHAR_WEAPON, player, 0);
+					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 0);
+					boolvars.mousewheelhacktrigger = true;
+				}
+				if (jarvisvoice.is_over_ground((float)impulse))//se mueve o llego al limite
+				{
+					impulse = 0;
+					if (boolvars.has_a_car == true)
+					{
+						boolvars.indx = 13;
+					}
+					else
+					{
+						boolvars.indx = 19;
+					}
+				}
+				else
+				{
+					if (jarvisvoice.nosemueve() == false)
+					{
+						impulse = 0;
+						if (boolvars.has_a_car == true)
+						{
+							boolvars.indx = 13;
+						}
+						else
+						{
+							boolvars.indx = 19;
+						}
+					}
+				}
+				return true;
 			}
 		}
+		else {
+			pActor = (DWORD*)0xB6F5F0;
+			return true;
+		}
 	}
-	return true;
-}
-}
-else{
-	pActor = (DWORD*)0xB6F5F0;
-	return true;
-}
-}
 
 suitmenu:
-{
-	CVector2D screensize = { SCREEN_WIDTH, SCREEN_HEIGHT };
-	CVector2D screenmiddle = { SCREEN_COORD_CENTER_X ,SCREEN_COORD_CENTER_Y };
+	{
+		CVector2D screensize = { SCREEN_WIDTH, SCREEN_HEIGHT };
+		CVector2D screenmiddle = { SCREEN_COORD_CENTER_X ,SCREEN_COORD_CENTER_Y };
 
-	/*
-	if (marktony->m_pTexture == NULL ||
+		/*
+		if (marktony->m_pTexture == NULL ||
 		chosen->m_pTexture == NULL ||
 		notchosen->m_pTexture == NULL ||
 		signo->m_pTexture == NULL ||
@@ -13186,9 +13187,9 @@ suitmenu:
 		check->m_pTexture == NULL ||
 		uncheck->m_pTexture == NULL ||
 		menusel->m_pTexture == NULL)
-	{
+		{
 		movtextures.Loadmenuicons();
-	}*/
+		}*/
 		cutenabled = plugin::patch::GetUChar(11989093, false);
 		if (cutenabled != 1)
 		{
@@ -13232,7 +13233,7 @@ suitmenu:
 			plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
 			boolvars.mousewheelhacktrigger = false;
 		}
-		
+
 		//boolvars.wpmenuisactive == false &&
 		if (cutenabled != 1 && is_on_foot() == true &&
 			boolvars.menuisactive == true &&
@@ -13256,7 +13257,8 @@ suitmenu:
 				{
 					boolvars.alphafad += 50;
 				}
-				//CSprite2d::DrawRect(CRect(BilinearOffset(0.0f), BilinearOffset(0.0f), BilinearOffset(0.0f + SCREEN_WIDTH), BilinearOffset(0.0f + SCREEN_HEIGHT)), CRGBA(0, 208, 225, (int)boolvars.alphafad));
+				Drawfondo(boolvars.alphafad);
+				//CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, (int)boolvars.alphafad));
 				return true;
 			}
 			else
@@ -13364,7 +13366,7 @@ suitmenu:
 						eligioalgo = true;
 					}
 
-					if (DrawClickIconAtCoords(1, true, menu3, menu4, (screenmiddle.x - screensize.y / 2) + (screensize.y)+SCREEN_COORD(10.0f) + sizex, margin - SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) + (screensize.y)+SCREEN_COORD(10.0f), margin + (screensize.y - margin2) + SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
+					if (DrawClickIconAtCoords(1, true, menu3, menu4, (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f) + sizex, margin - SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f), margin + (screensize.y - margin2) + SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
 					{
 						iconsel = 3;
 						eligioalgo = true;
@@ -13376,7 +13378,7 @@ suitmenu:
 					//hovernext = false;
 					menupage = 0;
 				}
-				if (DrawClickIconAtCoords(0, true, closewdw, closewdw, (screenmiddle.x - screensize.y / 2) + (screensize.y)+SCREEN_COORD(10.0f) + sizex, SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) + (screensize.y)+SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
+				if (DrawClickIconAtCoords(0, true, closewdw, closewdw, (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f) + sizex, SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
 				{
 					iconsel = 5;
 					eligioalgo = true;
@@ -13391,29 +13393,44 @@ suitmenu:
 				static bool ishovered;
 				static bool thereisasuit;
 
-				menu5->Draw(CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) + (screensize.y)+SCREEN_COORD(10.0f), margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(255, 255, 255, 255));
+				menu5->Draw(CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f), margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(255, 255, 255, 255));
 
-				
-				for (int filas=0;filas < 6;filas++)
+
+				for (int filas = 0; filas < 6; filas++)
 				{
 					for (int columnas = 0; columnas < 7; columnas++)
 					{
-						int armormenu = menupage*42;
+						static float aux2;
+						int armormenu = menupage * 42;
 						int filasx7 = filas * 7;
 						elemento = columnas + filasx7 + armormenu;
-						poselemento.left = (screenmiddle.x - screensize.y / 2) + (screensize.y) / 7 * (float)columnas;
-						poselemento.top = margin + ((screensize.y - margin2) / 6 * (float)filas);
-						poselemento.right = (screenmiddle.x - screensize.y / 2) + (screensize.y) / 7 * ((float)(columnas) + 1.0f);
-						poselemento.bottom = margin + ((screensize.y - margin2) / 6 * ((float)(filas) + 1.0f));
+						poselemento.left = (screenmiddle.x - screensize.y / 2);
+						aux2 = screensize.y / 7;
+						aux2 *= (columnas);
+						poselemento.left += aux2;
+						poselemento.top = margin;
+						aux2 = (screensize.y - margin2);
+						aux2 /= 6;
+						aux2 *= filas;
+						poselemento.top += aux2;
+						poselemento.right = (screenmiddle.x - screensize.y / 2);
+						aux2 = screensize.y / 7;
+						aux2 *= (columnas + 1);
+						poselemento.right += aux2;
+						poselemento.bottom = margin;
+						aux2 = (screensize.y - margin2);
+						aux2 /= 6;
+						aux2 *= (filas + 1);
+						poselemento.bottom += aux2;
 
 						bool exost = false;
 						if (strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark01") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark02") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark03") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark04") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark05") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark06") != 0 &&
-								strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark07") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark02") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark03") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark04") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark05") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark06") != 0 &&
+							strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark07") != 0 &&
 							elemento != 0)
 						{
 							if (settings.folderdirs[boolvars.yndex].suits[elemento].texexists == false || settings.folderdirs[boolvars.yndex].suits[elemento].mdlexists == false)
@@ -13438,7 +13455,7 @@ suitmenu:
 						else
 						{
 							exost = true;
-							
+
 							if (settings.folderdirs[boolvars.yndex].suits[elemento].iconexists == false)
 							{
 								noicon = true;
@@ -13458,9 +13475,9 @@ suitmenu:
 							{
 								hoveredmark = chosen2;
 								if (
-									iconsel!=0)
+									iconsel != 0)
 								{
-									if (exost==true)
+									if (exost == true)
 									{
 										AudioLib.PlayMenuSFX(0);
 									}
@@ -13504,7 +13521,7 @@ suitmenu:
 						fflush(stdin);
 
 					}
-					
+
 					fflush(stdin);
 				}
 				std::string suitarmormenu1;
@@ -13517,7 +13534,7 @@ suitmenu:
 				CFont::SetEdge(2);
 				CFont::SetCentreSize(screensize.x + SCREEN_COORD(-350.0f));
 				CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
-				
+
 				if (offsetx >= sixe)
 				{
 					offsetx = sixe;
@@ -13529,7 +13546,7 @@ suitmenu:
 				}
 
 
-				
+
 
 				if (boolvars.settingisactive == false)
 				{
@@ -13561,33 +13578,33 @@ suitmenu:
 					CFont::SetFontStyle(FONT_SUBTITLES);
 					CFont::SetScale(SCREEN_MULTIPLIER(0.7f), SCREEN_MULTIPLIER(1.4f));
 					CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(50.0f), boolvars.Clicoptions.data());
-				
-					if(DrawClickIconAtCoords(0, false,
-						settingmenu, 
-						settingmenu, 
-						(screenmiddle.x - screensize.y / 2)-SCREEN_COORD(10.0f),
+
+					if (DrawClickIconAtCoords(0, false,
+						settingmenu,
+						settingmenu,
+						(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f),
 						SCREEN_COORD(10.0f),
-						(screenmiddle.x - screensize.y / 2)-SCREEN_COORD(10.0f) + sizex,
+						(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) + sizex,
 						margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
 						iconsel = 6;
 						eligioalgo = true;
 					}
 
-					if(DrawClickIconAtCoords(0, false,
+					if (DrawClickIconAtCoords(0, false,
 						closebtn,
 						closebtn,
-						(screenmiddle.x - screensize.y / 2) + (screensize.y)+SCREEN_COORD(10.0f) - sizex,
+						(screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f) - sizex,
 						SCREEN_COORD(10.0f),
-						(screenmiddle.x - screensize.y / 2) + (screensize.y)+SCREEN_COORD(10.0f),
-						margin - SCREEN_COORD(10.0f), cursorx, cursory)== true) {
+						(screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f),
+						margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
 						iconsel = 7;
 						eligioalgo = true;
 					}
-					
+
 				}
 				else
 				{
-					
+
 					if (offsetx >= SCREEN_COORD(50.0f))
 					{
 						offsetx -= SCREEN_COORD(50.0f);
@@ -13602,29 +13619,29 @@ suitmenu:
 						margin - SCREEN_COORD(10.0f),
 						sixe - offsetx,
 						margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(128, 128, 128, 255));
-					
+
 					CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
 						margin + SCREEN_COORD(10.0f),
 						sixe - SCREEN_COORD(20.0f) - offsetx,
 						margin + (screensize.y - margin2) - SCREEN_COORD(10.0f)), CRGBA(50, 50, 50, 255));
 
-					if(DrawClickIconAtCoords(0, false, 
+					if (DrawClickIconAtCoords(0, false,
 						settingmenu,
 						settingmenu,
 						(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f),
 						SCREEN_COORD(10.0f),
 						(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) + sizex,
-						margin - SCREEN_COORD(10.0f), cursorx, cursory)== true) {
+						margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
 						iconsel = 6;
 						eligioalgo = true;
 					}
 
-					if(DrawClickIconAtCoords(0, false,
+					if (DrawClickIconAtCoords(0, false,
 						closebtn,
 						closebtn,
-						(screenmiddle.x - screensize.y / 2) + (screensize.y)+SCREEN_COORD(10.0f) - sizex,
+						(screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f) - sizex,
 						SCREEN_COORD(10.0f),
-						(screenmiddle.x - screensize.y / 2) + (screensize.y)+SCREEN_COORD(10.0f),
+						(screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f),
 						margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
 						iconsel = 7;
 						eligioalgo = true;
@@ -13650,12 +13667,12 @@ suitmenu:
 						timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
 						status = 2;
 					}
-					
+
 					if (status == 1)
 					{
 						while (cfgnro >= 0)
 						{
-							cfgnro -= 1; 
+							cfgnro -= 1;
 							if (cfgnro < 0)
 							{
 								break;
@@ -13745,26 +13762,26 @@ suitmenu:
 					iconsel = 0;
 					iconsel1 = 0;
 				}
-				
+
 				CSprite2d::DrawRect(CRect(SCREEN_COORD_CENTER_LEFT(350.0f) - offsetx,
-					SCREEN_COORD_CENTER_UP(50.0f), 
+					SCREEN_COORD_CENTER_UP(50.0f),
 					SCREEN_COORD_CENTER_RIGHT(350.0f) - offsetx,
 					SCREEN_COORD_CENTER_DOWN(10.0f)), CRGBA(95, 151, 208, 255));
 
 
 
 				menusel->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
-					SCREEN_COORD_CENTER_UP(135.0f), 
+					SCREEN_COORD_CENTER_UP(135.0f),
 					SCREEN_COORD(30.0f),
 					SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
-				
+
 				CFont::SetFontStyle(FONT_SUBTITLES);
 				CFont::SetEdge(1);
-//		
+				//		
 				//menusel->Draw(SCREEN_COORD_CENTER_RIGHT(450.0f) - SCREEN_COORD(80.0f), SCREEN_COORD_CENTER_UP(135.0f), SCREEN_COORD(30.0f), SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
 
-				int ant = cfgnro-1, post = cfgnro + 1;
-				
+				int ant = cfgnro - 1, post = cfgnro + 1;
+
 				while (ant >= 0)
 				{
 					if (ant <= config.paramLines.size() - 1)
@@ -13831,7 +13848,7 @@ suitmenu:
 						ant = config.paramLines.size() - 1;
 					}
 				}
-				
+
 				while (post <= config.paramLines.size() - 1)
 				{
 					if (post >= 0)
@@ -13861,7 +13878,7 @@ suitmenu:
 						break;
 					}
 				}
-				
+
 				if (post > config.paramLines.size() - 1)
 				{
 					post = 0;
@@ -13909,7 +13926,7 @@ suitmenu:
 				//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
 				CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
 				CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_UP(40.0f), config.paramLines.at(cfgnro).name.data());
-				
+
 				if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
 				{
 					check->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
@@ -13931,7 +13948,7 @@ suitmenu:
 						}
 					}
 				}
-				
+
 				if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0)
 				{
 					uncheck->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
@@ -13953,7 +13970,7 @@ suitmenu:
 						}
 					}
 				}
-				
+
 
 
 
@@ -13973,7 +13990,7 @@ suitmenu:
 
 
 				cursor->Draw(CRect(cursorx, cursory, cursorx + SCREEN_COORD(20.0f), cursory + SCREEN_COORD(20.0f)), CRGBA(255, 255, 255, 255));
-				
+
 				if (boolvars.alphafad < 1)
 				{
 					if (CMouseControllerState().lmb != 1 && (GetKeyState(VK_LBUTTON) & 0x8000) == false) {
@@ -14046,7 +14063,7 @@ suitmenu:
 												else
 												{
 													if (iconsel == 6)
-													{														
+													{
 														CSprite2d::DrawRect(CRect(cursorx - SCREEN_COORD(3.0f), cursory + SCREEN_COORD(22.0f), cursorx + SCREEN_COORD(227.0f), cursory + SCREEN_COORD(46.0f)), CRGBA(239, 228, 176, 255));
 														if (!boolvars.settingisactive)
 															CFont::PrintString(cursorx + SCREEN_COORD(112.0f), cursory + SCREEN_COORD(22.0f), boolvars.Options.data());
@@ -14273,7 +14290,7 @@ suitmenu:
 				{
 					Drawfondo(boolvars.alphafad);
 				}
-				
+
 				return true;
 			}
 		}
@@ -14284,681 +14301,638 @@ suitmenu:
 			boolvars.menuisactive = false;
 			boolvars.indx = 0;
 			boolvars.alphafad = 0;
-			
+
 			plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
 			return true;
 		}
-	/*}
-	else
-	{
+		/*}
+		else
+		{
 		boolvars.settingisactive = false;
 		pActor = (DWORD*)0xB6F5F0;
-		
+
 		WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 		boolvars.menuisactive = false;
 		boolvars.indx = 0;
 		return true;
-	}*/
-	
-	return true;
-}
+		}*/
+
+		return true;
+	}
 
 
-//22
+	//22
 aimin:
-{
-if (*pActor > 0)
-{
-	if (boolvars.activesuit != 0 && boolvars.activesuit != -5)
 	{
-		static int escudo;
-		RwV3d playerpos;
-		if (jarvisvoice.is_aiming() == true)
+		if (*pActor > 0)
 		{
-			if (boolvars.has_a_car == false)
+			if (boolvars.activesuit != 0 && boolvars.activesuit != -5)
 			{
-				boolvars.indx = 22;
-				//aim(&boolvars.target.x, &boolvars.target.y, &boolvars.target.z);
-				/*if (boolvars.wpn == 2 || boolvars.wpn == 4)
+				static int escudo;
+				RwV3d playerpos;
+				if (jarvisvoice.is_aiming() == true)
 				{
-
-					if (isvulnerablecharinarea(player, boolvars.target.x, boolvars.target.y, boolvars.target.z, 10.0f) == true)
+					if (boolvars.has_a_car == false)
 					{
+						boolvars.indx = 22;
+						//aim(&boolvars.target.x, &boolvars.target.y, &boolvars.target.z);
+						/*if (boolvars.wpn == 2 || boolvars.wpn == 4)
+						{
+
+						if (isvulnerablecharinarea(player, boolvars.target.x, boolvars.target.y, boolvars.target.z, 10.0f) == true)
+						{
 						if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "aim_MoveFWD") == false &&
-							plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "aim_MoveBWD") == false &&
-							plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "aim_MoveL") == false &&
-							plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "aim_MoveR") == false
+						plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "aim_MoveBWD") == false &&
+						plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "aim_MoveL") == false &&
+						plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, player, "aim_MoveR") == false
 
-							)
+						)
 						{
-							CFont::SetBackground(0, 0);
-							CFont::SetOrientation(ALIGN_CENTER);
-							CFont::SetProportional(true);
-							CFont::SetJustify(false);
-							CFont::SetFontStyle(FONT_MENU);
-							CFont::SetColor(CRGBA(255, 0, 0, 255));
-							CFont::SetScale(SCREEN_MULTIPLIER(0.8f), SCREEN_MULTIPLIER(1.5f));
-							CFont::PrintString(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_CENTER_UP(0.0f), boolvars.distan.data());
+						CFont::SetBackground(0, 0);
+						CFont::SetOrientation(ALIGN_CENTER);
+						CFont::SetProportional(true);
+						CFont::SetJustify(false);
+						CFont::SetFontStyle(FONT_MENU);
+						CFont::SetColor(CRGBA(255, 0, 0, 255));
+						CFont::SetScale(SCREEN_MULTIPLIER(0.8f), SCREEN_MULTIPLIER(1.5f));
+						CFont::PrintString(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_CENTER_UP(0.0f), boolvars.distan.data());
 						}
-					}
-				}*/
-
-				if (jarvisvoice.is_over_ground(2.0f) == true)
-				{
-					if (boolvars.activesuit == -4)
-					{
-						plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-						boolvars.indx = 0;
-						return true;
-					}
-
-					boolvars.range = 150.0f;
-
-					if (jarvisvoice.nosemueve2() == true)
-					{
-						if (boolvars.aims == false && boolvars.punchedtargetsexist == false)
-						{
-							boolvars.aimedpeds[0] = 0;
-							boolvars.aimedpeds[1] = 0;
-							boolvars.aimedpeds[2] = 0;
-							boolvars.aimedpeds[3] = 0;
-							boolvars.aimedpeds[4] = 0;
-							if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true || isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-								boolvars.thrusterskilled = true;
-
-							}
-							boolvars.wpn = GetPrivateProfileInt("CONFIG", "WEAPON", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-							boolvars.aims = true;
 						}
-						if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 14) == false)
+						}*/
+
+						if (jarvisvoice.is_over_ground(2.0f) == true)
 						{
-							
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-							boolvars.iscjfrozen = true;
-							movtextures.drawindexedtexture(10);
-							if (boolvars.escudoactivo == true && escudo != 0)
+							if (boolvars.activesuit == -4)
 							{
-								//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-								plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, escudo);
-								plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, escudo);
-								plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
-								plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 0, 0, 1, 1, 0);
-								vehic = 0; 
-								escudo = 0;
-								boolvars.escudoactivo = false;
+								plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+								boolvars.indx = 0;
 								return true;
 							}
-							if (boolvars.wpn == 4)
+
+							boolvars.range = 150.0f;
+
+							if (jarvisvoice.nosemueve2() == true)
 							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ChestIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
-							else
-							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ArmIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
+								if (boolvars.aims == false && boolvars.punchedtargetsexist == false)
+								{
+									boolvars.aimedpeds[0] = 0;
+									boolvars.aimedpeds[1] = 0;
+									boolvars.aimedpeds[2] = 0;
+									boolvars.aimedpeds[3] = 0;
+									boolvars.aimedpeds[4] = 0;
+									if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true || isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
+										JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+										JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+										boolvars.thrusterskilled = true;
 
-							//player->SetHeading(jarvisvoice.newanglepos());
-							//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
-							//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
-
-
-							if (boolvars.wpn == 4 && ruidito != 1) {
-								JarvisVoice::PlayAudiostream(audiostream[15], 0, &IMStream[2]);
-								ruidito = 1;
-							}
-							if (boolvars.wpn != 4 && ruidito != 2) {
-								JarvisVoice::PlayAudiostream(audiostream[repulsorstart], 0, &IMStream[2]);
-								ruidito = 2;
-							}
-
-							if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-							{
-								if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == false) {
-									JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 0, apuntar, &propellers);
-
+									}
+									boolvars.wpn = GetPrivateProfileInt("CONFIG", "WEAPON", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+									boolvars.aims = true;
 								}
-							}
-							else
-							{
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								boolvars.thrusterskilled = true;
+								if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 14) == false)
+								{
 
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+									plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+									boolvars.iscjfrozen = true;
+									movtextures.drawindexedtexture(10);
+									if (boolvars.escudoactivo == true && escudo != 0)
+									{
+										//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+										plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, escudo);
+										plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, escudo);
+										plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
+										plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
+										plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 0, 0, 1, 1, 0);
+										vehic = 0;
+										escudo = 0;
+										boolvars.escudoactivo = false;
+										return true;
+									}
+									if (boolvars.wpn == 4)
+									{
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ChestIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
+									}
+									else
+									{
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ArmIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
+									}
+
+									//player->SetHeading(jarvisvoice.newanglepos());
+									//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_ROTATION, player, jarvisvoice.GetXAngle() * 180.0f / 3.1415926535897932384f, 0.0f, jarvisvoice.newanglepos() * 180.0f / 3.1415926535897932384f);
+									//player->SetOrientation(jarvisvoice.GetXAngle(), 0.0f, jarvisvoice.newanglepos());
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
 
 
-							}
-							goto shootin;
-						}
-						else
-						{
-							if (jarvisvoice.Has_not_switched_enviroment(&propellers))
-							{
-								if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == false) {
-									JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 0, apuntar, &propellers);
+									if (boolvars.wpn == 4 && ruidito != 1) {
+										JarvisVoice::PlayAudiostream(audiostream[15], 0, &IMStream[2]);
+										ruidito = 1;
+									}
+									if (boolvars.wpn != 4 && ruidito != 2) {
+										JarvisVoice::PlayAudiostream(audiostream[repulsorstart], 0, &IMStream[2]);
+										ruidito = 2;
+									}
 
-								}
-							}
-							else
-							{
-								JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-								boolvars.thrusterskilled = true;
+									if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+									{
+										if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == false) {
+											JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 0, apuntar, &propellers);
 
-								JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+										}
+									}
+									else
+									{
+										JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+										boolvars.thrusterskilled = true;
+
+										JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 
 
-							}
-							static bool atached;
-							if (!boolvars.escudoactivo)
-							{
-								//player->GetBonePosition(playerpos, 34, false);
-								boolvars.escudoactivo = true;
-								atached = false;
-								boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
-								boolvars.timetowait = 500;
-								plugin::scripting::CallCommandById(COMMAND_CREATE_CAR, 594, 0.0f, 0.0f, 0.0f, &vehic);
-								plugin::scripting::CallCommandById(COMMAND_CREATE_OBJECT, 1224, 0.0f, 0.0f, 0.0f, &escudo);
-								
-								plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_COLLISION, escudo, 0);
-								plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_RECORDS_COLLISIONS, escudo, 0);
-								plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, escudo, 0.001f);
-								plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, escudo, 0);
-								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
-
-								return true;
-							}
-							if (!atached)
-							{
-								plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_OBJECT, vehic, escudo, 0.0f, 0.35f, 0.0f, 80.0f, 0.0f, 180.0f);
-
-								plugin::scripting::CallCommandById(COMMAND_ATTACH_OBJECT_TO_CHAR, escudo, player, 0.9f, 0.0f, 0.0f, 0.0f, 0.0f, 12.5f);
-								plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, escudo, 0.01f);
-								plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, escudo, 0);
-								//plugin::scripting::CallCommandById(COMMAND_TASK_PICK_UP_OBJECT, player, escudo, 0.0f, 0.0f, 0.0f, 5, 17, "NULL", "NULL", 1);
-								plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, vehic, 1, 1, 1, 1, 1);
-								
-								plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 0);
-								plugin::scripting::CallCommandById(COMMAND_SET_VEHICLE_RECORDS_COLLISIONS, vehic, 0);
-								atached = true;
-								plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, 0);
-							}
-							if (boolvars.updateshieldnow == true)
-							{
-								plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, escudo);
-								plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, escudo);
-								plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
-								plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
-								vehic = 0;
-								escudo = 0;
-								boolvars.escudoactivo = false;
-								boolvars.updateshieldnow = false;
-								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
-
-								return true;
-							}
-							if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 5) == true ||
-								plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 7) == true)
-							{
-								if (boolvars.shield12 != 1) {
-									boolvars.shield12 = 1;
+									}
+									goto shootin;
 								}
 								else
 								{
-									boolvars.shield12 = 0;
+									if (jarvisvoice.Has_not_switched_enviroment(&propellers))
+									{
+										if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == false) {
+											JarvisVoice::PlayThrustersIDLE(NULL, NULL, &IMStream[1], (int)player, settings.folderdirs[boolvars.pageofsuit].suits[markk], 0, apuntar, &propellers);
+
+										}
+									}
+									else
+									{
+										JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+										boolvars.thrusterskilled = true;
+
+										JarvisVoice::storeenviroment(&propellers.enviroment_ID);
+
+
+									}
+									static bool atached;
+									if (!boolvars.escudoactivo)
+									{
+										//player->GetBonePosition(playerpos, 34, false);
+										boolvars.escudoactivo = true;
+										atached = false;
+										boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
+										boolvars.timetowait = 500;
+										plugin::scripting::CallCommandById(COMMAND_CREATE_CAR, 594, 0.0f, 0.0f, 0.0f, &vehic);
+										plugin::scripting::CallCommandById(COMMAND_CREATE_OBJECT, 1224, 0.0f, 0.0f, 0.0f, &escudo);
+
+										plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_COLLISION, escudo, 0);
+										plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_RECORDS_COLLISIONS, escudo, 0);
+										plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, escudo, 0.001f);
+										plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, escudo, 0);
+										plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
+
+										return true;
+									}
+									if (!atached)
+									{
+										plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_OBJECT, vehic, escudo, 0.0f, 0.35f, 0.0f, 80.0f, 0.0f, 180.0f);
+
+										plugin::scripting::CallCommandById(COMMAND_ATTACH_OBJECT_TO_CHAR, escudo, player, 0.9f, 0.0f, 0.0f, 0.0f, 0.0f, 12.5f);
+										plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, escudo, 0.01f);
+										plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, escudo, 0);
+										//plugin::scripting::CallCommandById(COMMAND_TASK_PICK_UP_OBJECT, player, escudo, 0.0f, 0.0f, 0.0f, 5, 17, "NULL", "NULL", 1);
+										plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, vehic, 1, 1, 1, 1, 1);
+
+										plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 0);
+										plugin::scripting::CallCommandById(COMMAND_SET_VEHICLE_RECORDS_COLLISIONS, vehic, 0);
+										atached = true;
+										plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, 0);
+									}
+									if (boolvars.updateshieldnow == true)
+									{
+										plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, escudo);
+										plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, escudo);
+										plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
+										plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
+										vehic = 0;
+										escudo = 0;
+										boolvars.escudoactivo = false;
+										boolvars.updateshieldnow = false;
+										plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
+
+										return true;
+									}
+									if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 5) == true ||
+										plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 7) == true)
+									{
+										if (boolvars.shield12 != 1) {
+											boolvars.shield12 = 1;
+										}
+										else
+										{
+											boolvars.shield12 = 0;
+										}
+									}
+									if (boolvars.shield12 == 0)
+									{
+										plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, 0);
+									}
+									if (boolvars.shield12 == 1)
+									{
+										plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, -1);
+										//boolvars.updateshieldnow = true;
+									}
+									plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1); //4.0f, 0, 0, 0, 1, -1);
+									plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS, escudo, 0.06f, 0.0f, 0.0f, &playerpos.x, &playerpos.y, &playerpos.z);
+									plugin::scripting::CallCommandById(COMMAND_DRAW_WEAPONSHOP_CORONA, playerpos.x, playerpos.y, playerpos.z, 1.0f, 3, 1.5f, 0, 100, 255);
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 1, 1, 1, 1, 1);
+									return true;
 								}
-							}
-							if (boolvars.shield12 == 0)
-							{
-								plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, 0);
-							}
-							if (boolvars.shield12 == 1)
-							{
-								plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, -1);
-								//boolvars.updateshieldnow = true;
-							}
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1); //4.0f, 0, 0, 0, 1, -1);
-							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS, escudo, 0.06f, 0.0f, 0.0f, &playerpos.x, &playerpos.y, &playerpos.z);
-							plugin::scripting::CallCommandById(COMMAND_DRAW_WEAPONSHOP_CORONA, playerpos.x, playerpos.y, playerpos.z, 1.0f, 3, 1.5f, 0, 100, 255);
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 1, 1, 1, 1, 1);
-							return true;
-						}
-					}
-					else
-					{
-						//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-
-						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-						boolvars.indx = 19;
-						return true;
-					}
-					return true;
-				}
-				else
-				{
-
-					boolvars.range = 75.0f;
-					if (boolvars.mousewheelhacktrigger == true) {
-						spd = 200.0f;
-						UnhookWindowsHookEx(mousehook);
-						jarvisvoice.SetVelocityUnlimited(false);
-						plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-						boolvars.mousewheelhacktrigger = false;
-					}
-					if (boolvars.aims == false && boolvars.punchedtargetsexist == false)
-					{
-						boolvars.aimedpeds[0] = 0;
-						boolvars.aimedpeds[1] = 0;
-						boolvars.aimedpeds[2] = 0;
-						boolvars.aimedpeds[3] = 0;
-						boolvars.aimedpeds[4] = 0;
-						if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true || isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
-							JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
-							boolvars.thrusterskilled = true;
-							JarvisVoice::storeenviroment(&propellers.enviroment_ID);
-						}
-						boolvars.wpn = GetPrivateProfileInt("CONFIG", "WEAPON", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-						boolvars.aims = true;
-					}
-					if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 14) == false)
-					{						
-						movtextures.drawindexedtexture(10);
-						if (boolvars.escudoactivo == true && escudo != 0)
-						{
-							//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-							plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, escudo);
-							plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, escudo);
-							plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
-							plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
-
-							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 0, 0, 1, 1, 0);
-							vehic = 0;
-							escudo = 0;
-							boolvars.escudoactivo = false;
-							
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "Aim_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
-
-							return true;
-						}
-						if (CMouseControllerState().lmb != 1 && (GetKeyState(VK_LBUTTON) & 0x8000) == false && plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 17) == false)
-						{
-							boolvars.isshootin = false;
-							if (jarvisvoice.Va_adelante() == true)
-							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_MoveFWD", "ironman", 5.0f, 0, 1, 1, 0, -1);
-								//player->SetHeading(jarvisvoice.newanglepos());
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
 							}
 							else
 							{
-								if (jarvisvoice.Va_atras() == true)
-								{
-									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_MoveBWD", "ironman", 5.0f, 0, 1, 1, 0, -1);
-									//player->SetHeading(jarvisvoice.newanglepos());
-									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
+								//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+
+								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+								boolvars.indx = 19;
+								return true;
+							}
+							return true;
+						}
+						else
+						{
+
+							boolvars.range = 75.0f;
+							if (boolvars.mousewheelhacktrigger == true) {
+								spd = 200.0f;
+								UnhookWindowsHookEx(mousehook);
+								jarvisvoice.SetVelocityUnlimited(false);
+								plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+								boolvars.mousewheelhacktrigger = false;
+							}
+							if (boolvars.aims == false && boolvars.punchedtargetsexist == false)
+							{
+								boolvars.aimedpeds[0] = 0;
+								boolvars.aimedpeds[1] = 0;
+								boolvars.aimedpeds[2] = 0;
+								boolvars.aimedpeds[3] = 0;
+								boolvars.aimedpeds[4] = 0;
+								if (isplayingfly(true, IMStream[1], 0, propellers.enviroment_ID, NULL, NULL) == true || isplayingfly(true, IMStream[1], 1, propellers.enviroment_ID, NULL, NULL) == true) {
+									JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
+									boolvars.thrusterskilled = true;
+									JarvisVoice::storeenviroment(&propellers.enviroment_ID);
 								}
-								else {
-									if (jarvisvoice.Va_izquierda() == true)
+								boolvars.wpn = GetPrivateProfileInt("CONFIG", "WEAPON", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+								boolvars.aims = true;
+							}
+							if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 14) == false)
+							{
+								movtextures.drawindexedtexture(10);
+								if (boolvars.escudoactivo == true && escudo != 0)
+								{
+									//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+									plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, escudo);
+									plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, escudo);
+									plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
+									plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
+
+									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 0, 0, 1, 1, 0);
+									vehic = 0;
+									escudo = 0;
+									boolvars.escudoactivo = false;
+
+									plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "Aim_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
+
+									return true;
+								}
+								if (CMouseControllerState().lmb != 1 && (GetKeyState(VK_LBUTTON) & 0x8000) == false && plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 17) == false)
+								{
+									boolvars.isshootin = false;
+									if (jarvisvoice.Va_adelante() == true)
 									{
-										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_MoveL", "ironman", 5.0f, 0, 1, 1, 0, -1);
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_MoveFWD", "ironman", 5.0f, 0, 1, 1, 0, -1);
 										//player->SetHeading(jarvisvoice.newanglepos());
 										plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
 									}
-									else {
-										if (jarvisvoice.Va_derecha() == true)
+									else
+									{
+										if (jarvisvoice.Va_atras() == true)
 										{
-											plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_MoveR", "ironman", 5.0f, 0, 1, 1, 0, -1);
+											plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_MoveBWD", "ironman", 5.0f, 0, 1, 1, 0, -1);
 											//player->SetHeading(jarvisvoice.newanglepos());
 											plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
 										}
 										else {
-											if (boolvars.wpn != 4)
+											if (jarvisvoice.Va_izquierda() == true)
 											{
-												plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ArmIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);
+												plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_MoveL", "ironman", 5.0f, 0, 1, 1, 0, -1);
+												//player->SetHeading(jarvisvoice.newanglepos());
+												plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
 											}
-											else
-											{
-												plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ChestIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);
+											else {
+												if (jarvisvoice.Va_derecha() == true)
+												{
+													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_MoveR", "ironman", 5.0f, 0, 1, 1, 0, -1);
+													//player->SetHeading(jarvisvoice.newanglepos());
+													plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
+												}
+												else {
+													if (boolvars.wpn != 4)
+													{
+														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ArmIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);
+													}
+													else
+													{
+														plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ChestIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);
+													}
+												}
 											}
 										}
 									}
 								}
-							}
-						}
-						else {
-							if (boolvars.wpn != 4)
-							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ArmIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);
+								else {
+									if (boolvars.wpn != 4)
+									{
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ArmIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);
+									}
+									else
+									{
+										plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ChestIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);
+									}
+								}
+								//player->SetHeading(jarvisvoice.newanglepos());
+								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
+
+								if (boolvars.wpn == 4 && ruidito != 1) {
+									JarvisVoice::PlayAudiostream(audiostream[15], 0, &IMStream[2]);
+									ruidito = 1;
+								}
+								if (boolvars.wpn != 4 && ruidito != 2) {
+									JarvisVoice::PlayAudiostream(audiostream[repulsorstart], 0, &IMStream[2]);
+									ruidito = 2;
+								}
+								goto shootin;
 							}
 							else
 							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ChestIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);
+
+								static bool atached;
+								if (!boolvars.escudoactivo)
+								{
+									//player->GetBonePosition(playerpos, 34, false);
+									boolvars.escudoactivo = true;
+									atached = false;
+									boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
+									boolvars.timetowait = 500;
+									plugin::scripting::CallCommandById(COMMAND_CREATE_CAR, 594, 0.0f, 0.0f, 0.0f, &vehic);
+									plugin::scripting::CallCommandById(COMMAND_CREATE_OBJECT, 1224, 0.0f, 0.0f, 0.0f, &escudo);
+
+									plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_COLLISION, escudo, 0);
+									plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_RECORDS_COLLISIONS, escudo, 0);
+									plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, escudo, 0.001f);
+									plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, escudo, 0);
+
+									plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 0);
+									plugin::scripting::CallCommandById(COMMAND_SET_VEHICLE_RECORDS_COLLISIONS, vehic, 0);
+									plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "Aim_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
+
+									return true;
+								}
+								if (!atached)
+								{
+									plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_OBJECT, vehic, escudo, 0.0f, 0.55f, 0.0f, 80.0f, 0.0f, 180.0f);
+
+									//plugin::scripting::CallCommandById(COMMAND_TASK_PICK_UP_OBJECT, player, escudo, 0.0f, 0.0f, 0.0f, 5, 17, "NULL", "NULL", 1);
+									plugin::scripting::CallCommandById(COMMAND_ATTACH_OBJECT_TO_CHAR, escudo, player, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+									plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, escudo, 0.01f);
+									plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, escudo, 0);
+
+									plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, vehic, 1, 1, 1, 1, 1);
+
+									plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 0);
+									plugin::scripting::CallCommandById(COMMAND_SET_VEHICLE_RECORDS_COLLISIONS, vehic, 0);
+									plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, 0);
+									atached = true;
+								}
+								if (boolvars.updateshieldnow == true)
+								{
+									plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, escudo);
+									plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, escudo);
+									plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
+									plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
+
+									vehic = 0;
+									escudo = 0;
+									boolvars.escudoactivo = false;
+									boolvars.updateshieldnow = false;
+									plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "Aim_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
+
+									return true;
+								}
+								if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 5) == true ||
+									plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 7) == true)
+								{
+									if (boolvars.shield12 != 1) {
+										boolvars.shield12 = 1;
+									}
+									else
+									{
+										boolvars.shield12 = 0;
+									}
+								}
+
+								if (boolvars.shield12 == 0)
+								{
+									plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, 0);
+								}
+								if (boolvars.shield12 == 1)
+								{
+									plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, -1);
+									//boolvars.updateshieldnow = true;
+								}
+								plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "Aim_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
+								plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS, escudo, 0.06f, 0.0f, 0.0f, &playerpos.x, &playerpos.y, &playerpos.z);
+								plugin::scripting::CallCommandById(COMMAND_DRAW_WEAPONSHOP_CORONA, playerpos.x, playerpos.y, playerpos.z, 1.0f, 3, 1.5f, 0, 100, 255);
+								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 1, 1, 1, 1, 1);
+								return true;
 							}
 						}
-						//player->SetHeading(jarvisvoice.newanglepos());
-						plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEADING, player, jarvisvoice.newangle2());
-
-						if (boolvars.wpn == 4 && ruidito != 1) {
-							JarvisVoice::PlayAudiostream(audiostream[15], 0, &IMStream[2]);
-							ruidito = 1;
-						}
-						if (boolvars.wpn != 4 && ruidito != 2) {
-							JarvisVoice::PlayAudiostream(audiostream[repulsorstart], 0, &IMStream[2]);
-							ruidito = 2;
-						}
-						goto shootin;
 					}
 					else
 					{
-						
-						static bool atached;
-						if (!boolvars.escudoactivo)
-						{
-							//player->GetBonePosition(playerpos, 34, false);
-							boolvars.escudoactivo = true;
-							atached = false;
-							boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
-							boolvars.timetowait = 500;
-							plugin::scripting::CallCommandById(COMMAND_CREATE_CAR, 594, 0.0f, 0.0f, 0.0f, &vehic);
-							plugin::scripting::CallCommandById(COMMAND_CREATE_OBJECT, 1224, 0.0f, 0.0f, 0.0f, &escudo);
-
-							plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_COLLISION, escudo, 0);
-							plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_RECORDS_COLLISIONS, escudo, 0);
-							plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, escudo, 0.001f);
-							plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, escudo, 0);
-
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 0);
-							plugin::scripting::CallCommandById(COMMAND_SET_VEHICLE_RECORDS_COLLISIONS, vehic, 0);
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "Aim_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
-
-							return true;
-						}
-						if (!atached)
-						{
-							plugin::scripting::CallCommandById(COMMAND_ATTACH_CAR_TO_OBJECT, vehic, escudo, 0.0f, 0.55f, 0.0f, 80.0f, 0.0f, 180.0f);
-
-							//plugin::scripting::CallCommandById(COMMAND_TASK_PICK_UP_OBJECT, player, escudo, 0.0f, 0.0f, 0.0f, 5, 17, "NULL", "NULL", 1);
-							plugin::scripting::CallCommandById(COMMAND_ATTACH_OBJECT_TO_CHAR, escudo, player, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-							plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_SCALE, escudo, 0.01f);
-							plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, escudo, 0);
-
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_PROOFS, vehic, 1, 1, 1, 1, 1);
-
-							plugin::scripting::CallCommandById(COMMAND_SET_CAR_COLLISION, vehic, 0);
-							plugin::scripting::CallCommandById(COMMAND_SET_VEHICLE_RECORDS_COLLISIONS, vehic, 0);
-							plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, 0);
-							atached = true;
-						}
-						if (boolvars.updateshieldnow == true)
-						{
-							plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, escudo);
-							plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, escudo);
-							plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
-							plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
-							
-							vehic = 0; 
-							escudo = 0;
-							boolvars.escudoactivo = false;
-							boolvars.updateshieldnow = false;
-							plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-							plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "Aim_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
-
-							return true;
-						}
-						if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 5) == true ||
-							plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 7) == true)
-						{
-							if (boolvars.shield12 != 1) {
-								boolvars.shield12 = 1;
-							}
-							else
-							{
-								boolvars.shield12 = 0;
-							}
-						}
-
-						if (boolvars.shield12 == 0)
-						{
-							plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, 0);							
-						}
-						if (boolvars.shield12 == 1)
-						{
-							plugin::scripting::CallCommandById(COMMAND_GIVE_VEHICLE_PAINTJOB, vehic, -1);
-							//boolvars.updateshieldnow = true;
-						}
-						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-						plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "Aim_ShieldIDLE", "ironman", 5.0f, 1, 1, 1, 0, -1);// 4.0f, 0, 0, 0, 1, -1);
-						plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_OBJECT_IN_WORLD_COORDS, escudo, 0.06f, 0.0f, 0.0f, &playerpos.x, &playerpos.y, &playerpos.z);
-						plugin::scripting::CallCommandById(COMMAND_DRAW_WEAPONSHOP_CORONA, playerpos.x, playerpos.y, playerpos.z, 1.0f, 3, 1.5f, 0, 100, 255);
-						plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 1, 1, 1, 1, 1);
+						star = false;
 						return true;
+					}
+				}
+				else {
+					if (boolvars.escudoactivo == true && escudo != 0)
+					{
+						//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+						plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, escudo);
+						plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, escudo);
+						plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
+						plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
+						plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 0, 0, 1, 1, 0);
+						vehic = 0;
+						escudo = 0;
+						boolvars.escudoactivo = false;
+					}
+					star = false;
+					AimedPedReactiontwo(&boolvars.ped);
+					if (jarvisvoice.is_over_ground(2.0f) == true)
+					{
+						boolvars.indx = 19;
+
+						return true;
+					}
+					else {
+						boolvars.indx = 0;
+						plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+						goto notaiminonground;
 					}
 				}
 			}
 			else
 			{
-				star = false;
-				return true;
-			}
-		}
-		else {
-			if (boolvars.escudoactivo == true && escudo != 0)
-			{
-				//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-				plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, escudo);
-				plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, escudo);
-				plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic);
-				plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic);
-				plugin::scripting::CallCommandById(COMMAND_SET_CHAR_PROOFS, player, 0, 0, 1, 1, 0);
-				vehic = 0;
-				escudo = 0;
-				boolvars.escudoactivo = false;
-			}
-			star = false;
-			AimedPedReactiontwo(&boolvars.ped);
-			if (jarvisvoice.is_over_ground(2.0f) == true)
-			{
-				boolvars.indx = 19;
-
-				return true;
-			}
-			else {
 				boolvars.indx = 0;
 				plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-				goto notaiminonground;
+				if (jarvisvoice.is_over_ground(2.0f) == true)
+				{
+					plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+				}
+				return true;
 			}
 		}
-	}
-	else
-	{
-		boolvars.indx = 0;
-		plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-		if (jarvisvoice.is_over_ground(2.0f) == true)
+		else
 		{
-			plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-		}		
-		return true;
-	}
-}
-else
-{
-	pActor = (DWORD*)0xB6F5F0;
-	boolvars.indx = 0;
-	plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-	return true;
-}
-return true;
-}
-
-shootin:
-{
-	if (jarvisvoice.is_over_ground(2.0f) == true)
-	{
-		if (boolvars.activesuit == 0 || boolvars.activesuit == -4)
-		{
-			plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
-			plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+			pActor = (DWORD*)0xB6F5F0;
 			boolvars.indx = 0;
+			plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
 			return true;
 		}
-	}
-	
-	if (CMouseControllerState().lmb != 1 && (GetKeyState(VK_LBUTTON) & 0x8000) == false && plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 17) == false)
-	{
-		boolvars.isshootin = false;
-		if (jarvisvoice.is_over_ground(2.0f) == false && boolvars.iscjfrozen == true) {
-			plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
-			boolvars.iscjfrozen = false;
-		}
-		star = false;
-		boolvars.wpn = GetPrivateProfileInt("CONFIG", "WEAPON", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-		if (boolvars.wpn == 5 || boolvars.wpn == 3)
-		{
-			if (has_not_switched_weapon(boolvars.wpn))
-			{
-				*boolvars.aimedpeds = *jarvisvoice.Mark_targets(boolvars.wpn, boolvars.currenttarg, boolvars.aimedpeds);
-				boolvars.currenttarg = 0;
-			}
-			else
-			{
-				boolvars.wpn = GetPrivateProfileInt("CONFIG", "WEAPON", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-				boolvars.aimedpeds[0] = 0;
-				boolvars.aimedpeds[1] = 0;
-				boolvars.aimedpeds[2] = 0;
-				boolvars.aimedpeds[3] = 0;
-				boolvars.aimedpeds[4] = 0;
-			}
-			jarvisvoice.Display_targets_on_screen(boolvars.wpn, boolvars.aimedpeds, imhud2, imhud3);
-
-		}
-
-		if (boolvars.wpn == 0)
-		{
-			if (has_not_switched_weapon(boolvars.wpn))
-			{
-				*boolvars.aimedpeds = *jarvisvoice.Mark_targets(boolvars.wpn, boolvars.currenttarg, boolvars.aimedpeds);
-				boolvars.currenttarg = 0;
-			}
-			else
-			{
-				boolvars.wpn = GetPrivateProfileInt("CONFIG", "WEAPON", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-				boolvars.aimedpeds[0] = 0;
-				boolvars.aimedpeds[1] = 0;
-				boolvars.aimedpeds[2] = 0;
-				boolvars.aimedpeds[3] = 0;
-				boolvars.aimedpeds[4] = 0;
-			}
-			jarvisvoice.Display_targets_on_screen(boolvars.wpn, boolvars.aimedpeds, imhud2, imhud3);
-
-		}
 		return true;
 	}
-	else
+
+shootin:
 	{
-
-
-		boolvars.isshootin = true;
-		if (boolvars.iscjfrozen == false) {
-			plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
-			boolvars.iscjfrozen = true;
-		}
-		if (boolvars.wpn == 5 || boolvars.wpn == 3)
+		if (jarvisvoice.is_over_ground(2.0f) == true)
 		{
-			star = false;
-			if (boolvars.wpn == 5) {
-				AimedPedReactiontwo(&boolvars.ped);
+			if (boolvars.activesuit == 0 || boolvars.activesuit == -4)
+			{
+				plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS, player);
+				plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+				boolvars.indx = 0;
+				return true;
 			}
-			boolvars.killedtargetsexist = true;
+		}
+
+		if (CMouseControllerState().lmb != 1 && (GetKeyState(VK_LBUTTON) & 0x8000) == false && plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 17) == false)
+		{
+			boolvars.isshootin = false;
+			if (jarvisvoice.is_over_ground(2.0f) == false && boolvars.iscjfrozen == true) {
+				plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 0);
+				boolvars.iscjfrozen = false;
+			}
+			star = false;
+			boolvars.wpn = GetPrivateProfileInt("CONFIG", "WEAPON", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+			if (boolvars.wpn == 5 || boolvars.wpn == 3)
+			{
+				if (has_not_switched_weapon(boolvars.wpn))
+				{
+					*boolvars.aimedpeds = *jarvisvoice.Mark_targets(boolvars.wpn, boolvars.currenttarg, boolvars.aimedpeds);
+					boolvars.currenttarg = 0;
+				}
+				else
+				{
+					boolvars.wpn = GetPrivateProfileInt("CONFIG", "WEAPON", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+					boolvars.aimedpeds[0] = 0;
+					boolvars.aimedpeds[1] = 0;
+					boolvars.aimedpeds[2] = 0;
+					boolvars.aimedpeds[3] = 0;
+					boolvars.aimedpeds[4] = 0;
+				}
+				jarvisvoice.Display_targets_on_screen(boolvars.wpn, boolvars.aimedpeds, imhud2, imhud3);
+
+			}
+
+			if (boolvars.wpn == 0)
+			{
+				if (has_not_switched_weapon(boolvars.wpn))
+				{
+					*boolvars.aimedpeds = *jarvisvoice.Mark_targets(boolvars.wpn, boolvars.currenttarg, boolvars.aimedpeds);
+					boolvars.currenttarg = 0;
+				}
+				else
+				{
+					boolvars.wpn = GetPrivateProfileInt("CONFIG", "WEAPON", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+					boolvars.aimedpeds[0] = 0;
+					boolvars.aimedpeds[1] = 0;
+					boolvars.aimedpeds[2] = 0;
+					boolvars.aimedpeds[3] = 0;
+					boolvars.aimedpeds[4] = 0;
+				}
+				jarvisvoice.Display_targets_on_screen(boolvars.wpn, boolvars.aimedpeds, imhud2, imhud3);
+
+			}
 			return true;
 		}
 		else
 		{
-			if (boolvars.wpn == 1)
+
+
+			boolvars.isshootin = true;
+			if (boolvars.iscjfrozen == false) {
+				plugin::scripting::CallCommandById(COMMAND_FREEZE_CHAR_POSITION, player, 1);
+				boolvars.iscjfrozen = true;
+			}
+			if (boolvars.wpn == 5 || boolvars.wpn == 3)
 			{
 				star = false;
-				JarvisVoice::PlayShot(&IMStream[2]);
-				RwV3d coords;
-				player->GetBonePosition(coords, 34, false);
-				plugin::scripting::CallCommandById(COMMAND_ADD_BIG_GUN_FLASH, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z);
-				for (int i = 0; i <= 2; i++)
-				{
-					plugin::scripting::CallCommandById(COMMAND_FIRE_SINGLE_BULLET, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z, 17);
+				if (boolvars.wpn == 5) {
+					AimedPedReactiontwo(&boolvars.ped);
 				}
-				//Sleep(30);
-				boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
-				boolvars.timetowait = 30;
+				boolvars.killedtargetsexist = true;
 				return true;
 			}
-			else {
-				if (boolvars.wpn == 2)
+			else
+			{
+				if (boolvars.wpn == 1)
 				{
-					boolvars.action = 4;
-					static int time;
+					star = false;
+					JarvisVoice::PlayShot(&IMStream[2]);
 					RwV3d coords;
 					player->GetBonePosition(coords, 34, false);
-					if (!star)
+					plugin::scripting::CallCommandById(COMMAND_ADD_BIG_GUN_FLASH, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z);
+					for (int i = 0; i <= 2; i++)
 					{
-						if (JarvisVoice::IsAudioStreamPlayed(IMStream[2], audiostream[repulsorblast]) == false)
-						{
-							JarvisVoice::PlayAudiostream(audiostream[repulsorblast], 0, &IMStream[2]);
-							time = 0;
-						}
-
-						for (int i = 0; i <= 2; i++)
-						{
-							plugin::scripting::CallCommandById(COMMAND_CREATE_SEARCHLIGHT, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z, 0.045, 0.045, &ibeam[i]);
-						}
-						star = true;
-						time = CTimer::m_snTimeInMillisecondsNonClipped;
-
+						plugin::scripting::CallCommandById(COMMAND_FIRE_SINGLE_BULLET, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z, 17);
 					}
-					//for (int i = 0; i <= 2; i++)
-					//{
-					plugin::scripting::CallCommandById(COMMAND_ADD_EXPLOSION_NO_SOUND, boolvars.target.x, boolvars.target.y, boolvars.target.z, 8);
-
-					//}
-					if (CTimer::m_snTimeInMillisecondsNonClipped >= (time + 35))
-					{
-						for (int i = 0; i <= 2; i++)
-						{
-							plugin::scripting::CallCommandById(COMMAND_CREATE_SEARCHLIGHT, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z, 0.045, 0.045, &ibeam[i]);
-
-						}
-					}
-
+					//Sleep(30);
+					boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
+					boolvars.timetowait = 30;
 					return true;
 				}
-				else
-				{
-					if (boolvars.wpn == 4)
+				else {
+					if (boolvars.wpn == 2)
 					{
 						boolvars.action = 4;
 						static int time;
 						RwV3d coords;
-						coords.x = 0.185f;
-						coords.y = 0.08f;
-						coords.z = 0.0f;
-						player->GetTransformedBonePosition(coords, 3, false);
+						player->GetBonePosition(coords, 34, false);
 						if (!star)
 						{
-							if (JarvisVoice::IsAudioStreamPlayed(IMStream[0], audiostream[14]) == false)
+							if (JarvisVoice::IsAudioStreamPlayed(IMStream[2], audiostream[repulsorblast]) == false)
 							{
-								JarvisVoice::PlayAudiostream(audiostream[14], 0, &IMStream[0]);
+								JarvisVoice::PlayAudiostream(audiostream[repulsorblast], 0, &IMStream[2]);
 								time = 0;
 							}
+
 							for (int i = 0; i <= 2; i++)
 							{
-								plugin::scripting::CallCommandById(COMMAND_CREATE_SEARCHLIGHT, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z, 0.120, 0.120, &ibeam[i]);
+								plugin::scripting::CallCommandById(COMMAND_CREATE_SEARCHLIGHT, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z, 0.045, 0.045, &ibeam[i]);
 							}
-
 							star = true;
 							time = CTimer::m_snTimeInMillisecondsNonClipped;
 
@@ -14967,102 +14941,145 @@ shootin:
 						//{
 						plugin::scripting::CallCommandById(COMMAND_ADD_EXPLOSION_NO_SOUND, boolvars.target.x, boolvars.target.y, boolvars.target.z, 8);
 
-						//IF IRON MAN IS AIMIN WEAPON 4 (CHEST BEAM) WE START THE LOOP OF UNIBEAM SOUND
-						Playuniloop(1);
 						//}
 						if (CTimer::m_snTimeInMillisecondsNonClipped >= (time + 35))
 						{
-							if (jarvisvoice.is_over_ground(2.0f) == true) {
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ChestIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
-							else
-							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ChestIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
 							for (int i = 0; i <= 2; i++)
 							{
-								plugin::scripting::CallCommandById(COMMAND_CREATE_SEARCHLIGHT, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z, 0.120, 0.120, &ibeam[i]);
+								plugin::scripting::CallCommandById(COMMAND_CREATE_SEARCHLIGHT, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z, 0.045, 0.045, &ibeam[i]);
 
 							}
 						}
-						else {
-							if (jarvisvoice.is_over_ground(2.0f) == true) {
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ChestIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
-							else
-							{
-								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ChestIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
-							}
-						}
+
+						return true;
 					}
 					else
 					{
-						if (boolvars.wpn == 0 &&
-							boolvars.suit[3] == true)
+						if (boolvars.wpn == 4)
 						{
-							star = false;
-							boolvars.punchedtargetsexist = true;
-							boolvars.indx = 0;
+							boolvars.action = 4;
+							static int time;
+							RwV3d coords;
+							coords.x = 0.185f;
+							coords.y = 0.08f;
+							coords.z = 0.0f;
+							player->GetTransformedBonePosition(coords, 3, false);
+							if (!star)
+							{
+								if (JarvisVoice::IsAudioStreamPlayed(IMStream[0], audiostream[14]) == false)
+								{
+									JarvisVoice::PlayAudiostream(audiostream[14], 0, &IMStream[0]);
+									time = 0;
+								}
+								for (int i = 0; i <= 2; i++)
+								{
+									plugin::scripting::CallCommandById(COMMAND_CREATE_SEARCHLIGHT, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z, 0.120, 0.120, &ibeam[i]);
+								}
+
+								star = true;
+								time = CTimer::m_snTimeInMillisecondsNonClipped;
+
+							}
+							//for (int i = 0; i <= 2; i++)
+							//{
+							plugin::scripting::CallCommandById(COMMAND_ADD_EXPLOSION_NO_SOUND, boolvars.target.x, boolvars.target.y, boolvars.target.z, 8);
+
+							//IF IRON MAN IS AIMIN WEAPON 4 (CHEST BEAM) WE START THE LOOP OF UNIBEAM SOUND
+							Playuniloop(1);
+							//}
+							if (CTimer::m_snTimeInMillisecondsNonClipped >= (time + 35))
+							{
+								if (jarvisvoice.is_over_ground(2.0f) == true) {
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ChestIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								}
+								else
+								{
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ChestIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								}
+								for (int i = 0; i <= 2; i++)
+								{
+									plugin::scripting::CallCommandById(COMMAND_CREATE_SEARCHLIGHT, coords.x, coords.y, coords.z, boolvars.target.x, boolvars.target.y, boolvars.target.z, 0.120, 0.120, &ibeam[i]);
+
+								}
+							}
+							else {
+								if (jarvisvoice.is_over_ground(2.0f) == true) {
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "fly_ChestIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								}
+								else
+								{
+									plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, player, "aim_ChestIDLE", "ironman", 10.0f, 0, 0, 0, 0, -1);
+								}
+							}
 						}
+						else
+						{
+							if (boolvars.wpn == 0 &&
+								boolvars.suit[3] == true)
+							{
+								star = false;
+								boolvars.punchedtargetsexist = true;
+								boolvars.indx = 0;
+							}
+						}
+						return true;
 					}
-					return true;
 				}
 			}
-		}
 
+		}
+		return true;
 	}
-	return true;
-}
 
 notaiminonground:
-{
-static int controller;
-	plugin::scripting::CallCommandById(COMMAND_GET_CONTROLLER_MODE, &controller);
-	if (controller == 1) {
-
-		if (CMouseControllerState().rmb == 1 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 5))
-		{
-				boolvars.indx = 22;
-				return true;
-			
-		}
-		else {
-			if (boolvars.mousewheelhacktrigger == true) {
-				spd = 200.0f;
-				UnhookWindowsHookEx(mousehook);
-				jarvisvoice.SetVelocityUnlimited(false);
-				plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-				boolvars.mousewheelhacktrigger = false;
-			}
-			plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
-
-			boolvars.indx = 0;
-			return true;
-		}
-	}
-	else
 	{
-		if (CMouseControllerState().rmb == 1 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 6))
-		{
+		static int controller;
+		plugin::scripting::CallCommandById(COMMAND_GET_CONTROLLER_MODE, &controller);
+		if (controller == 1) {
+
+			if (CMouseControllerState().rmb == 1 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 5))
+			{
 				boolvars.indx = 22;
 				return true;
-			
-		}
-		else {
-			if (boolvars.mousewheelhacktrigger == true) {
-				spd = 200.0f;
-				UnhookWindowsHookEx(mousehook);
-				jarvisvoice.SetVelocityUnlimited(false);
-				plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
-				boolvars.mousewheelhacktrigger = false;
-			}
-			plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
 
-			boolvars.indx = 0;
-			return true;
+			}
+			else {
+				if (boolvars.mousewheelhacktrigger == true) {
+					spd = 200.0f;
+					UnhookWindowsHookEx(mousehook);
+					jarvisvoice.SetVelocityUnlimited(false);
+					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+					boolvars.mousewheelhacktrigger = false;
+				}
+				plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+
+				boolvars.indx = 0;
+				return true;
+			}
+		}
+		else
+		{
+			if (CMouseControllerState().rmb == 1 || plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 6))
+			{
+				boolvars.indx = 22;
+				return true;
+
+			}
+			else {
+				if (boolvars.mousewheelhacktrigger == true) {
+					spd = 200.0f;
+					UnhookWindowsHookEx(mousehook);
+					jarvisvoice.SetVelocityUnlimited(false);
+					plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
+					boolvars.mousewheelhacktrigger = false;
+				}
+				plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, player);
+
+				boolvars.indx = 0;
+				return true;
+			}
 		}
 	}
-}
 
 endin:
 	{
@@ -15188,7 +15205,7 @@ void useweaponwithtarget(Tjarvisbot *random)
 					RwV3d playerpos;
 					random->actorchar->GetBonePosition(playerpos, 34, false);
 					plugin::scripting::CallCommandById(COMMAND_CREATE_OBJECT, 345, playerpos.x, playerpos.y, playerpos.z, &random->cohete.misil);
-					
+
 					objectlist[dim] = random->cohete.misil;
 					dim++;
 
@@ -15251,10 +15268,10 @@ float mod(float base)
 bool JarvisVoice::jarvisbotpowers() {
 	/*if (CTimer::m_snTimeInMillisecondsNonClipped < boolvars.waiter + boolvars.timetowait)
 	{
-		return true;
+	return true;
 	}*/
 	static bool once1;
-	static int level1=0;
+	static int level1 = 0;
 	static bool isfaraway;
 	static DWORD *pActor;
 	static DWORD *pCamera;
@@ -15363,7 +15380,7 @@ bool JarvisVoice::jarvisbotpowers() {
 							CVector misilpos;
 							plugin::scripting::CallCommandById(COMMAND_GET_OBJECT_COORDINATES, jarvisenemy[i].cohete.misil, &misilpos.x, &misilpos.y, &misilpos.z);
 							plugin::scripting::CallCommandById(COMMAND_ADD_EXPLOSION, misilpos.x, misilpos.y, misilpos.z, 10);
-							
+
 							if (plugin::scripting::CallCommandById(COMMAND_LOCATE_CHAR_ANY_MEANS_3D, player, misilpos.x, misilpos.y, misilpos.z, 10.0f, 10.0f, 10.0f, 0) == true)
 							{
 								boolvars.anglecohete = angleobj;
@@ -15993,7 +16010,7 @@ bool JarvisVoice::jarvisbotpowers() {
 		}
 
 		if (isfaraway == true)
-		{			
+		{
 			i = 0;
 			CFont::SetBackground(0, 0);
 			CFont::SetColor(CRGBA(255, 255, 255, 255));
@@ -16003,7 +16020,7 @@ bool JarvisVoice::jarvisbotpowers() {
 			CFont::SetFontStyle(FONT_MENU);
 			CFont::SetScale(SCREEN_MULTIPLIER(settings.vecVehicleNameScale.x), SCREEN_MULTIPLIER(settings.vecVehicleNameScale.y));
 			CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesPosnY), boolvars.dronfar.data());
-			
+
 			if (GetKeyState('Y') & 0x8000)
 			{
 				while (i < dimfriends)
@@ -16064,9 +16081,9 @@ bool JarvisVoice::jarvisbotpowers() {
 						if (jarvisfriend[i].thrusterscode != codigopropulsor || jarvisvoice.Has_not_switched_enviroment(&jarvisfriend[i].jarvisprop) == false)
 						{
 							jarvisfriend[i].thrusterscode = codigopropulsor;
-							if (isplayingfly(true, jarvisfriend[i].botstream[0], 1, jarvisfriend[i].jarvisprop.enviroment_ID, 1, i) == true || jarvisfriend[i].jarvisprop.manoizqfx!=0) {
+							if (isplayingfly(true, jarvisfriend[i].botstream[0], 1, jarvisfriend[i].jarvisprop.enviroment_ID, 1, i) == true || jarvisfriend[i].jarvisprop.manoizqfx != 0) {
 								JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-								
+
 								JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 							}
 							JarvisVoice::PlayThrustersIDLE(1, i, &jarvisfriend[i].botstream[0], (int)jarvisfriend[i].actorid, settings.folderdirs[pageenemy[i]].suits[jarvisfriend[i].mark], 0, jarvisfriend[i].thrusterscode, &jarvisfriend[i].jarvisprop);
@@ -16076,7 +16093,7 @@ bool JarvisVoice::jarvisbotpowers() {
 							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, jarvisfriend[i].actorchar, "fly_Hover") == false)
 							{
 								JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-								
+
 								JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 								plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, jarvisfriend[i].actorchar);
 								plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, jarvisfriend[i].actorchar, "fly_Hover", "ironman", 10.0f, 1, 1, 1, 0, -2);
@@ -16096,7 +16113,7 @@ bool JarvisVoice::jarvisbotpowers() {
 						{
 							pagebelong[b] = pagebelong[b + 1];
 							jarvisfriend[b].baseobj = jarvisfriend[b + 1].baseobj;
-							jarvisfriend[b].thrusterscode = jarvisfriend[b + 1].thrusterscode; 
+							jarvisfriend[b].thrusterscode = jarvisfriend[b + 1].thrusterscode;
 							jarvisfriend[b].velx = jarvisfriend[b + 1].velx;
 							jarvisfriend[b].vely = jarvisfriend[b + 1].vely;
 							jarvisfriend[b].velz = jarvisfriend[b + 1].velz;
@@ -16265,7 +16282,7 @@ regular_routine:
 					jarvisfriend[i].target.actorchar = NULL;
 					jarvisfriend[i].actorchar = NULL;
 					jarvisfriend[i].actorid = 0;
-					jarvisfriend[i].isfrozen = false;		
+					jarvisfriend[i].isfrozen = false;
 
 
 					int b = i;
@@ -16350,8 +16367,8 @@ regular_routine:
 							if (level1 > 0 || cana > 0)
 							{
 								if ((jarvisfriend[i].target.timer + 500 < CTimer::m_snTimeInMillisecondsNonClipped &&
-									jarvisfriend[i].taskindex == 0 && 
-									jarvisfriend[i].timetoact + 50 < CTimer::m_snTimeInMillisecondsNonClipped) || 
+									jarvisfriend[i].taskindex == 0 &&
+									jarvisfriend[i].timetoact + 50 < CTimer::m_snTimeInMillisecondsNonClipped) ||
 									jarvisfriend[i].taskindex == 1 &&
 									(jarvisfriend[i].timetoact + 5000 < CTimer::m_snTimeInMillisecondsNonClipped))
 								{
@@ -16486,7 +16503,7 @@ regular_routine:
 												jarvisfriend[i].thrusterscode = codigopropulsor;
 												if (isplayingfly(true, jarvisfriend[i].botstream[0], 1, jarvisfriend[i].jarvisprop.enviroment_ID, 1, i) == true || jarvisfriend[i].jarvisprop.manoizqfx != 0) {
 													JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-													
+
 													JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 												}
 												JarvisVoice::PlayThrustersIDLE(1, i, &jarvisfriend[i].botstream[0], (int)jarvisfriend[i].actorid, settings.folderdirs[pagebelong[i]].suits[jarvisfriend[i].mark], 0, jarvisfriend[i].thrusterscode, &jarvisfriend[i].jarvisprop);
@@ -16497,7 +16514,7 @@ regular_routine:
 												if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, jarvisfriend[i].actorchar, "fly_botAimIdle") == false)
 												{
 													JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-													
+
 													JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 													plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, jarvisfriend[i].actorchar);
 													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, jarvisfriend[i].actorchar, "fly_botAimIdle", "ironman", 10.0f, 1, 1, 1, 0, -2);
@@ -16548,7 +16565,7 @@ regular_routine:
 												jarvisfriend[i].thrusterscode = codigopropulsor;
 												if (isplayingfly(true, jarvisfriend[i].botstream[0], 0, jarvisfriend[i].jarvisprop.enviroment_ID, 1, i) == true || jarvisfriend[i].jarvisprop.manoizqfx != 0) {
 													JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-													
+
 													JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 												}
 												JarvisVoice::PlayThrustersIDLE(1, i, &jarvisfriend[i].botstream[0], (int)jarvisfriend[i].actorid, settings.folderdirs[pagebelong[i]].suits[jarvisfriend[i].mark], 1, jarvisfriend[i].thrusterscode, &jarvisfriend[i].jarvisprop);
@@ -16559,7 +16576,7 @@ regular_routine:
 												if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, jarvisfriend[i].actorchar, "fly_MoveFWD") == false)
 												{
 													JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-													
+
 													JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 													plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, jarvisfriend[i].actorchar);
 													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, jarvisfriend[i].actorchar, "fly_MoveFWD", "ironman", 10.0f, 1, 1, 1, 0, -2);
@@ -16659,7 +16676,7 @@ regular_routine:
 												jarvisfriend[i].thrusterscode = codigopropulsor;
 												if (isplayingfly(true, jarvisfriend[i].botstream[0], 0, jarvisfriend[i].jarvisprop.enviroment_ID, 1, i) == true || jarvisfriend[i].jarvisprop.manoizqfx != 0) {
 													JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-													
+
 													JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 												}
 												JarvisVoice::PlayThrustersIDLE(1, i, &jarvisfriend[i].botstream[0], (int)jarvisfriend[i].actorid, settings.folderdirs[pagebelong[i]].suits[jarvisfriend[i].mark], 1, jarvisfriend[i].thrusterscode, &jarvisfriend[i].jarvisprop);
@@ -16670,7 +16687,7 @@ regular_routine:
 												if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, jarvisfriend[i].actorchar, "fly_Fast") == false)
 												{
 													JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-													
+
 													JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 													plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, jarvisfriend[i].actorchar);
 													plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, jarvisfriend[i].actorchar, "fly_Fast", "ironman", 10.0f, 1, 1, 1, 0, -2);
@@ -16698,7 +16715,7 @@ regular_routine:
 														jarvisfriend[i].thrusterscode = codigopropulsor;
 														if (isplayingfly(true, jarvisfriend[i].botstream[0], 0, jarvisfriend[i].jarvisprop.enviroment_ID, 1, i) == true || jarvisfriend[i].jarvisprop.manoizqfx != 0) {
 															JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-															
+
 															JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 														}
 														JarvisVoice::PlayThrustersIDLE(1, i, &jarvisfriend[i].botstream[0], (int)jarvisfriend[i].actorid, settings.folderdirs[pagebelong[i]].suits[jarvisfriend[i].mark], 1, jarvisfriend[i].thrusterscode, &jarvisfriend[i].jarvisprop);
@@ -16709,7 +16726,7 @@ regular_routine:
 														if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, jarvisfriend[i].actorchar, "fly_MoveUp") == false)
 														{
 															JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-															
+
 															JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 															plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, jarvisfriend[i].actorchar);
 															plugin::scripting::CallCommandById(COMMAND_TASK_PLAY_ANIM_NON_INTERRUPTABLE, jarvisfriend[i].actorchar, "fly_MoveUp", "ironman", 10.0f, 1, 1, 1, 0, -2);
@@ -16731,7 +16748,7 @@ regular_routine:
 														jarvisfriend[i].thrusterscode = codigopropulsor;
 														if (isplayingfly(true, jarvisfriend[i].botstream[0], 0, jarvisfriend[i].jarvisprop.enviroment_ID, 1, i) == true || jarvisfriend[i].jarvisprop.manoizqfx != 0) {
 															JarvisVoice::StopThrustersIDLE(&jarvisfriend[i].botstream[0], &jarvisfriend[i].jarvisprop);
-															
+
 															JarvisVoice::storeenviroment(&jarvisfriend[i].jarvisprop.enviroment_ID);
 														}
 														JarvisVoice::PlayThrustersIDLE(1, i, &jarvisfriend[i].botstream[0], (int)jarvisfriend[i].actorid, settings.folderdirs[pagebelong[i]].suits[jarvisfriend[i].mark], 1, jarvisfriend[i].thrusterscode, &jarvisfriend[i].jarvisprop);
@@ -17045,7 +17062,7 @@ regular_routine:
 								plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_HEADING, jarvisfriend[i].baseobj, angle - 180.0f);
 							}
 						}
-						
+
 					}
 					else
 					{
@@ -17131,18 +17148,18 @@ regular_routine:
 			i++;
 		}
 		goto ending;
-}
+	}
 
 ending:
-{
-return true;
-}
-	
+	{
+		return true;
+	}
+
 }
 
 bool JarvisVoice::Punchped(int punchedped)
 {
-	int ped = punchedped;	
+	int ped = punchedped;
 	CPed *player = FindPlayerPed(0);
 	if (player)
 	{
@@ -17378,14 +17395,14 @@ void JarvisVoice::Actionsforpeds(CPed *punchedped) {
 												}
 												shooter = NULL;
 											}/*
-											else
-											{
-												if (JarvisVoice::IsAudioStreamPlayed(IMStream[0], audiostream[15]) == true)
-												{
-													AudioLib.ChannelStop(IMStream[0].audio);
-													IMStream[0].audio = NULL;
-												}
-											}*/
+											 else
+											 {
+											 if (JarvisVoice::IsAudioStreamPlayed(IMStream[0], audiostream[15]) == true)
+											 {
+											 AudioLib.ChannelStop(IMStream[0].audio);
+											 IMStream[0].audio = NULL;
+											 }
+											 }*/
 										}
 										//punchedped = NULL;
 									}
@@ -17562,16 +17579,16 @@ void JarvisVoice::Actionsforpeds(CPed *punchedped) {
 										}
 									}
 								}/*
-								if (boolvars.wpn != 4 ||
-									plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 17) == false ||
-									boolvars.indx!=22)
-								{
-									if (JarvisVoice::IsAudioStreamPlayed(IMStream[0], audiostream[15]) == true)
-									{
-										AudioLib.ChannelStop(IMStream[0].audio);
-										IMStream[0].audio = NULL;
-									}
-								}*/
+								 if (boolvars.wpn != 4 ||
+								 plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 17) == false ||
+								 boolvars.indx!=22)
+								 {
+								 if (JarvisVoice::IsAudioStreamPlayed(IMStream[0], audiostream[15]) == true)
+								 {
+								 AudioLib.ChannelStop(IMStream[0].audio);
+								 IMStream[0].audio = NULL;
+								 }
+								 }*/
 								switch (act) {
 								case 0:
 								{
@@ -18008,20 +18025,20 @@ void JarvisVoice::Actionsforpeds(CPed *punchedped) {
 													wpon == 15
 													))
 											{/*if (plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 0) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 1) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 2) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 3) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 4) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 5) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 6) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 7) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 10) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 11) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 12) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 13) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 14) != NULL ||
-												plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 15) != NULL)
-											{*/
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 1) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 2) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 3) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 4) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 5) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 6) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 7) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 10) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 11) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 12) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 13) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 14) != NULL ||
+											 plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_DAMAGED_BY_WEAPON, punchedped, 15) != NULL)
+											 {*/
 												boolvars.punchedvictim = CPools::GetPedRef(punchedped);
 											}
 										}
@@ -18451,16 +18468,16 @@ bool JarvisVoice::processparachute()
 					plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, parachute, 0);
 					timr = CTimer::m_snTimeInMillisecondsNonClipped;
 				}/*
-				else
-				{
-					if (CTimer::m_snTimeInMillisecondsNonClipped > timr + 200)
-					{
-						plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, parachute, 1);
-						plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, parachute);
-						parachute = NULL;
-						return true;
-					}
-				}*/
+				 else
+				 {
+				 if (CTimer::m_snTimeInMillisecondsNonClipped > timr + 200)
+				 {
+				 plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, parachute, 1);
+				 plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, parachute);
+				 parachute = NULL;
+				 return true;
+				 }
+				 }*/
 			}
 			else
 			{
@@ -18525,71 +18542,71 @@ bool JarvisVoice::Actionsforobjs(CObject *objt) {
 	}
 }
 /*
-	{
-		if (parachute != NULL)
-		{
-			if (plugin::scripting::CallCommandById(COMMAND_IS_OBJECT_PLAYING_ANIM, parachute, "PARA_OPEN_O") == true)
-			{
-				static float timeopen;
-				plugin::scripting::CallCommandById(COMMAND_GET_OBJECT_ANIM_CURRENT_TIME, parachute, "PARA_OPEN_O", &timeopen);
-				number = new char[10];
-				sprintf(number, "%f", timeopen);
-				CFont::SetBackground(0, 0);
-				CFont::SetOrientation(ALIGN_CENTER);
-				CFont::SetProportional(true);
-				CFont::SetJustify(false);
-				CFont::SetColor(CRGBA(255, 255, 255, 255));
-				CFont::SetFontStyle(FONT_SUBTITLES);
-				CFont::SetEdge(2);
-				CFont::SetCentreSize(SCREEN_WIDTH + SCREEN_COORD(-350));
-				CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
-				CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), number);
-				delete[] number;
-				if (timeopen < 0.200)
-				{
-					if (parachute->IsVisible() == true)
-					{
-						plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, parachute, 0);
-						timr = CTimer::m_snTimeInMillisecondsNonClipped;
-					}
-					else
-					{
-						if (CTimer::m_snTimeInMillisecondsNonClipped > timr + 200)
-						{
-							plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, parachute, 1);
-							plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, parachute);
-							parachute = NULL;
-							goto endofobjtask1;
-						}
-					}
-					//plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, obj);
-					//parax = NULL;
-				}
-				else
-				{
-					plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, parachute, 1);
-					plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, parachute);
-					parachute = NULL;
-				}
-				goto endofobjtask1;
-				//}
-			}
-			else
-			{
-				//plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, obj, 0);
-				//plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, obj);
+{
+if (parachute != NULL)
+{
+if (plugin::scripting::CallCommandById(COMMAND_IS_OBJECT_PLAYING_ANIM, parachute, "PARA_OPEN_O") == true)
+{
+static float timeopen;
+plugin::scripting::CallCommandById(COMMAND_GET_OBJECT_ANIM_CURRENT_TIME, parachute, "PARA_OPEN_O", &timeopen);
+number = new char[10];
+sprintf(number, "%f", timeopen);
+CFont::SetBackground(0, 0);
+CFont::SetOrientation(ALIGN_CENTER);
+CFont::SetProportional(true);
+CFont::SetJustify(false);
+CFont::SetColor(CRGBA(255, 255, 255, 255));
+CFont::SetFontStyle(FONT_SUBTITLES);
+CFont::SetEdge(2);
+CFont::SetCentreSize(SCREEN_WIDTH + SCREEN_COORD(-350));
+CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
+CFont::PrintStringFromBottom(SCREEN_COORD_CENTER_LEFT(0.0f), SCREEN_COORD_BOTTOM(settings.fSubtitlesWidePosnY), number);
+delete[] number;
+if (timeopen < 0.200)
+{
+if (parachute->IsVisible() == true)
+{
+plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, parachute, 0);
+timr = CTimer::m_snTimeInMillisecondsNonClipped;
+}
+else
+{
+if (CTimer::m_snTimeInMillisecondsNonClipped > timr + 200)
+{
+plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, parachute, 1);
+plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, parachute);
+parachute = NULL;
+goto endofobjtask1;
+}
+}
+//plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, obj);
+//parax = NULL;
+}
+else
+{
+plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, parachute, 1);
+plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, parachute);
+parachute = NULL;
+}
+goto endofobjtask1;
+//}
+}
+else
+{
+//plugin::scripting::CallCommandById(COMMAND_SET_OBJECT_VISIBLE, obj, 0);
+//plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, obj);
 
-				//parax = NULL;
-				plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, parachute);
-				parachute = NULL;
-				goto endofobjtask1;
-			}
-		}
-		else
-		{
-			goto endofobjtask1;
-		}
-	}
+//parax = NULL;
+plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, parachute);
+parachute = NULL;
+goto endofobjtask1;
+}
+}
+else
+{
+goto endofobjtask1;
+}
+}
 
 
-	endofobjtask1:*/
+endofobjtask1:*/

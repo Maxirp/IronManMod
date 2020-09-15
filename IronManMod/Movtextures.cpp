@@ -1415,7 +1415,7 @@ void Movtextures::drawsizedtexture(CRect siz, CSprite2d *tex, int index) {
 
 	size = { siz.left - extendedsize,siz.top - extendedsize,siz.right + extendedsize,siz.bottom + extendedsize };
 
-	tex->Draw(size, CRGBA(255, 255, 255, 255 - (int)extendedalfa));
+	tex->Draw(size, CRGBA(255, 255, 255, 255 - (unsigned char)extendedalfa));
 }
 
 void Movtextures::drawindexedtexture(int index) {
