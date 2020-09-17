@@ -569,7 +569,38 @@ void Drawfondo()
 	}
 	else
 	{
-		CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, boolvars.alphafad));
+
+		static bool isfade;
+
+		if (boolvars.alphafad > 0 && boolvars.alphafad < 200)
+		{
+			boolvars.alphafad = 211;
+			/*plugin::scripting::CallCommandById(COMMAND_SET_FADING_COLOUR, 0, 208, 225);
+			plugin::scripting::CallCommandById(COMMAND_DO_FADE, 0, 500);
+			boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
+			boolvars.timetowait = 750;*/
+			isfade = true;
+			//boolvars.alphafad = 201;
+			//
+			//isfade = true;
+			//plugin::scripting::CallCommandById(COMMAND_DO_FADE, 1, 1200);
+		}
+		else
+		{
+			if(boolvars.alphafad >= 210)
+			{
+				boolvars.alphafad = 0;
+				/*if (isfade == true)
+				{
+					plugin::scripting::CallCommandById(COMMAND_DO_FADE, 1, 500);
+					isfade = false;
+				}*/
+			}
+			//isfade = false;
+			//plugin::scripting::CallCommandById(COMMAND_DO_FADE, 0, 1200);
+			//boolvars.timetowait = 1200;
+		}
+		//CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, boolvars.alphafad));
 	}
 }
 
@@ -6909,6 +6940,13 @@ bool JarvisVoice::ironmanpowers() {
 	static int clktim;
 	if (CTimer::m_snTimeInMillisecondsNonClipped < boolvars.waiter + boolvars.timetowait)
 	{
+		if (boolvars.alphafad > 0 && boolvars.alphafad<=255)
+		{
+			if(boolvars.menuisactive)
+				goto suitmenu;
+
+			return true;
+		}
 		//THE WAIT FUNCTION
 		//STRUCTURE:
 		//boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
@@ -6916,6 +6954,7 @@ bool JarvisVoice::ironmanpowers() {
 		//using this, the script will automatically wait 200 milliseconds for next action
 		if ((DWORD*)0xB6F5F0 > 0 && player)
 		{
+			
 			if (boolvars.activesuit > 0)
 			{
 				if (player->m_fArmour <= 0.0f || player->m_fHealth <= 0.0f)
@@ -6951,6 +6990,8 @@ bool JarvisVoice::ironmanpowers() {
 					}
 				}
 			}
+			
+
 			if (plugin::scripting::CallCommandById(COMMAND_CAN_PLAYER_START_MISSION, 0) == 1)
 			{
 				if (boolvars.indx != 21 && boolvars.indx != 23 && boolvars.indx != 13)
@@ -13249,7 +13290,7 @@ suitmenu:
 		{
 		movtextures.Loadmenuicons();
 		}*/
-		cutenabled = plugin::patch::GetUChar(11989093, false);
+		//cutenabled = plugin::patch::GetUChar(11989093, false);
 		if (cutenabled != 1)
 		{
 			if (settings.radarmode != 2)
@@ -13288,10 +13329,11 @@ suitmenu:
 		}
 
 		//boolvars.wpmenuisactive == false &&
-if (cutenabled != 1 && is_on_foot() == true &&
+if (cutenabled != 2 && is_on_foot() == true &&
 	boolvars.menuisactive == true &&
+	player &&
 	plugin::scripting::CallCommandById(COMMAND_CAN_PLAYER_START_MISSION, 0) == 1 &&
-	plugin::scripting::CallCommandById(COMMAND_GET_FADING_STATUS) == false &&
+	
 	plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_ARRESTED, player) == false &&
 	plugin::scripting::CallCommandById(COMMAND_IS_CHAR_DEAD, player) == false &&
 	plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false &&
@@ -13383,22 +13425,26 @@ if (cutenabled != 1 && is_on_foot() == true &&
 		//update mouse position begin
 		float movspeed = 0.1f;
 		static float movx, movy;
-		static int movxx, movyy;
+		int movxx = 0;
+		int movyy = 0;
 		plugin::scripting::CallCommandById(COMMAND_GET_PC_MOUSE_MOVEMENT, &movxx, &movyy);
 		if (plugin::scripting::CallCommandById(COMMAND_IS_MOUSE_USING_VERTICAL_INVERSION) != NULL)
 		{
 			movyy *= -1;
 		}
-		int movfactor = 0;
+		float movfactor=0.0f;
 		movx = (float)movxx;
 		movy = (float)movyy;
-		movfactor = plugin::patch::GetInt(11987996, false) / 100000000;
+		movfactor = (float)plugin::patch::GetFloat(11987996, false);
+		movfactor /= 30000.0f;
 		movx *= movfactor;
 		movy *= movfactor;
 		movx *= movspeed;
 		movy *= movspeed;
+		
 		cursorx += movx;
-		cursory += movy;
+		cursory += movy;		
+		
 		if (cursorx < SCREEN_COORD(0.0f)) {
 			cursorx = SCREEN_COORD(0.0f);
 		}
