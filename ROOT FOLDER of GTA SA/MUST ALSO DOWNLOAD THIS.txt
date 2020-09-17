@@ -1,21 +1,11 @@
-NECESSARY:
+Thank you for downloading the part 4 of Iron Man Mod
 
-content inside ROOT/MODLOADER/IRONMANMOD/
-EFFECTLOADER.asi
-GTASA.WidescreenFix.asi
-III.VC.SA.LIMITADJUSTER.asi
-NORMALMAP_BYDK.asi
-OPTIMISER.asi
-NODEP.asi
-WSHPS.asi
-MODLOADER.asi
-$fastman92limitAdjuster.asi
-ImgLimitAdjuster.asi
+Now you need 4 more parts to complete the install:
 
-LINK OF ASI MODS:
-http://www.mediafire.com/file/us7auv3cs5bn8gj/Necessary_for_IronManMod.rar/file
-Download, extract and put all those files at the root folder of gta sa
+Part 1 http://www.mediafire.com/file/us7auv3cs5bn8gj/Necessary_for_IronManMod.rar/file
+Part 2 http://www.mediafire.com/file/g58zoawzlccrvtr/Extract+inside+ROOT-MODLOADER-IRONMANMOD.rar/file
+Part 3 http://www.mediafire.com/file/sx5a1witl1rnxc6/Tony_Stark_player_model.rar/file
+Part 5 http://www.mediafire.com/file/ejormh7fqyjptz6/tony_garage.dff/file
 
-LINK FOR IRONMAN MOD CONTENT:
-http://www.mediafire.com/file/g58zoawzlccrvtr/Extract+inside+ROOT-MODLOADER-IRONMANMOD.rar/file
-Download, extract and put all those files at ROOT FOLDER of GTA SA/MODLOADER/IRONMANMOD
+Once all is downloaded, follow the tutorial to install here: 
+https://www.youtube.com/watch?v=Qa5Vhzhq9d4
