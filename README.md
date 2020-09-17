@@ -3,11 +3,24 @@
 GTA IronMan is a modification for the game Grand theft auto: San Andreas that changes the game in the style of that superhero. 
 Written with plugin sdk compatibility, in cplusplus, this ".dll" renamed to ".asi" features different changes to the game
 
-In order to install the mod, you must download 3 things:
+In order to install the mod, you must download 5 project parts listed here:
+Part 1
+http://www.mediafire.com/file/us7auv3cs5bn8gj/Necessary_for_IronManMod.rar/file
 
-- ROOT FOLDER of GTA SA
-- http://www.mediafire.com/file/us7auv3cs5bn8gj/Necessary_for_IronManMod.rar/file
-- http://www.mediafire.com/file/g58zoawzlccrvtr/Extract+inside+ROOT-MODLOADER-IRONMANMOD.rar/file
+Part 2
+http://www.mediafire.com/file/g58zoawzlccrvtr/Extract+inside+ROOT-MODLOADER-IRONMANMOD.rar/file
+
+Part 3
+http://www.mediafire.com/file/sx5a1witl1rnxc6/Tony_Stark_player_model.rar/file
+
+Part 4
+https://github.com/Maxirp/GTAIronMan/archive/master.zip
+
+Part 5
+http://www.mediafire.com/file/ejormh7fqyjptz6/tony_garage.dff/file
+
+Once all is downloaded, follow the tutorial to install here:
+https://www.youtube.com/watch?v=Qa5Vhzhq9d4
 
 - **Changelog:**
 
