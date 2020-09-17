@@ -25,7 +25,7 @@
 #include "CWanted.h"
 #include "CExplosion.h"
 #include "Movtextures.h"
-
+#include "CHud.h"
 using namespace plugin;
 
 BoolVars boolvars;
@@ -8901,7 +8901,32 @@ bool JarvisVoice::ironmanpowers() {
 									plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
 								}
 							}
+
+
+							static int timeforb;
+
 							int flymode = GetPrivateProfileInt("CONFIG", "FLYMOUSE", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+
+							if (GetKeyState('B') & 0x8000)
+							{
+								if (CTimer::m_snTimeInMillisecondsNonClipped > timeforb + 200)
+								{
+									if (flymode != 0)
+									{
+										WritePrivateProfileString("CONFIG", "FLYMOUSE", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+										CHud::SetHelpMessage("Standard flight", true, false, false);
+										flymode = 0;
+									}
+									else
+									{
+										WritePrivateProfileString("CONFIG", "FLYMOUSE", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+										CHud::SetHelpMessage("Point to camera flight", true, false, false);
+										flymode = 1;
+									}
+									timeforb = CTimer::m_snTimeInMillisecondsNonClipped;
+								}
+							}
+
 
 							if (flymode == 0)
 							{
@@ -9461,6 +9486,7 @@ ciclobasico:
 		{
 			if (boolvars.wpmenuisactive == false && boolvars.indx != 24)
 			{
+
 
 				if (boolvars.activesuit != 0 && player->m_nPedState != PEDSTATE_DRIVING)
 				{
@@ -13264,6 +13290,7 @@ suitmenu:
 		//boolvars.wpmenuisactive == false &&
 if (cutenabled != 1 && is_on_foot() == true &&
 	boolvars.menuisactive == true &&
+	plugin::scripting::CallCommandById(COMMAND_CAN_PLAYER_START_MISSION, 0) == 1 &&
 	plugin::scripting::CallCommandById(COMMAND_GET_FADING_STATUS) == false &&
 	plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_ARRESTED, player) == false &&
 	plugin::scripting::CallCommandById(COMMAND_IS_CHAR_DEAD, player) == false &&
@@ -13352,17 +13379,19 @@ if (cutenabled != 1 && is_on_foot() == true &&
 
 
 
-		CSprite2d::DrawRect(CRect(0.0f, 0.0f, screensize.x, screensize.y), CRGBA(0, 0, 0, 170));
+		//CSprite2d::DrawRect(CRect(0.0f, 0.0f, screensize.x, screensize.y), CRGBA(0, 0, 0, 170));
 		//update mouse position begin
 		float movspeed = 0.1f;
-		float movx, movy;
-		plugin::scripting::CallCommandById(COMMAND_GET_PC_MOUSE_MOVEMENT, &movx, &movy);
+		static float movx, movy;
+		static int movxx, movyy;
+		plugin::scripting::CallCommandById(COMMAND_GET_PC_MOUSE_MOVEMENT, &movxx, &movyy);
 		if (plugin::scripting::CallCommandById(COMMAND_IS_MOUSE_USING_VERTICAL_INVERSION) != NULL)
 		{
-			movy *= -1;
+			movyy *= -1;
 		}
 		int movfactor = 0;
-
+		movx = (float)movxx;
+		movy = (float)movyy;
 		movfactor = plugin::patch::GetInt(11987996, false) / 100000000;
 		movx *= movfactor;
 		movy *= movfactor;
