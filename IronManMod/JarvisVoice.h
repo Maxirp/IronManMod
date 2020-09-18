@@ -172,7 +172,9 @@ public:
 	static bool IsAudioVoicePlayed(int id);
 	static bool IsAudioStreamPlayed(Taudiofile MP3Stream, Taudiofile audiostreams);
 	static bool PlayThrustersIDLE(int user, int index, Taudiofile *, int pedid, Ttraje suit, int id, int code, Tthrusters *jets);
-	
+	static void DrawSuitClickIconAtCoords(bool available, bool noicon, int id, CRect rect, float mouseposx, float mouseposy, bool *ishovered);
+	static bool DrawClickIconAtCoords(bool bn, bool chang, bool setingcheck, CSprite2d *sprite, CSprite2d *spriteh, CRect rect, float mouseposx, float mouseposy);
+
 	static void StopThrustersIDLE(Taudiofile *, Tthrusters *jets);
 	static void storeenviroment(int *);
 	//static void IronManTasks();

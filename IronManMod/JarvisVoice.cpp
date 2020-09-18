@@ -26,6 +26,7 @@
 #include "CExplosion.h"
 #include "Movtextures.h"
 #include "CHud.h"
+
 using namespace plugin;
 
 BoolVars boolvars;
@@ -97,14 +98,13 @@ void Playuniloop(int id)
 //std::string lng1;
 
 CSprite2d *malarm = NULL;
-CSprite2d *armoricom[84] = { NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+CSprite2d *armoricom[70] = { NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
 NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
 NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
 NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
 NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
 NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
-NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
-NULL,NULL,NULL,NULL,NULL };
+NULL };
 CSprite2d *imhud2;
 CSprite2d *imhud3;
 //CSprite2d *menu1;
@@ -193,9 +193,9 @@ void JarvisVoice::Loadsuiticons()
 		fflush(stdin);
 		hj++;
 	}
-	if (settings.folderdirs[boolvars.yndex].subcontentamnt < 84)
+	if (settings.folderdirs[boolvars.yndex].subcontentamnt < 70)
 	{
-		for (int hj = settings.folderdirs[boolvars.yndex].subcontentamnt; hj < 84; hj++)
+		for (int hj = settings.folderdirs[boolvars.yndex].subcontentamnt; hj < 70; hj++)
 		{
 			armoricom[hj] = new CSprite2d();
 			armoricom[hj]->m_pTexture = NULL;
@@ -268,253 +268,6 @@ bool JarvisVoice::notwastednotbusted() {
 	}
 }
 
-void DrawSuitClickIconAtCoords(bool available, bool noicon, int id, float texposx, float texposy, float texposx2, float texposy2, float mouseposx, float mouseposy, bool *ishovered);
-bool DrawClickIconAtCoords(bool bn, int chang, bool, CSprite2d *sprite, CSprite2d *spriteh, float texposx, float texposy, float texposx2, float texposy2, float mouseposx, float mouseposy);
-
-void DrawSuitClickIconAtCoords(bool available, bool noicon, int id, float texposx, float texposy, float texposx2, float texposy2, float mouseposx, float mouseposy, bool *ishovered)
-{
-		if (boolvars.settingisactive == false)
-		{
-			if (id == 0)
-			{
-
-				marktony->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-
-				if (mouseposx >= texposx && mouseposx <= texposx2 && mouseposy >= texposy && mouseposy <= texposy2)
-				{
-					*ishovered = true;
-
-					chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-
-				}
-				else
-				{
-					*ishovered = false;
-					notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-
-				}
-			}
-			else
-			{
-				if (mouseposx >= texposx && mouseposx <= texposx2 && mouseposy >= texposy && mouseposy <= texposy2)
-				{
-					*ishovered = true;
-					if (!available)
-					{
-						if (armoricom[id]->m_pTexture != NULL)
-						{
-							armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-							CSprite2d::DrawRect(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 50));
-						}
-						else
-						{
-							signo->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-
-						}
-						notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-					}
-					else
-					{
-						if (armoricom[id]->m_pTexture != NULL)
-						{
-							armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-						}
-						else
-						{
-							signo1->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-						}
-						chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-
-					}
-				}
-				else
-				{
-					*ishovered = false;
-
-					if (!available)
-					{
-						if (armoricom[id]->m_pTexture != NULL)
-						{
-							armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-							CSprite2d::DrawRect(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 50));
-						}
-						else
-						{
-							signo->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-						}
-						if (notchosen->m_pTexture != NULL)
-						{
-							notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-						}
-					}
-					else
-					{
-						if (armoricom[id]->m_pTexture != NULL)
-						{
-							armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-
-						}
-						else
-						{
-							if (signo1->m_pTexture != NULL)
-							{
-								signo1->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-							}
-						}
-
-						if (notchosen->m_pTexture != NULL)
-						{
-							notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			if (id == 0)
-			{
-				if (marktony->m_pTexture != NULL)
-				{
-					marktony->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-				}
-				*ishovered = false;
-				if (notchosen->m_pTexture != NULL)
-				{
-					notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-				}
-			}
-			else
-			{
-				*ishovered = false;
-
-				if (!available)
-				{
-					if (armoricom[id]->m_pTexture != NULL)
-					{
-						armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-						CSprite2d::DrawRect(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 50));
-					}
-					else
-					{
-						signo->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-
-					}
-					notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-
-				}
-				else
-				{
-					if (armoricom[id]->m_pTexture != NULL)
-					{
-						armoricom[id]->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-
-					}
-					else
-					{
-						signo1->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-					}
-					notchosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-				}
-			}
-		}
-		fflush(stdin);
-}
-
-bool DrawClickIconAtCoords(bool bn, int chang, bool setingcheck, CSprite2d *sprite, CSprite2d *spriteh, float texposx, float texposy, float texposx2, float texposy2, float mouseposx, float mouseposy)
-{
-	fflush(stdin);
-	if (chang == 0)
-	{
-		if (boolvars.settingisactive == false || setingcheck == false)
-		{
-			if (bn==false)
-			{
-				if (mouseposx >= texposx && mouseposx <= texposx2 && mouseposy >= texposy && mouseposy <= texposy2)
-				{
-						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-					
-						chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-					
-					return true;
-				}
-				else
-				{
-						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-					
-					return false;
-				}
-			}
-			else
-			{
-				if (mouseposx >= texposx2 && mouseposx <= texposx && mouseposy >= texposy && mouseposy <= texposy2)
-				{
-						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-					
-						chosen->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-					
-					return true;
-				}
-				else
-				{
-						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-					
-					return false;
-				}
-			}
-		}
-		else
-		{
-				sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-			
-			return false;
-		}
-	}
-	else
-	{
-		if (boolvars.settingisactive == false || setingcheck == false)
-		{
-			if (bn==false)
-			{
-				if (mouseposx >= texposx && mouseposx <= texposx2 && mouseposy >= texposy && mouseposy <= texposy2)
-				{
-						spriteh->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-					
-					return true;
-				}
-				else
-				{
-						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-					
-					return false;
-				}
-			}
-			else
-			{
-				if (mouseposx >= texposx2 && mouseposx <= texposx && mouseposy >= texposy && mouseposy <= texposy2)
-				{
-						spriteh->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, 255));
-					
-					return true;
-				}
-				else
-				{
-						sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-					
-					return false;
-				}
-			}
-		}
-		else
-		{
-				sprite->Draw(CRect(texposx, texposy, texposx2, texposy2), CRGBA(255, 255, 255, armoralfa));
-			
-			return false;
-		}
-	}
-	return false;
-}
-
 void Drawfondo();
 
 void Drawfondo()
@@ -569,39 +322,255 @@ void Drawfondo()
 	}
 	else
 	{
-
-		static bool isfade;
-
-		if (boolvars.alphafad > 0 && boolvars.alphafad < 200)
+		if (boolvars.alphafad > 0 && boolvars.alphafad < 256)
 		{
-			boolvars.alphafad = 211;
-			/*plugin::scripting::CallCommandById(COMMAND_SET_FADING_COLOUR, 0, 208, 225);
-			plugin::scripting::CallCommandById(COMMAND_DO_FADE, 0, 500);
-			boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
-			boolvars.timetowait = 750;*/
-			isfade = true;
-			//boolvars.alphafad = 201;
-			//
-			//isfade = true;
-			//plugin::scripting::CallCommandById(COMMAND_DO_FADE, 1, 1200);
+			unsigned char alga = boolvars.alphafad;
+			CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, alga));
+		}
+	}
+}
+
+void JarvisVoice::DrawSuitClickIconAtCoords(bool available, bool noicon, int id, CRect rect, float mouseposx, float mouseposy, bool *ishovered)
+{
+		if (boolvars.settingisactive == false)
+		{
+			if (id == 0)
+			{
+
+				marktony->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+
+				if (mouseposx >= rect.left && mouseposx <= rect.right && mouseposy >= rect.top && mouseposy <= rect.bottom)
+				{
+					*ishovered = true;
+
+					chosen->Draw(rect, CRGBA(255, 255, 255, 255));
+
+				}
+				else
+				{
+					*ishovered = false;
+					notchosen->Draw(rect, CRGBA(255, 255, 255, 255));
+
+				}
+			}
+			else
+			{
+				if (mouseposx >= rect.left && mouseposx <= rect.right && mouseposy >= rect.top && mouseposy <= rect.bottom)
+				{
+					*ishovered = true;
+					if (!available)
+					{
+						if (armoricom[id]->m_pTexture != NULL)
+						{
+							armoricom[id]->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+							CSprite2d::DrawRect(rect, CRGBA(255, 255, 255, 50));
+						}
+						else
+						{
+							signo->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+
+						}
+						notchosen->Draw(rect, CRGBA(255, 255, 255, 255));
+					}
+					else
+					{
+						if (armoricom[id]->m_pTexture != NULL)
+						{
+							armoricom[id]->Draw(rect, CRGBA(255, 255, 255, 255));
+						}
+						else
+						{
+							signo1->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+						}
+						chosen->Draw(rect, CRGBA(255, 255, 255, 255));
+
+					}
+				}
+				else
+				{
+					*ishovered = false;
+
+					if (!available)
+					{
+						if (armoricom[id]->m_pTexture != NULL)
+						{
+							armoricom[id]->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+							CSprite2d::DrawRect(rect, CRGBA(255, 255, 255, 50));
+						}
+						else
+						{
+							signo->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+						}
+						if (notchosen->m_pTexture != NULL)
+						{
+							notchosen->Draw(rect, CRGBA(255, 255, 255, 255));
+						}
+					}
+					else
+					{
+						if (armoricom[id]->m_pTexture != NULL)
+						{
+							armoricom[id]->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+
+						}
+						else
+						{
+							if (signo1->m_pTexture != NULL)
+							{
+								signo1->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+							}
+						}
+
+						if (notchosen->m_pTexture != NULL)
+						{
+							notchosen->Draw(rect, CRGBA(255, 255, 255, 255));
+						}
+					}
+				}
+			}
 		}
 		else
 		{
-			if(boolvars.alphafad >= 210)
+			if (id == 0)
 			{
-				boolvars.alphafad = 0;
-				/*if (isfade == true)
+				if (marktony->m_pTexture != NULL)
 				{
-					plugin::scripting::CallCommandById(COMMAND_DO_FADE, 1, 500);
-					isfade = false;
-				}*/
+					marktony->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+				}
+				*ishovered = false;
+				if (notchosen->m_pTexture != NULL)
+				{
+					notchosen->Draw(rect, CRGBA(255, 255, 255, 255));
+				}
 			}
-			//isfade = false;
-			//plugin::scripting::CallCommandById(COMMAND_DO_FADE, 0, 1200);
-			//boolvars.timetowait = 1200;
+			else
+			{
+				*ishovered = false;
+
+				if (!available)
+				{
+					if (armoricom[id]->m_pTexture != NULL)
+					{
+						armoricom[id]->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+						CSprite2d::DrawRect(rect, CRGBA(255, 255, 255, 50));
+					}
+					else
+					{
+						signo->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+
+					}
+					notchosen->Draw(rect, CRGBA(255, 255, 255, 255));
+
+				}
+				else
+				{
+					if (armoricom[id]->m_pTexture != NULL)
+					{
+						armoricom[id]->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+
+					}
+					else
+					{
+						signo1->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+					}
+					notchosen->Draw(rect, CRGBA(255, 255, 255, 255));
+				}
+			}
 		}
-		//CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, boolvars.alphafad));
+		fflush(stdin);
+}
+
+bool JarvisVoice::DrawClickIconAtCoords(bool bn, bool chang, bool setingcheck, CSprite2d *sprite, CSprite2d *spriteh, CRect rect, float mouseposx, float mouseposy)
+{
+	if (chang == 0)
+	{
+		if (boolvars.settingisactive == false || setingcheck == false)
+		{
+			if (bn==false)
+			{
+				if (mouseposx >= rect.left && mouseposx <= rect.right && mouseposy >= rect.top && mouseposy <= rect.bottom)
+				{
+						sprite->Draw(rect, CRGBA(255, 255, 255, 255));
+					
+						chosen->Draw(rect, CRGBA(255, 255, 255, 255));
+					
+					return true;
+				}
+				else
+				{
+						sprite->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+					
+					return false;
+				}
+			}
+			else
+			{
+				if (mouseposx >= rect.right && mouseposx <= rect.left && mouseposy >= rect.top && mouseposy <= rect.bottom)
+				{
+						sprite->Draw(rect, CRGBA(255, 255, 255, 255));
+					
+						chosen->Draw(rect, CRGBA(255, 255, 255, 255));
+					
+					return true;
+				}
+				else
+				{
+						sprite->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+					
+					return false;
+				}
+			}
+		}
+		else
+		{
+				sprite->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+			
+			return false;
+		}
 	}
+	else
+	{
+		if (boolvars.settingisactive == false || setingcheck == false)
+		{
+			if (bn==false)
+			{
+				if (mouseposx >= rect.left && mouseposx <= rect.right && mouseposy >= rect.top && mouseposy <= rect.bottom)
+				{
+						spriteh->Draw(rect, CRGBA(255, 255, 255, 255));
+					
+					return true;
+				}
+				else
+				{
+						sprite->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+					
+					return false;
+				}
+			}
+			else
+			{
+				if (mouseposx >= rect.right && mouseposx <= rect.left && mouseposy >= rect.top && mouseposy <= rect.bottom)
+				{
+						spriteh->Draw(rect, CRGBA(255, 255, 255, 255));
+					
+					return true;
+				}
+				else
+				{
+						sprite->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+					
+					return false;
+				}
+			}
+		}
+		else
+		{
+				sprite->Draw(rect, CRGBA(255, 255, 255, armoralfa));
+			
+			return false;
+		}
+	}
+	return false;
 }
 
 bool JarvisVoice::LoadAudios() {
@@ -6628,11 +6597,9 @@ bool JarvisVoice::ironmanpowers() {
 	delete[] indiceee;
 	*/
 	std::string keyp = PLUGIN_PATH("IronMan\\MaxirpHud.dat");
-	plugin::config_file config(keyp);
 	//LOAD THE MODELS AND ANIMATIONS WE NEED
 	float sizex = SCREEN_COORD(120.0f); //((SCREEN_HEIGHT) / 7 * 1);
 
-	static int iconsel, iconsel1;
 	float sixe = (SCREEN_COORD_CENTER_X - SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT)+SCREEN_COORD(10.0f) + sizex;
 	static int cfgindx, cfgnro;
 	static float offsetx;
@@ -6881,6 +6848,7 @@ bool JarvisVoice::ironmanpowers() {
 	//MENU ACTIVATION THROUGH INI FILE
 	int menuact = GetPrivateProfileInt("CONFIG", "MENU", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 
+	static int iconsel, iconsel1;
 	if (menuact == 1)
 	{
 		boolvars.menuisactive = true;
@@ -6899,13 +6867,14 @@ bool JarvisVoice::ironmanpowers() {
 			iconsel1 = 0;
 			timerforpages = 0;
 			gameisstopped = true;
+			movtextures.Loadmenuicons();
+			Loadsuiticons();
 			hastoloadskin = false;
 			hastoloadfriend = false;
 			isentered = false;
 			iscliqued = false;
 			isclicked = false;
 			plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 0);
-
 			if (settings.radarmode != 2)
 			{
 				plugin::scripting::CallCommandById(COMMAND_DISPLAY_RADAR, 0);
@@ -6940,13 +6909,6 @@ bool JarvisVoice::ironmanpowers() {
 	static int clktim;
 	if (CTimer::m_snTimeInMillisecondsNonClipped < boolvars.waiter + boolvars.timetowait)
 	{
-		if (boolvars.alphafad > 0 && boolvars.alphafad<=255)
-		{
-			if(boolvars.menuisactive)
-				goto suitmenu;
-
-			return true;
-		}
 		//THE WAIT FUNCTION
 		//STRUCTURE:
 		//boolvars.waiter = CTimer::m_snTimeInMillisecondsNonClipped;
@@ -6954,7 +6916,6 @@ bool JarvisVoice::ironmanpowers() {
 		//using this, the script will automatically wait 200 milliseconds for next action
 		if ((DWORD*)0xB6F5F0 > 0 && player)
 		{
-			
 			if (boolvars.activesuit > 0)
 			{
 				if (player->m_fArmour <= 0.0f || player->m_fHealth <= 0.0f)
@@ -6990,8 +6951,6 @@ bool JarvisVoice::ironmanpowers() {
 					}
 				}
 			}
-			
-
 			if (plugin::scripting::CallCommandById(COMMAND_CAN_PLAYER_START_MISSION, 0) == 1)
 			{
 				if (boolvars.indx != 21 && boolvars.indx != 23 && boolvars.indx != 13)
@@ -7039,6 +6998,8 @@ bool JarvisVoice::ironmanpowers() {
 								iconsel1 = 0;
 								timerforpages = 0;
 								gameisstopped = true;
+								movtextures.Loadmenuicons();
+								Loadsuiticons();
 								hastoloadskin = false;
 								hastoloadfriend = false;
 								isentered = false;
@@ -7327,6 +7288,8 @@ bool JarvisVoice::ironmanpowers() {
 							iconsel1 = 0;
 							timerforpages = 0;
 							gameisstopped = true;
+							movtextures.Loadmenuicons();
+							Loadsuiticons();
 							hastoloadskin = false;
 							hastoloadfriend = false;
 							isentered = false;
@@ -7585,10 +7548,9 @@ bool JarvisVoice::ironmanpowers() {
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark04") == 0 ||
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark05") == 0 ||
 					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark06") == 0 ||
-					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark07") == 0)
+					strcmp(settings.folderdirs[boolvars.yndex].suits[chosenmark].pngname, "mark07") == 0 ||
+					chosenmark == 0)
 				{
-					if (chosenmark == 0)
-					{
 						boolvars.pageofsuit = boolvars.yndex;
 						if (player->m_nModelIndex != 0)
 						{
@@ -7601,9 +7563,7 @@ bool JarvisVoice::ironmanpowers() {
 							boolvars.timetowait = 150;
 
 						}
-					}
-					else
-					{
+					
 						if (chosenmark == 1)
 						{
 							markk = chosenmark;
@@ -7783,7 +7743,7 @@ bool JarvisVoice::ironmanpowers() {
 								}
 							}
 						}
-					}
+					
 				}
 				else
 				{
@@ -8480,6 +8440,26 @@ bool JarvisVoice::ironmanpowers() {
 							WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 							boolvars.menuisactive = false;
 
+							static int timeforb;
+
+							if (CTimer::m_snTimeInMillisecondsNonClipped > timeforb + 200)
+							{
+								if (GetKeyState('B') & 0x8000)
+								{
+									int flymous = GetPrivateProfileInt("CONFIG", "FLYMOUSE", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+									if (flymous != 0)
+									{
+										WritePrivateProfileString("CONFIG", "FLYMOUSE", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+										CHud::SetHelpMessage("Point to camera flight", true, false, false);
+									}
+									else
+									{
+										WritePrivateProfileString("CONFIG", "FLYMOUSE", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
+										CHud::SetHelpMessage("Standard flight", true, false, false);
+									}
+									timeforb = CTimer::m_snTimeInMillisecondsNonClipped;
+								}
+							}
 
 							/*if (ordenelegir == true)
 							{*/
@@ -8942,32 +8922,7 @@ bool JarvisVoice::ironmanpowers() {
 									plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CYCLE_WEAPON_BUTTON, 0, 1);
 								}
 							}
-
-
-							static int timeforb;
-
 							int flymode = GetPrivateProfileInt("CONFIG", "FLYMOUSE", 0, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-
-							if (GetKeyState('B') & 0x8000)
-							{
-								if (CTimer::m_snTimeInMillisecondsNonClipped > timeforb + 200)
-								{
-									if (flymode != 0)
-									{
-										WritePrivateProfileString("CONFIG", "FLYMOUSE", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-										CHud::SetHelpMessage("Standard flight", true, false, false);
-										flymode = 0;
-									}
-									else
-									{
-										WritePrivateProfileString("CONFIG", "FLYMOUSE", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-										CHud::SetHelpMessage("Point to camera flight", true, false, false);
-										flymode = 1;
-									}
-									timeforb = CTimer::m_snTimeInMillisecondsNonClipped;
-								}
-							}
-
 
 							if (flymode == 0)
 							{
@@ -9527,7 +9482,6 @@ ciclobasico:
 		{
 			if (boolvars.wpmenuisactive == false && boolvars.indx != 24)
 			{
-
 
 				if (boolvars.activesuit != 0 && player->m_nPedState != PEDSTATE_DRIVING)
 				{
@@ -11110,7 +11064,7 @@ wpicons:
 				wpcoords.y *= 152.0f;
 				wpcoords.x *= 152.0f;
 				/*
-				if(DrawClickIconAtCoords(true, wp1, hwp1, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory)==true)
+				if(jarvisvoice.DrawClickIconAtCoords(true, wp1, hwp1, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory)==true)
 				{
 				if (iconsel != 1)
 				{
@@ -11123,7 +11077,7 @@ wpicons:
 				wpcoords.y *= 152.0f;
 				wpcoords.x *= 152.0f;
 
-				//DrawClickIconAtCoords(true, wp2, hwp2, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose1);
+				//jarvisvoice.DrawClickIconAtCoords(true, wp2, hwp2, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose1);
 				if (hoverclose1 == true) {
 					if (iconsel != 2)
 					{
@@ -11136,7 +11090,7 @@ wpicons:
 				wpcoords.y *= 152.0f;
 				wpcoords.x *= 152.0f;
 
-				//DrawClickIconAtCoords(true, wp3, hwp3, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose2);
+				//jarvisvoice.DrawClickIconAtCoords(true, wp3, hwp3, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose2);
 				if (hoverclose2 == true) {
 					if (iconsel != 3)
 					{
@@ -11149,7 +11103,7 @@ wpicons:
 				wpcoords.y *= 152.0f;
 				wpcoords.x *= 152.0f;
 
-				//DrawClickIconAtCoords(true, wp4, hwp4, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose3);
+				//jarvisvoice.DrawClickIconAtCoords(true, wp4, hwp4, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose3);
 				if (hoverclose3 == true) {
 					if (iconsel != 4)
 					{
@@ -11162,7 +11116,7 @@ wpicons:
 				wpcoords.y *= 152.0f;
 				wpcoords.x *= 152.0f;
 
-				//DrawClickIconAtCoords(true, wp5, hwp5, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose4);
+				//jarvisvoice.DrawClickIconAtCoords(true, wp5, hwp5, SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) - SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_X + SCREEN_COORD(wpcoords.x) + SCREEN_COORD(50.0f), SCREEN_COORD_CENTER_Y + SCREEN_COORD(wpcoords.y) + SCREEN_COORD(50.0f), cursorx, cursory, &hoverclose4);
 				if (hoverclose4 == true) {
 					if (iconsel != 5)
 					{
@@ -13267,30 +13221,41 @@ volarsolo:
 
 suitmenu:
 	{
+		static bool exost, banderilla;
+		plugin::config_file config(keyp);
 		CVector2D screensize = { SCREEN_WIDTH, SCREEN_HEIGHT };
 		CVector2D screenmiddle = { SCREEN_COORD_CENTER_X ,SCREEN_COORD_CENTER_Y };
+		float aux2=0.0f;
+		static int armormenu, filasx7;
+		float limitarmors = (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f);
+		float movspeed = 0.1f;
+		static float movx, movy;
 
+		float margin = SCREEN_COORD(120.0f);
+		float margin2 = SCREEN_COORD(160.0f);
+
+		static int elemento;
+		CRect poselemento;
+
+
+		static bool noicon;
+		static bool exist;
+		static bool inexistente;
+		int chosen2 = -1;
+		static bool ishovered;
+		static bool thereisasuit;
+		static int status;
+		static int ant,post;
+
+		bool eligioalgo = false;
+		char numb[4];
+		static int timedoption;
+		int movfactor = 0;
 		std::string suitarmormenu1;
-		/*
-		if (marktony->m_pTexture == NULL ||
-		chosen->m_pTexture == NULL ||
-		notchosen->m_pTexture == NULL ||
-		signo->m_pTexture == NULL ||
-		signo1->m_pTexture == NULL ||
-		closewdw->m_pTexture == NULL ||
-		menu3->m_pTexture == NULL ||
-		menu4->m_pTexture == NULL ||
-		menu5->m_pTexture == NULL ||
-		cursor->m_pTexture == NULL ||
-		settingmenu->m_pTexture == NULL ||
-		closebtn->m_pTexture == NULL ||
-		check->m_pTexture == NULL ||
-		uncheck->m_pTexture == NULL ||
-		menusel->m_pTexture == NULL)
-		{
-		movtextures.Loadmenuicons();
-		}*/
-		//cutenabled = plugin::patch::GetUChar(11989093, false);
+		suitarmormenu1.clear();
+		float aux1 = screensize.y / 7;
+		float aux3 = (screensize.y - margin2);
+		cutenabled = plugin::patch::GetUChar(11989093, false);
 		if (cutenabled != 1)
 		{
 			if (settings.radarmode != 2)
@@ -13304,7 +13269,6 @@ suitmenu:
 						WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 						boolvars.menuisactive = false;
 						boolvars.alphafad = 0;
-						suitarmormenu1.clear();
 						return true;
 					}
 				}
@@ -13316,7 +13280,6 @@ suitmenu:
 			boolvars.settingisactive = false;
 			WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 			boolvars.menuisactive = false;
-			suitarmormenu1.clear();
 			return true;
 		}
 
@@ -13329,49 +13292,40 @@ suitmenu:
 		}
 
 		//boolvars.wpmenuisactive == false &&
-if (cutenabled != 2 && is_on_foot() == true &&
+if (//is_on_foot() == true &&
 	boolvars.menuisactive == true &&
-	player &&
-	plugin::scripting::CallCommandById(COMMAND_CAN_PLAYER_START_MISSION, 0) == 1 &&
-	
-	plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_ARRESTED, player) == false &&
-	plugin::scripting::CallCommandById(COMMAND_IS_CHAR_DEAD, player) == false &&
-	plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false &&
+	plugin::scripting::CallCommandById(COMMAND_GET_FADING_STATUS) == false &&
+	//plugin::scripting::CallCommandById(COMMAND_HAS_CHAR_BEEN_ARRESTED, player) == false &&
+	//plugin::scripting::CallCommandById(COMMAND_IS_CHAR_DEAD, player) == false &&
+	//plugin::scripting::CallCommandById(COMMAND_IS_CHAR_SWIMMING, player) == false &&
 	boolvars.has_a_car == false &&
 	boolvars.aims == false)
-{
-	if (marktony->m_pTexture != NULL &&
-		signo->m_pTexture != NULL &&
-		signo1->m_pTexture != NULL &&
-		notchosen->m_pTexture != NULL &&
-		chosen->m_pTexture != NULL &&
-		closewdw->m_pTexture != NULL &&
-		menu3->m_pTexture != NULL &&
-		menu4->m_pTexture != NULL &&
-		settingmenu->m_pTexture != NULL &&
-		closebtn->m_pTexture != NULL)
 	{
-
-		float limitarmors = (screenmiddle.x - screensize.y / 2) + (screensize.y) + SCREEN_COORD(10.0f);
 		if (!ordendada)
 		{
 			beginend = false;
 			if (boolvars.alphafad > 200)
 			{
-				boolvars.alphafad = 250;
+				boolvars.alphafad = 255;
 				ordendada = true;
 				boolvars.timrmenu = CTimer::m_snTimeInMillisecondsNonClipped;
+				Drawfondo();
+				return true;
 			}
 			else
 			{
 				boolvars.alphafad += 50;
-			}
-			if (boolvars.alphafad > 0 && boolvars.alphafad <= 255)
-			{
+				if (boolvars.alphafad <= 200)
+				{
+					Drawfondo();
+					return true;
+				}
+				boolvars.alphafad = 255;
+				ordendada = true;
+				boolvars.timrmenu = CTimer::m_snTimeInMillisecondsNonClipped;
 				Drawfondo();
+				return true;
 			}
-			suitarmormenu1.clear();
-			//CSprite2d::DrawRect(CRect((0.0f), (0.0f), SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(0, 208, 225, (int)boolvars.alphafad));
 			return true;
 		}
 		if (ordenelegir == true)
@@ -13398,6 +13352,11 @@ if (cutenabled != 2 && is_on_foot() == true &&
 				if (boolvars.alphafad >= 40)
 				{
 					boolvars.alphafad -= 40;
+					if (boolvars.alphafad < 10)
+					{
+						boolvars.alphafad = 0;
+						beginend = false;
+					}
 				}
 				else
 				{
@@ -13406,45 +13365,19 @@ if (cutenabled != 2 && is_on_foot() == true &&
 				}
 			}
 		}
-		/*
-		static bool hoverprevfolder;
-		static bool hovernextfolder;*/
-		bool eligioalgo = false;
-		/*static bool hoverprev;
-		static bool hovernext;
-		static bool hoversets;
-		static bool hoverclosets; */
-
-
-
-		static int timedoption;
-
-
-
-		//CSprite2d::DrawRect(CRect(0.0f, 0.0f, screensize.x, screensize.y), CRGBA(0, 0, 0, 170));
-		//update mouse position begin
-		float movspeed = 0.1f;
-		static float movx, movy;
-		int movxx = 0;
-		int movyy = 0;
-		plugin::scripting::CallCommandById(COMMAND_GET_PC_MOUSE_MOVEMENT, &movxx, &movyy);
+		plugin::scripting::CallCommandById(COMMAND_GET_PC_MOUSE_MOVEMENT, &movx, &movy);
 		if (plugin::scripting::CallCommandById(COMMAND_IS_MOUSE_USING_VERTICAL_INVERSION) != NULL)
 		{
-			movyy *= -1;
+			movy *= -1;
 		}
-		float movfactor=0.0f;
-		movx = (float)movxx;
-		movy = (float)movyy;
-		movfactor = (float)plugin::patch::GetFloat(11987996, false);
-		movfactor /= 30000.0f;
+
+		movfactor = plugin::patch::GetInt(11987996, false) / 100000000;
 		movx *= movfactor;
 		movy *= movfactor;
 		movx *= movspeed;
 		movy *= movspeed;
-		
 		cursorx += movx;
-		cursory += movy;		
-		
+		cursory += movy;
 		if (cursorx < SCREEN_COORD(0.0f)) {
 			cursorx = SCREEN_COORD(0.0f);
 		}
@@ -13462,105 +13395,115 @@ if (cutenabled != 2 && is_on_foot() == true &&
 		}
 
 
-		float margin = SCREEN_COORD(120.0f);
-		float margin2 = SCREEN_COORD(160.0f);
+		//menu5->Draw(CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), limitarmors, margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(255, 255, 255, 255));
+		CSprite2d::DrawRect(CRect(0.0f, 0.0f, screensize.x, screensize.y), CRGBA(0, 0, 0, 170));
 
-		if (DrawClickIconAtCoords(false, 0, true, closewdw, closewdw, (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) - sizex, SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
+		CSprite2d::DrawRect(CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), limitarmors, margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(26, 26, 26, 255));
+
+		CFont::SetBackground(0, 0);
+		CFont::SetOrientation(ALIGN_CENTER);
+		CFont::SetProportional(true);
+		CFont::SetJustify(false);
+		CFont::SetColor(CRGBA(255, 255, 255, 255));
+		CFont::SetFontStyle(FONT_MENU);
+		CFont::SetEdge(2);
+		CFont::SetCentreSize(screensize.x + SCREEN_COORD(-350.0f));
+		CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
+
+		if (boolvars.alphafad == 0)
 		{
-			iconsel = 1;
-			eligioalgo = true;
-		}
-
-
-
-		static int elemento;
-		CRect poselemento;
-		if (settings.folderdirs[boolvars.yndex].subcontentamnt > 41)
-		{
-			if (DrawClickIconAtCoords(false, 1, true, menu3, menu4, (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) - sizex, margin - SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin + (screensize.y - margin2) + SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
+			
+			if (jarvisvoice.DrawClickIconAtCoords(false, 0, true, closewdw, closewdw, CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) - sizex, SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f)), cursorx, cursory) == true && boolvars.settingisactive == false)
 			{
-				iconsel = 2;
+				iconsel = 1;
 				eligioalgo = true;
 			}
 
-			if (DrawClickIconAtCoords(true, 1, true, menu3, menu4, limitarmors + sizex, margin - SCREEN_COORD(10.0f), limitarmors, margin + (screensize.y - margin2) + SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
+
+
+			if (settings.folderdirs[boolvars.yndex].subcontentamnt > 34)
 			{
-				iconsel = 3;
-				eligioalgo = true;
-			}
-		}
-		else
-		{
-			//hoverprev = false;
-			//hovernext = false;
-			menupage = 0;
-		}
-		if (DrawClickIconAtCoords(true, 0, true, closewdw, closewdw, limitarmors + sizex, SCREEN_COORD(10.0f), limitarmors, margin - SCREEN_COORD(10.0f), cursorx, cursory) == true && boolvars.settingisactive == false)
-		{
-			iconsel = 5;
-			eligioalgo = true;
-		}
-
-
-		static bool noicon;
-		static bool exist;
-		static bool inexistente;
-		static int chosen2;
-		chosen2 = -1;
-		static bool ishovered;
-		static bool thereisasuit;
-
-		menu5->Draw(CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin - SCREEN_COORD(10.0f), limitarmors, margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(255, 255, 255, 255));
-
-		for (int filas = 0; filas < 6; filas++)
-		{
-			for (int columnas = 0; columnas < 7; columnas++)
-			{
-				static float aux2;
-				int armormenu = menupage * 42;
-				int filasx7 = filas * 7;
-				elemento = columnas + filasx7 + armormenu;
-				poselemento.left = (screenmiddle.x - screensize.y / 2);
-				aux2 = screensize.y / 7;
-				aux2 *= (columnas);
-				poselemento.left += aux2;
-				poselemento.top = margin;
-				aux2 = (screensize.y - margin2);
-				aux2 /= 6;
-				aux2 *= filas;
-				poselemento.top += aux2;
-				poselemento.right = (screenmiddle.x - screensize.y / 2);
-				aux2 = screensize.y / 7;
-				aux2 *= (columnas + 1);
-				poselemento.right += aux2;
-				poselemento.bottom = margin;
-				aux2 = (screensize.y - margin2);
-				aux2 /= 6;
-				aux2 *= (filas + 1);
-				poselemento.bottom += aux2;
-
-				if (poselemento.right > limitarmors)
+				if (jarvisvoice.DrawClickIconAtCoords(false, 1, true, menu3, menu4, CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) - sizex, margin - SCREEN_COORD(10.0f), (screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f), margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), cursorx, cursory) == true && boolvars.settingisactive == false)
 				{
-					break;
+					iconsel = 2;
+					eligioalgo = true;
 				}
-				bool exost = false;
-				if (strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark01") != 0 &&
-					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark02") != 0 &&
-					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark03") != 0 &&
-					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark04") != 0 &&
-					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark05") != 0 &&
-					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark06") != 0 &&
-					strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark07") != 0 &&
-					elemento != 0)
+
+				if (jarvisvoice.DrawClickIconAtCoords(true, 1, true, menu3, menu4, CRect(limitarmors + sizex, margin - SCREEN_COORD(10.0f), limitarmors, margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), cursorx, cursory) == true && boolvars.settingisactive == false)
 				{
-					if (settings.folderdirs[boolvars.yndex].suits[elemento].texexists == false || settings.folderdirs[boolvars.yndex].suits[elemento].mdlexists == false)
+					iconsel = 3;
+					eligioalgo = true;
+				}
+			}
+			else
+			{
+				//hoverprev = false;
+				//hovernext = false;
+				menupage = 0;
+			}
+			if (jarvisvoice.DrawClickIconAtCoords(true, 0, true, closewdw, closewdw, CRect(limitarmors + sizex, SCREEN_COORD(10.0f), limitarmors, margin - SCREEN_COORD(10.0f)), cursorx, cursory) == true && boolvars.settingisactive == false)
+			{
+				iconsel = 5;
+				eligioalgo = true;
+			}
+
+			for (int filas = 0; filas < 5; filas++)
+			{
+				for (int columnas = 0; columnas < 7; columnas++)
+				{
+					armormenu = menupage * 35;
+					filasx7 = filas * 7;
+					elemento = columnas + filasx7 + armormenu;
+					poselemento.left = (screenmiddle.x - screensize.y / 2);
+					aux2 = aux1 * (float)(columnas);
+					poselemento.left += aux2;
+					poselemento.top = margin;
+					aux2 = aux3 /6.0f * (float)(filas);
+					poselemento.top += aux2;
+					poselemento.right = (screenmiddle.x - screensize.y / 2);
+					aux2 = aux1 * (float)(columnas + 1);
+					poselemento.right += aux2;
+					poselemento.bottom = margin;
+					aux2 = aux3 / 6.0f * (float)(filas + 1);
+					poselemento.bottom += aux2;
+
+					if (poselemento.right > limitarmors)
 					{
-						exost = false;
-						exist = false;
+						break;
+					}
+					exost = false;
+					if (strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark01") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark02") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark03") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark04") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark05") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark06") != 0 &&
+						strcmp(settings.folderdirs[boolvars.yndex].suits[elemento].pngname, "mark07") != 0 &&
+						elemento != 0)
+					{
+						if (settings.folderdirs[boolvars.yndex].suits[elemento].texexists == false || settings.folderdirs[boolvars.yndex].suits[elemento].mdlexists == false)
+						{
+							exost = false;
+							exist = false;
+						}
+						else
+						{
+							exost = true;
+							if (settings.folderdirs[boolvars.yndex].suits[elemento].iconexists == false)
+							{
+								noicon = true;
+							}
+							else
+							{
+								noicon = false;
+							}
+							exist = true;
+						}
 					}
 					else
 					{
 						exost = true;
+
 						if (settings.folderdirs[boolvars.yndex].suits[elemento].iconexists == false)
 						{
 							noicon = true;
@@ -13571,252 +13514,205 @@ if (cutenabled != 2 && is_on_foot() == true &&
 						}
 						exist = true;
 					}
-				}
-				else
-				{
-					exost = true;
-
-					if (settings.folderdirs[boolvars.yndex].suits[elemento].iconexists == false)
+					jarvisvoice.DrawSuitClickIconAtCoords(exist, noicon, elemento, poselemento, cursorx, cursory, &ishovered);
+					if (ishovered == true && boolvars.settingisactive == false)
 					{
-						noicon = true;
-					}
-					else
-					{
-						noicon = false;
-					}
-					exist = true;
-				}
-				DrawSuitClickIconAtCoords(exist, noicon, elemento, poselemento.left, poselemento.top, poselemento.right, poselemento.bottom, cursorx, cursory, &ishovered);
-				if (ishovered == true && boolvars.settingisactive == false)
-				{
-					eligioalgo = true;
-					chosen2 = elemento;
-					if (hoveredmark != chosen2)
-					{
-						hoveredmark = chosen2;
-						if (
-							iconsel != 0)
+						eligioalgo = true;
+						chosen2 = elemento;
+						if (hoveredmark != chosen2)
 						{
-							if (exost == true)
+							hoveredmark = chosen2;
+							if (
+								iconsel != 0)
 							{
-								AudioLib.PlayMenuSFX(0);
+								if (exost == true)
+								{
+									AudioLib.PlayMenuSFX(0);
+								}
+								else
+								{
+									AudioLib.PlayMenuSFX(6);
+								}
 							}
-							else
-							{
-								AudioLib.PlayMenuSFX(6);
-							}
-						}
-						iconsel = 4;
-					}
-					else
-					{
-						iconsel = 4;
-						/**/
-						if (strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark01") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark02") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark03") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark04") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark05") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark06") != 0 &&
-							strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark07") != 0 &&
-							chosen2 != 0)
-						{
-							if (settings.folderdirs[boolvars.yndex].suits[chosen2].texexists == true || settings.folderdirs[boolvars.yndex].suits[chosen2].mdlexists == true)
-							{
-								inexistente = false;
-							}
-							else
-							{
-								inexistente = true;
-							}
+							iconsel = 4;
 						}
 						else
 						{
-							inexistente = false;
+							iconsel = 4;
+							/**/
+							if (strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark01") != 0 &&
+								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark02") != 0 &&
+								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark03") != 0 &&
+								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark04") != 0 &&
+								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark05") != 0 &&
+								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark06") != 0 &&
+								strcmp(settings.folderdirs[boolvars.yndex].suits[chosen2].pngname, "mark07") != 0 &&
+								chosen2 != 0)
+							{
+								if (settings.folderdirs[boolvars.yndex].suits[chosen2].texexists == true || settings.folderdirs[boolvars.yndex].suits[chosen2].mdlexists == true)
+								{
+									inexistente = false;
+								}
+								else
+								{
+									inexistente = true;
+								}
+							}
+							else
+							{
+								inexistente = false;
+							}
 						}
 					}
+					//}
+
+					fflush(stdin);
+
 				}
-				//}
 
 				fflush(stdin);
-
 			}
-
 			fflush(stdin);
-		}
-		if (boolvars.alphafad == 0)
-		{
-			CFont::SetBackground(0, 0);
-			CFont::SetOrientation(ALIGN_CENTER);
-			CFont::SetProportional(true);
-			CFont::SetJustify(false);
-			CFont::SetColor(CRGBA(255, 255, 255, 255));
-			CFont::SetFontStyle(FONT_MENU);
-			CFont::SetEdge(2);
-			CFont::SetCentreSize(screensize.x + SCREEN_COORD(-350.0f));
-			CFont::SetScale(SCREEN_MULTIPLIER(settings.vecSubtitlesScale.x), SCREEN_MULTIPLIER(settings.vecSubtitlesScale.y));
-		}
-		if (offsetx >= sixe)
-		{
-			offsetx = sixe;
-		}
 
-		if (offsetx <= SCREEN_COORD(0.0f))
-		{
-			offsetx = SCREEN_COORD(0.0f);
-		}
-
-
-
-
-		if (boolvars.settingisactive == false)
-		{
-			if (offsetx <= sixe - SCREEN_COORD(50.0f))
-			{
-				offsetx += SCREEN_COORD(50.0f);
-			}
-			else
+			if (offsetx >= sixe)
 			{
 				offsetx = sixe;
 			}
-			CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
-				margin - SCREEN_COORD(10.0f),
-				sixe - offsetx,
-				margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(128, 128, 128, 255));
 
-			CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
-				margin + SCREEN_COORD(10.0f),
-				sixe - SCREEN_COORD(20.0f) - offsetx,
-				margin + (screensize.y - margin2) - SCREEN_COORD(10.0f)), CRGBA(50, 50, 50, 255));
-
-			//
-
-
-			if (boolvars.alphafad == 0)
+			if (offsetx <= SCREEN_COORD(0.0f))
 			{
+				offsetx = SCREEN_COORD(0.0f);
+			}
+
+			if (boolvars.settingisactive == false)
+			{
+				if (offsetx <= sixe - SCREEN_COORD(50.0f))
+				{
+					offsetx += SCREEN_COORD(50.0f);
+				}
+				else
+				{
+					offsetx = sixe;
+				}
+				CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
+					margin - SCREEN_COORD(10.0f),
+					sixe - offsetx,
+					margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(128, 128, 128, 255));
+
+				CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
+					margin + SCREEN_COORD(10.0f),
+					sixe - SCREEN_COORD(20.0f) - offsetx,
+					margin + (screensize.y - margin2) - SCREEN_COORD(10.0f)), CRGBA(50, 50, 50, 255));
+
+				//
+
+
 				suitarmormenu1 = settings.folderdirs[boolvars.yndex].name;
 				suitarmormenu1 += " ";
 				suitarmormenu1 += boolvars.suitarmormenu;
 
-				CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(settings.fRadioNameTopPosnY), suitarmormenu1.data());
-				
+				CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(50.0f), suitarmormenu1.data());
+
+				suitarmormenu1.clear();
 				CFont::SetFontStyle(FONT_SUBTITLES);
 				CFont::SetScale(SCREEN_MULTIPLIER(0.7f), SCREEN_MULTIPLIER(1.4f));
-				CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(50.0f), boolvars.Clicoptions.data());
-			}
-			if (DrawClickIconAtCoords(false, 0, false,
-				settingmenu,
-				settingmenu,
-				(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f),
-				SCREEN_COORD(10.0f),
-				(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) + sizex,
-				margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
-				iconsel = 6;
-				eligioalgo = true;
-			}
+				CFont::PrintStringFromBottom(screenmiddle.x, SCREEN_COORD_BOTTOM(100.0f), boolvars.Clicoptions.data());
+				
+				if (jarvisvoice.DrawClickIconAtCoords(false, 0, false,
+					settingmenu,
+					settingmenu,
+					CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f),
+					SCREEN_COORD(10.0f),
+					(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) + sizex,
+					margin - SCREEN_COORD(10.0f)), cursorx, cursory) == true) {
+					iconsel = 6;
+					eligioalgo = true;
+				}
 
-			if (DrawClickIconAtCoords(false, 0, false,
-				closebtn,
-				closebtn,
-				limitarmors - sizex,
-				SCREEN_COORD(10.0f),
-				limitarmors,
-				margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
-				iconsel = 7;
-				eligioalgo = true;
-			}
+				if (jarvisvoice.DrawClickIconAtCoords(false, 0, false,
+					closebtn,
+					closebtn,
+					CRect(limitarmors - sizex,
+					SCREEN_COORD(10.0f),
+					limitarmors,
+					margin - SCREEN_COORD(10.0f)), cursorx, cursory) == true) {
+					iconsel = 7;
+					eligioalgo = true;
+				}
 
-		}
-		else
-		{
-
-			if (offsetx >= SCREEN_COORD(50.0f))
-			{
-				offsetx -= SCREEN_COORD(50.0f);
 			}
 			else
 			{
-				offsetx = SCREEN_COORD(0.0f);
-			}
-			//CSprite2d::DrawRect(CRect(0.0f, 0.0f, screensize.x, screensize.y), CRGBA(0, 0, 0, 170));
 
-			CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
-				margin - SCREEN_COORD(10.0f),
-				sixe - offsetx,
-				margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(128, 128, 128, 255));
-
-			CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
-				margin + SCREEN_COORD(10.0f),
-				sixe - SCREEN_COORD(20.0f) - offsetx,
-				margin + (screensize.y - margin2) - SCREEN_COORD(10.0f)), CRGBA(50, 50, 50, 255));
-
-			if (DrawClickIconAtCoords(false, 0, false,
-				settingmenu,
-				settingmenu,
-				(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f),
-				SCREEN_COORD(10.0f),
-				(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) + sizex,
-				margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
-				iconsel = 6;
-				eligioalgo = true;
-			}
-
-			if (DrawClickIconAtCoords(false, 0, false,
-				closebtn,
-				closebtn,
-				limitarmors - sizex,
-				SCREEN_COORD(10.0f),
-				limitarmors,
-				margin - SCREEN_COORD(10.0f), cursorx, cursory) == true) {
-				iconsel = 7;
-				eligioalgo = true;
-			}
-
-			if (boolvars.alphafad == 0)
-			{
-				suitarmormenu1 = boolvars.Options.data();
-				CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(settings.fRadioNameTopPosnY), suitarmormenu1.data());
-
-				CFont::SetFontStyle(FONT_SUBTITLES);
-				CFont::SetScale(SCREEN_MULTIPLIER(0.7f), SCREEN_MULTIPLIER(1.4f));
-				CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(50.0f), boolvars.helptext8.data());
-			}
-			static int status;
-
-			if (jarvisvoice.Va_adelante() && CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
-			{
-				timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
-				status = 1;
-			}
-
-			if (jarvisvoice.Va_atras() && CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
-			{
-				timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
-				status = 2;
-			}
-
-			if (status == 1)
-			{
-				while (cfgnro >= 0)
+				if (offsetx >= SCREEN_COORD(50.0f))
 				{
-					cfgnro -= 1;
-					if (cfgnro < 0)
-					{
-						break;
-					}
-					if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
-						|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
-					{
-						break;
-					}
+					offsetx -= SCREEN_COORD(50.0f);
+				}
+				else
+				{
+					offsetx = SCREEN_COORD(0.0f);
+				}
+				//CSprite2d::DrawRect(CRect(0.0f, 0.0f, screensize.x, screensize.y), CRGBA(0, 0, 0, 170));
+
+				CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
+					margin - SCREEN_COORD(10.0f),
+					sixe - offsetx,
+					margin + (screensize.y - margin2) + SCREEN_COORD(10.0f)), CRGBA(128, 128, 128, 255));
+
+				CSprite2d::DrawRect(CRect(SCREEN_COORD(0.0f) - offsetx,
+					margin + SCREEN_COORD(10.0f),
+					sixe - SCREEN_COORD(20.0f) - offsetx,
+					margin + (screensize.y - margin2) - SCREEN_COORD(10.0f)), CRGBA(50, 50, 50, 255));
+
+				if (jarvisvoice.DrawClickIconAtCoords(false, 0, false,
+					settingmenu,
+					settingmenu,
+					CRect((screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f),
+					SCREEN_COORD(10.0f),
+					(screenmiddle.x - screensize.y / 2) - SCREEN_COORD(10.0f) + sizex,
+					margin - SCREEN_COORD(10.0f)), cursorx, cursory) == true) {
+					iconsel = 6;
+					eligioalgo = true;
 				}
 
-				if (cfgnro < 0)
-				{
-					cfgnro = config.paramLines.size() - 1;
+				if (jarvisvoice.DrawClickIconAtCoords(false, 0, false,
+					closebtn,
+					closebtn,
+					CRect(limitarmors - sizex,
+					SCREEN_COORD(10.0f),
+					limitarmors,
+					margin - SCREEN_COORD(10.0f)), cursorx, cursory) == true) {
+					iconsel = 7;
+					eligioalgo = true;
+				}
 
+					suitarmormenu1 = boolvars.Options.data();
+					CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(50.0f), suitarmormenu1.data());
+
+					suitarmormenu1.clear();
+					CFont::SetFontStyle(FONT_SUBTITLES);
+					CFont::SetScale(SCREEN_MULTIPLIER(0.7f), SCREEN_MULTIPLIER(1.4f));
+					CFont::PrintStringFromBottom(screenmiddle.x - offsetx, SCREEN_COORD_BOTTOM(100.0f), boolvars.helptext8.data());
+					//CFont::PrintString(screenmiddle.x, SCREEN_COORD_TOP(50.0f), boolvars.helptext8.data());
+				
+
+				if (jarvisvoice.Va_adelante() && CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
+				{
+					timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
+					status = 1;
+				}
+
+				if (jarvisvoice.Va_atras() && CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
+				{
+					timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
+					status = 2;
+				}
+
+				if (status == 1)
+				{
 					while (cfgnro >= 0)
 					{
+						cfgnro -= 1;
 						if (cfgnro < 0)
 						{
 							break;
@@ -13826,36 +13722,37 @@ if (cutenabled != 2 && is_on_foot() == true &&
 						{
 							break;
 						}
-						cfgnro -= 1;
 					}
+
 					if (cfgnro < 0)
 					{
 						cfgnro = config.paramLines.size() - 1;
-					}
-				}
-				status = 0;
-			}
-			if (status == 2)
-			{
-				while (cfgnro <= config.paramLines.size() - 1)
-				{
-					cfgnro += 1;
-					if (cfgnro > config.paramLines.size() - 1)
-					{
-						break;
-					}
-					if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
-						|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
-					{
-						break;
-					}
-				}
 
-				if (cfgnro > config.paramLines.size() - 1)
+						while (cfgnro >= 0)
+						{
+							if (cfgnro < 0)
+							{
+								break;
+							}
+							if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
+								|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
+							{
+								break;
+							}
+							cfgnro -= 1;
+						}
+						if (cfgnro < 0)
+						{
+							cfgnro = config.paramLines.size() - 1;
+						}
+					}
+					status = 0;
+				}
+				if (status == 2)
 				{
-					cfgnro = 0;
-					while (cfgnro < config.paramLines.size() - 1)
+					while (cfgnro <= config.paramLines.size() - 1)
 					{
+						cfgnro += 1;
 						if (cfgnro > config.paramLines.size() - 1)
 						{
 							break;
@@ -13865,55 +13762,68 @@ if (cutenabled != 2 && is_on_foot() == true &&
 						{
 							break;
 						}
-						cfgnro += 1;
 					}
 
 					if (cfgnro > config.paramLines.size() - 1)
 					{
 						cfgnro = 0;
+						while (cfgnro < config.paramLines.size() - 1)
+						{
+							if (cfgnro > config.paramLines.size() - 1)
+							{
+								break;
+							}
+							if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0
+								|| strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
+							{
+								break;
+							}
+							cfgnro += 1;
+						}
+
+						if (cfgnro > config.paramLines.size() - 1)
+						{
+							cfgnro = 0;
+						}
 					}
+					status = 0;
 				}
-				status = 0;
 			}
-		}
-		if (eligioalgo == true)
-		{
-			if (iconsel != iconsel1)
+			if (eligioalgo == true)
 			{
-				AudioLib.PlayMenuSFX(0);
+				if (iconsel != iconsel1)
+				{
+					AudioLib.PlayMenuSFX(0);
+				}
+				iconsel1 = iconsel;
 			}
-			iconsel1 = iconsel;
-		}
-		else
-		{
-			iconsel = 0;
-			iconsel1 = 0;
-		}
+			else
+			{
+				iconsel = 0;
+				iconsel1 = 0;
+			}
 
-		CSprite2d::DrawRect(CRect(SCREEN_COORD_CENTER_LEFT(350.0f) - offsetx,
-			SCREEN_COORD_CENTER_UP(50.0f),
-			SCREEN_COORD_CENTER_RIGHT(350.0f) - offsetx,
-			SCREEN_COORD_CENTER_DOWN(10.0f)), CRGBA(95, 151, 208, 255));
+			CSprite2d::DrawRect(CRect(SCREEN_COORD_CENTER_LEFT(350.0f) - offsetx,
+				SCREEN_COORD_CENTER_UP(50.0f),
+				SCREEN_COORD_CENTER_RIGHT(350.0f) - offsetx,
+				SCREEN_COORD_CENTER_DOWN(10.0f)), CRGBA(95, 151, 208, 255));
 
 
 
-		menusel->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
-			SCREEN_COORD_CENTER_UP(135.0f),
-			SCREEN_COORD(30.0f),
-			SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
-
-		if (boolvars.alphafad == 0)
-		{
+			menusel->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
+				SCREEN_COORD_CENTER_UP(135.0f),
+				SCREEN_COORD(30.0f),
+				SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
+			
 			CFont::SetFontStyle(FONT_SUBTITLES);
 			CFont::SetEdge(1);
-		}
-		//		
-		//menusel->Draw(SCREEN_COORD_CENTER_RIGHT(450.0f) - SCREEN_COORD(80.0f), SCREEN_COORD_CENTER_UP(135.0f), SCREEN_COORD(30.0f), SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
 
-		int ant = cfgnro - 1, post = cfgnro + 1;
+			//		
+			//menusel->Draw(SCREEN_COORD_CENTER_RIGHT(450.0f) - SCREEN_COORD(80.0f), SCREEN_COORD_CENTER_UP(135.0f), SCREEN_COORD(30.0f), SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
 
-		if (boolvars.alphafad == 0)
-		{
+			ant = cfgnro - 1;
+			post = cfgnro + 1;
+
 			while (ant >= 0)
 			{
 				if (ant <= config.paramLines.size() - 1)
@@ -13921,19 +13831,14 @@ if (cutenabled != 2 && is_on_foot() == true &&
 					if (strcmp(config.paramLines.at(ant)._value.c_str(), "NO") == 0
 						|| strcmp(config.paramLines.at(ant)._value.c_str(), "YES") == 0)
 					{
-						if (boolvars.alphafad == 0)
-						{
-							CFont::SetBackground(0, 0);
 							CFont::SetColor(CRGBA(255, 255, 255, 150));
 							CFont::SetOrientation(ALIGN_LEFT);
-							CFont::SetProportional(true);
-							CFont::SetJustify(false);
 							CFont::SetFontStyle(FONT_SUBTITLES);
 							CFont::SetEdge(0);
 							//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
 							CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
 							CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_UP(90.0f), config.paramLines.at(ant).name.data());
-						}
+						
 						break;
 					}
 					else
@@ -13956,19 +13861,14 @@ if (cutenabled != 2 && is_on_foot() == true &&
 						if (strcmp(config.paramLines.at(ant)._value.c_str(), "NO") == 0
 							|| strcmp(config.paramLines.at(ant)._value.c_str(), "YES") == 0)
 						{
-							if (boolvars.alphafad == 0)
-							{
-								CFont::SetBackground(0, 0);
 								CFont::SetColor(CRGBA(255, 255, 255, 150));
 								CFont::SetOrientation(ALIGN_LEFT);
-								CFont::SetProportional(true);
-								CFont::SetJustify(false);
 								CFont::SetFontStyle(FONT_SUBTITLES);
 								CFont::SetEdge(0);
 								//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
 								CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
 								CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_UP(90.0f), config.paramLines.at(ant).name.data());
-							}
+							
 							break;
 						}
 						else
@@ -13994,11 +13894,8 @@ if (cutenabled != 2 && is_on_foot() == true &&
 					if (strcmp(config.paramLines.at(post)._value.c_str(), "NO") == 0
 						|| strcmp(config.paramLines.at(post)._value.c_str(), "YES") == 0)
 					{
-						CFont::SetBackground(0, 0);
 						CFont::SetColor(CRGBA(255, 255, 255, 150));
 						CFont::SetOrientation(ALIGN_LEFT);
-						CFont::SetProportional(true);
-						CFont::SetJustify(false);
 						CFont::SetFontStyle(FONT_SUBTITLES);
 						CFont::SetEdge(0);
 						//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
@@ -14057,62 +13954,57 @@ if (cutenabled != 2 && is_on_foot() == true &&
 				}
 			}
 
-			if (boolvars.alphafad == 0)
+			CFont::SetColor(CRGBA(255, 255, 255, 255));
+			CFont::SetOrientation(ALIGN_LEFT);
+			CFont::SetFontStyle(FONT_SUBTITLES);
+			CFont::SetEdge(0);
+			//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
+			CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
+			CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_UP(40.0f), config.paramLines.at(cfgnro).name.data());
+
+
+			if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
 			{
-				CFont::SetBackground(0, 0);
-				CFont::SetColor(CRGBA(255, 255, 255, 255));
-				CFont::SetOrientation(ALIGN_LEFT);
-				CFont::SetProportional(true);
-				CFont::SetJustify(false);
-				CFont::SetFontStyle(FONT_SUBTITLES);
-				CFont::SetEdge(0);
-				//CFont::SetDropColor(CRGBA(0, 0, 0, 255));
-				CFont::SetScale(SCREEN_MULTIPLIER(0.75f), SCREEN_MULTIPLIER(1.5f));
-				CFont::PrintString(SCREEN_COORD_CENTER_LEFT(300.0f) - offsetx, SCREEN_COORD_CENTER_UP(40.0f), config.paramLines.at(cfgnro).name.data());
-			}
-		}
-		if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "YES") == 0)
-		{
-			check->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
-				SCREEN_COORD_CENTER_UP(40.0f),
-				SCREEN_COORD(60.0f),
-				SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
-			if (boolvars.settingisactive)
-			{
-				if (CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
+				check->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
+					SCREEN_COORD_CENTER_UP(40.0f),
+					SCREEN_COORD(60.0f),
+					SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
+				if (boolvars.settingisactive)
 				{
-					if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 16) == 1)
+					if (CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
 					{
-						timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
-						config.paramLines.at(cfgnro)._value.clear();
-						config.paramLines.at(cfgnro)._value.assign("NO");
-						config.save();
-						settings.Read();
+						if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 16) == 1)
+						{
+							timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
+							config.paramLines.at(cfgnro)._value.clear();
+							config.paramLines.at(cfgnro)._value.assign("NO");
+							config.save();
+							settings.Read();
+						}
 					}
 				}
 			}
-		}
-		if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0)
-		{
-			uncheck->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
-				SCREEN_COORD_CENTER_UP(40.0f),
-				SCREEN_COORD(60.0f),
-				SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
-			if (boolvars.settingisactive)
+			if (strcmp(config.paramLines.at(cfgnro)._value.c_str(), "NO") == 0)
 			{
-				if (CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
+				uncheck->Draw(SCREEN_COORD_CENTER_RIGHT(350.0f) - SCREEN_COORD(80.0f) - offsetx,
+					SCREEN_COORD_CENTER_UP(40.0f),
+					SCREEN_COORD(60.0f),
+					SCREEN_COORD(30.0f), CRGBA(255, 255, 255, 255));
+				if (boolvars.settingisactive)
 				{
-					if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 16) == 1)
+					if (CTimer::m_snTimeInMillisecondsNonClipped > timedoption + 200)
 					{
-						timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
-						config.paramLines.at(cfgnro)._value.clear();
-						config.paramLines.at(cfgnro)._value.assign("YES");
-						config.save();
-						settings.Read();
+						if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 16) == 1)
+						{
+							timedoption = CTimer::m_snTimeInMillisecondsNonClipped;
+							config.paramLines.at(cfgnro)._value.clear();
+							config.paramLines.at(cfgnro)._value.assign("YES");
+							config.save();
+							settings.Read();
+						}
 					}
 				}
 			}
-		}
 
 
 
@@ -14132,10 +14024,8 @@ if (cutenabled != 2 && is_on_foot() == true &&
 
 
 
-		cursor->Draw(CRect(cursorx, cursory, cursorx + SCREEN_COORD(20.0f), cursory + SCREEN_COORD(20.0f)), CRGBA(255, 255, 255, 255));
-
-		if (boolvars.alphafad == 0)
-		{
+			cursor->Draw(CRect(cursorx, cursory, cursorx + SCREEN_COORD(20.0f), cursory + SCREEN_COORD(20.0f)), CRGBA(255, 255, 255, 255));
+		
 			if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 17) == false &&
 				CMouseControllerState().lmb != 1 && (GetKeyState(VK_LBUTTON) & 0x8000) == false) {
 				if (plugin::scripting::CallCommandById(COMMAND_IS_BUTTON_PRESSED, 0, 6) == false &&
@@ -14143,10 +14033,7 @@ if (cutenabled != 2 && is_on_foot() == true &&
 				{
 					if (iconsel > 0)
 					{
-						CFont::SetBackground(0, 0);
 						CFont::SetOrientation(ALIGN_CENTER);
-						CFont::SetProportional(true);
-						CFont::SetJustify(false);
 						CFont::SetColor(CRGBA(0, 0, 0, 255));
 						CFont::SetFontStyle(FONT_SUBTITLES);
 						CFont::SetEdge(0);
@@ -14240,7 +14127,7 @@ if (cutenabled != 2 && is_on_foot() == true &&
 							chosenmark = chosen2;
 							if (settings.folderdirs[boolvars.yndex].suits[chosenmark].texexists == true && settings.folderdirs[boolvars.yndex].suits[chosenmark].mdlexists == true)// && chosenmark >= 8)
 							{
-								bool banderilla = false;
+								banderilla = false;
 								int pind = 0;
 								while (pind <= dimfriends && banderilla == false)
 								{
@@ -14294,8 +14181,6 @@ if (cutenabled != 2 && is_on_foot() == true &&
 						if (settings.folderdirs[boolvars.yndex].suits[chosen2].texexists == true &&
 							settings.folderdirs[boolvars.yndex].suits[chosen2].mdlexists == true)
 						{
-							char *numb;
-							numb = new char[4];
 							sprintf(numb, "%d", chosenmark);
 							WritePrivateProfileString("CONFIG", "MARK", numb, PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
 							//Sleep(30);
@@ -14332,7 +14217,8 @@ if (cutenabled != 2 && is_on_foot() == true &&
 							{
 								boolvars.yndex++;
 							}
-							JarvisVoice::Loadsuiticons();
+							jarvisvoice.Loadsuiticons();
+							//JarvisVoice::Loadsuiticons();
 						}
 						iconsel = 0;
 					}
@@ -14390,7 +14276,8 @@ if (cutenabled != 2 && is_on_foot() == true &&
 										{
 											boolvars.yndex--;
 										}
-										JarvisVoice::Loadsuiticons();
+										jarvisvoice.Loadsuiticons();
+										//JarvisVoice::Loadsuiticons();
 									}
 									iconsel = 0;
 								}
@@ -14433,26 +14320,17 @@ if (cutenabled != 2 && is_on_foot() == true &&
 		}
 		else
 		{
-			if (boolvars.alphafad > 0 && boolvars.alphafad <= 255)
+			if (boolvars.alphafad <= 255)
 			{
 				Drawfondo();
-			}
-		}
-		suitarmormenu1.clear();
-		return true;
-	}
-			else
-			{
-				boolvars.settingisactive = false;
-				WritePrivateProfileString("CONFIG", "MENU", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-				boolvars.menuisactive = false;
-				boolvars.indx = 0;
-				boolvars.alphafad = 0;
-				movtextures.Loadmenuicons();
-				plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
-				suitarmormenu1.clear();
 				return true;
 			}
+			boolvars.alphafad = 255;
+			Drawfondo();
+			return true;
+		}
+		return true;
+	
 		}
 		else
 		{
@@ -14463,12 +14341,11 @@ if (cutenabled != 2 && is_on_foot() == true &&
 			boolvars.alphafad = 0;
 
 			plugin::scripting::CallCommandById(COMMAND_SET_PLAYER_CONTROL, 0, 1);
-			suitarmormenu1.clear();
 			return true;
 		}
-		suitarmormenu1.clear();
 		return true;
 	}
+	
 
 
 	//22
@@ -18690,6 +18567,7 @@ bool JarvisVoice::Actionsforobjs(CObject *objt) {
 			}
 		}
 	}
+	return true;
 }
 /*
 {
