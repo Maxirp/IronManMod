@@ -18,7 +18,7 @@ Part 4
 https://github.com/Maxirp/GTAIronMan/archive/master.zip
 
 Part 5
-http://www.mediafire.com/file/ejormh7fqyjptz6/tony_garage.dff/file
+http://www.mediafire.com/file/ksphevq48kfni6w/file
 
 Once all is downloaded, follow the tutorial to install here:
 https://www.youtube.com/watch?v=Qa5Vhzhq9d4
