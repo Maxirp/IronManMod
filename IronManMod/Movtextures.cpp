@@ -1797,9 +1797,9 @@ void Movtextures::drawindexedtexture(int index) {
 							CVector2D coord2d, coord2d1, height3;
 							static float w, h, w1, h1;
 							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, CWorld::Players[playerId].m_pPed, 0.0, 0.0f, 0.0f, &horizon0.x, &horizon0.y, &horizon0.z);
-							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, CWorld::Players[playerId].m_pPed, 0.0, 1000.0f, 0.0f, &horizon00.x, &horizon00.y, &horizon00.z);
-							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, CWorld::Players[playerId].m_pPed, -25.0, 1000.0f, 0.0f, &horizon1.x, &horizon1.y, &horizon1.z);
-							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, CWorld::Players[playerId].m_pPed, 25.0, 1000.0f, 0.0f, &horizon2.x, &horizon2.y, &horizon2.z);
+							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, CWorld::Players[playerId].m_pPed, 0.0, 500.0f, 0.0f, &horizon00.x, &horizon00.y, &horizon00.z);
+							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, CWorld::Players[playerId].m_pPed, -25.0, 500.0f, 0.0f, &horizon1.x, &horizon1.y, &horizon1.z);
+							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, CWorld::Players[playerId].m_pPed, 25.0, 500.0f, 0.0f, &horizon2.x, &horizon2.y, &horizon2.z);
 
 
 							c1oordstoscreen(horizon1.x, horizon1.y, horizon1.z, &coord2d.x, &coord2d.y, &w, &h);
@@ -1816,28 +1816,28 @@ void Movtextures::drawindexedtexture(int index) {
 							float cospit = cosf(orx);
 							float sinpit = sinf(orx);
 
-							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, CWorld::Players[playerId].m_pPed, 0.0f, cospit * 1000.0f, -sinpit * 1000.0f, &horizon0.x, &horizon0.y, &horizon0.z);
+							plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, CWorld::Players[playerId].m_pPed, 0.0f, cospit * 500.0f, -sinpit * 500.0f, &horizon0.x, &horizon0.y, &horizon0.z);
 
 
 							c1oordstoscreen(horizon0.x, horizon0.y, horizon0.z, &coord2d1.x, &coord2d1.y, &w, &h);
 
-							posn1[0].x = coord2d1.x + SCREEN_COORD(1024.0f / 2.0f);
-							posn1[0].y = coord2d1.y + SCREEN_COORD(128.0f / 2.0f);
-							posn1[1].x = coord2d1.x - SCREEN_COORD(1024.0f / 2.0f);
-							posn1[1].y = coord2d1.y + SCREEN_COORD(128.0f / 2.0f);
-							posn1[2].x = coord2d1.x + SCREEN_COORD(1024.0f / 2.0f);
-							posn1[2].y = coord2d1.y - SCREEN_COORD(128.0f / 2.0f);
-							posn1[3].x = coord2d1.x - SCREEN_COORD(1024.0f / 2.0f);
-							posn1[3].y = coord2d1.y - SCREEN_COORD(128.0f / 2.0f);
+							posn1[0].x = coord2d1.x + SCREEN_COORD(512.0f);
+							posn1[0].y = coord2d1.y + SCREEN_COORD(64.0f);
+							posn1[1].x = coord2d1.x - SCREEN_COORD(512.0f);
+							posn1[1].y = coord2d1.y + SCREEN_COORD(64.0f);
+							posn1[2].x = coord2d1.x + SCREEN_COORD(512.0f);
+							posn1[2].y = coord2d1.y - SCREEN_COORD(64.0f);
+							posn1[3].x = coord2d1.x - SCREEN_COORD(512.0f);
+							posn1[3].y = coord2d1.y - SCREEN_COORD(64.0f);
 
-							posn2[0].x = coord2d.x + SCREEN_COORD(256.0f / 2.0f);
-							posn2[0].y = coord2d.y + SCREEN_COORD(128.0f / 2.0f);
-							posn2[1].x = coord2d.x - SCREEN_COORD(256.0f / 2.0f);
-							posn2[1].y = coord2d.y + SCREEN_COORD(128.0f / 2.0f);
-							posn2[2].x = coord2d.x + SCREEN_COORD(256.0f / 2.0f);
-							posn2[2].y = coord2d.y - SCREEN_COORD(128.0f / 2.0f);
-							posn2[3].x = coord2d.x - SCREEN_COORD(256.0f / 2.0f);
-							posn2[3].y = coord2d.y - SCREEN_COORD(128.0f / 2.0f);
+							posn2[0].x = coord2d.x + SCREEN_COORD(128.0f);
+							posn2[0].y = coord2d.y + SCREEN_COORD(64.0f);
+							posn2[1].x = coord2d.x - SCREEN_COORD(128.0f);
+							posn2[1].y = coord2d.y + SCREEN_COORD(64.0f);
+							posn2[2].x = coord2d.x + SCREEN_COORD(128.0f);
+							posn2[2].y = coord2d.y - SCREEN_COORD(64.0f);
+							posn2[3].x = coord2d.x - SCREEN_COORD(128.0f);
+							posn2[3].y = coord2d.y - SCREEN_COORD(64.0f);
 
 							RotateVertices(posn1, 4, coord2d1.x, coord2d1.y, -boolvars.horizonfloor);
 
@@ -1916,22 +1916,6 @@ void Movtextures::drawindexedtexture(int index) {
 					{
 						alha = 0;
 					}
-
-					/*
-					if (damaged == true)
-					{
-					hbottom->Draw(CRect(SCREEN_COORD(0.0f),
-					SCREEN_COORD_BOTTOM(256.0f),
-					SCREEN_WIDTH,
-					SCREEN_HEIGHT), CRGBA(255, 79, 79, 150));
-					}
-					else
-					{
-					hbottom->Draw(CRect(SCREEN_COORD(0.0f),
-					SCREEN_COORD_BOTTOM(256.0f),
-					SCREEN_WIDTH,
-					SCREEN_HEIGHT), CRGBA(179, 255, 255, 150));
-					}*/
 
 					
 						hudright1->Draw(CRect(SCREEN_WIDTH - (boolvars.ofstappearx) - SCREEN_HEIGHT * 6.0f / 10.0f,
@@ -2030,11 +2014,6 @@ void Movtextures::drawindexedtexture(int index) {
 					SCREEN_COORD_CENTER_DOWN(83.0f) + SCREEN_HEIGHT / 4.0f), CRGBA(255, 255, 255, 255));
 			}
 			hudactive = false;
-			/*
-			DrawProgressBar_BilinearOffset_RightAlign(SCREEN_COORD_RIGHT(settings.vecHealthPosn.x), SCREEN_COORD(positionY),
-			SCREEN_COORD(settings.vecHealthScale.x) * barSize, SCREEN_COORD(settings.vecHealthScale.y), progress, 1.0f,
-			HudColour.GetRGBA(HUD_COLOUR_RED), CRGBA(0, 0, 0, 255));
-			*/
 		}
 	}
 
@@ -2067,7 +2046,10 @@ void Movtextures::drawindexedtexture(int index) {
 
 				progress = player->m_fArmour / boolvars.maxarmor;
 				RwRenderStateSet(rwRENDERSTATETEXTURERASTER, hpcircle0->raster);
-
+				if (progress > 1.0f)
+				{
+					progress = 1.0f;
+				}
 				ShapeHelper::DrawCircleSectorTextured(512.0f, 512.0f, 0.0f, 0.0f, 512.0f, 512.0f,
 					radarPos2.x, radarPos2.y,
 					-SCREEN_COORD(275.0f / 2.0f), SCREEN_COORD(275.0f / 2.0f), 130.0f, 130.0f + 100.0f * progress, colorhealt);
@@ -2106,7 +2088,10 @@ void Movtextures::drawindexedtexture(int index) {
 
 					progress = player->m_fArmour / boolvars.maxarmor;
 					RwRenderStateSet(rwRENDERSTATETEXTURERASTER, hpcircle0->raster);
-
+					if (progress > 1.0f)
+					{
+						progress = 1.0f;
+					}
 					ShapeHelper::DrawCircleSectorTextured(512.0f, 512.0f, 0.0f, 0.0f, 512.0f, 512.0f,
 						SCREEN_WIDTH - (boolvars.ofstappearx) - SCREEN_HEIGHT / 7.576f, SCREEN_COORD_CENTER_DOWN(83.0f) - SCREEN_HEIGHT / 42.67f,
 						SCREEN_COORD(315.0f), SCREEN_COORD(315.0f), 155.0f, 155.0f + 59.0f * progress, CRGBA(255, 255, 255, 255));
@@ -2149,6 +2134,10 @@ void Movtextures::drawindexedtexture(int index) {
 						SCREEN_COORD(275.0f), SCREEN_COORD(275.0f), 155.0f, 155.0f + 59.0f * progress, colorhealt);
 					RwRenderStateSet(rwRENDERSTATETEXTURERASTER, 0);
 					progress = player->m_fArmour / boolvars.maxarmor;
+					if (progress > 1.0f)
+					{
+						progress = 1.0f;
+					}
 					hudrigh2->Draw(CRect(SCREEN_WIDTH - (boolvars.ofstappearx) - SCREEN_HEIGHT * 6.0f / 10.0f,
 						SCREEN_COORD_CENTER_DOWN(83.0f) - SCREEN_HEIGHT / 4.0f,
 						SCREEN_WIDTH - (boolvars.ofstappearx) + SCREEN_HEIGHT * 4.0f / 10.0f,
@@ -2188,6 +2177,10 @@ void Movtextures::drawindexedtexture(int index) {
 					if (player->m_fArmour > 0.0f)
 					{
 						progress = player->m_fArmour / boolvars.maxarmor;
+						if (progress > 1.0f)
+						{
+							progress = 1.0f;
+						}
 						RwRenderStateSet(rwRENDERSTATETEXTURERASTER, hpcircle->raster);
 						ShapeHelper::DrawCircleSectorTextured(512.0f, 512.0f, 0.0f, 0.0f, 512.0f, 512.0f,
 							radarPos2.x, radarPos2.y,

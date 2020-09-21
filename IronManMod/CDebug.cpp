@@ -9,7 +9,7 @@ void Error(const char *szStr)
 {
     MessageBox(nullptr, szStr, "Iron-Man Mod error", MB_ICONERROR | MB_OK);
 	LOGEAR("[Error] Exiting with error: %s", szStr);
-    //exit(1);
+    exit(1);
 }
 
 void Logear(const char *szStr)
@@ -46,6 +46,32 @@ bool Welcome(const char *szStr)
 	}
 	return false;
 }
+
+bool ErrorMax(const char *szStr)
+{
+	//MessageBox(nullptr, szStr, "Maxirp's Iron-Man Mod", MB_ICONINFORMATION | MB_OK);
+	//exit(1);
+	static int chius;
+	static std::string chau;
+	static HWND pointr;
+	if (MessageBox(pointr, szStr, "ERROR: Outdated Iron-Man mod", MB_OKCANCEL | MB_ICONERROR) == IDCANCEL)
+	{
+		exit(1);
+		return false;
+	}
+	else
+	{
+		if (pointr == nullptr)
+		{
+			ShellExecute(0, 0, "https://gtaforums.com/topic/872912-gta-iron-man-mod-original-version-by-maxirp93/", 0, 0, SW_SHOW);
+			exit(1);
+			return true;
+		}
+	}
+	return false;
+}
+
+
 
 void MaxirpLinks(const char *szStr)
 {

@@ -216,7 +216,9 @@ public:
 	std::string helptext5;
 	std::string helptext6;
 	std::string helptext7;
-	std::string helptext8;
+	std::string helptext8; 
+	std::string helptext9;
+	std::string helptex10;
 	std::string online;
 	std::string impulso;
 	std::string suitarmormenu;

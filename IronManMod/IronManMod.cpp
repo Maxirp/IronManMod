@@ -432,6 +432,10 @@ public:
 
 		plugin::patch::RedirectCall(0x53E981, threadFunc);
 
+		if (KeyPressed(118))
+		{
+			exit(1);
+		}
 
 		// Set Radar Range
 		patch::SetFloat(0x586C9B, RADAR_RANGE);
@@ -453,23 +457,1123 @@ public:
 		if (!once)
 		{
 			Events::attachRwPluginsEvent.before += [] {
-				if (Welcome("Welcome to GTA: Iron Man Mod by Maxirp93.\n \n Click OK to start, or press Cancel to contact the mod author") == true)
-				{
+				bool versionfina0 = false;
+				bool versionfina1 = false;
+				bool versionfina2 = false;
+				bool versionfina3 = false;
+				bool versionfina4 = false;
+				bool versionfina5 = false;
+				bool versionfina6 = false;
+				bool versionfina7 = false;
+				bool versionfina8 = false;
+				bool versionfina9 = false;
 
-					AudioLib.Readfromdll();
-					JarvisVoice::ManageMaxirpBass();
-					if (!AudioLib.Init())
-					{
-						sprintf(gString,"CSoundSystem::Init() failed. Error code: %d", AudioLib.ErrorGetCode());
-						Logear(gString);
+				bool versionfina10 = false;
+				bool versionfina11 = false;
+				bool versionfina12 = false;
+				bool versionfina13 = false;
+				bool versionfina14 = false;
+				bool versionfina15 = false;
+				bool versionfina16 = false;
+				bool versionfina17 = false;
+				bool versionfina18 = false;
+				bool versionfina19 = false;
+
+				bool versionfina20 = false;
+				bool versionfina21 = false;
+				bool versionfina22 = false;
+				bool versionfina23 = false;
+				bool versionfina24 = false;
+				bool versionfina25 = false;
+				bool versionfina26 = false;
+				bool versionfina27 = false;
+				FILE *file = fopen(GAME_PATH("modloader\\IronManMod\\Mansion stark\\mansion.ide"), "r");
+				bool versionisold = false;
+				if (file != NULL) {
+					versionisold = true;
+					fclose(file);
+				}
+				else
+				{
+					file = fopen(GAME_PATH("modloader\\IronManMod\\Mansion stark\\mansion.ipl"), "r");
+					if (file != NULL) {
+						versionisold = true;
+						fclose(file);
 					}
 					else
 					{
-						JarvisVoice::LoadAudios();
+						file = fopen(GAME_PATH("modloader\\IronManMod\\Mansion stark\\CLEO\\suit_pickup.cs"), "r");
+						if (file != NULL) {
+							versionisold = true;
+							fclose(file);
+						}
+						else
+						{
+							file = fopen(GAME_PATH("modloader\\IronManMod\\Mansion stark\\CLEO\\suit_pickup.cs"), "r");
+							if (file != NULL) {
+								versionisold = true;
+								fclose(file);
+							}
+							else
+							{
+								file = fopen(GAME_PATH("modloader\\IronManMod\\Mansion stark\\CLEO\\starksave.cs"), "r");
+								if (file != NULL) {
+									versionisold = true;
+									fclose(file);
+								}
+								else
+								{
+									file = fopen(GAME_PATH("modloader\\IronManMod\\Mansion stark\\CLEO\\Mansion.cs"), "r");
+									if (file != NULL) {
+										versionisold = true;
+										fclose(file);
+									}
+									else
+									{
+										file = fopen(GAME_PATH("modloader\\IronManMod\\Mansion stark\\CLEO\\juke_music.cs"), "r");
+										if (file != NULL) {
+											versionisold = true;
+											fclose(file);
+										}
+										else
+										{
+											file = fopen(GAME_PATH("modloader\\IronManMod\\Mansion stark\\CLEO\\parachute_pickup.cs"), "r");
+											if (file != NULL) {
+												versionisold = true;
+												fclose(file);
+											}
+											else
+											{
+												file = fopen(GAME_PATH("modloader\\IronManMod\\Mansion stark\\CLEO\\IMCars.cs"), "r");
+												if (file != NULL) {
+													versionisold = true;
+													fclose(file);
+												}
+												else
+												{
+													file = fopen(GAME_PATH("modloader\\IronManMod\\Mansion stark\\CLEO\\juke_music.cs"), "r");
+													if (file != NULL) {
+														versionisold = true;
+														fclose(file);
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
 					}
-
 				}
-				//MaxirpLinks("Contact Maxirp93 for more mods?");
+				if (versionisold == false)
+				{
+					file = fopen(GAME_PATH("modloader\\IronManMod\\Animation pack\\ironman.ifp"), "r");
+					if (file != NULL) {
+						fclose(file);
+						file = fopen(GAME_PATH("modloader\\IronManMod\\Animation pack\\mkq.ifp"), "r");
+						if (file != NULL) {
+							fclose(file);
+							file = fopen(GAME_PATH("modloader\\IronManMod\\Animation pack\\mkq2.ifp"), "r");
+							if (file != NULL) {
+								fclose(file);
+								file = fopen(GAME_PATH("modloader\\IronManMod\\Animation pack\\mkq3.ifp"), "r");
+								if (file != NULL) {
+									fclose(file);
+									file = fopen(GAME_PATH("modloader\\IronManMod\\Animation pack\\mkq4.ifp"), "r");
+									if (file != NULL) {
+										fclose(file);
+										file = fopen(GAME_PATH("modloader\\IronManMod\\Animation pack\\parachute.ifp"), "r");
+										if (file != NULL) {
+											fclose(file);
+											file = fopen(GAME_PATH("modloader\\IronManMod\\Animation pack\\sword.ifp"), "r");
+											if (file != NULL) {
+												fclose(file);
+												versionfina0 = true;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					if (versionfina0 == true)
+					{
+						file = fopen(GAME_PATH("modloader\\IronManMod\\Avengers tower\\fighotbase_LAn.dff"), "r");
+						if (file != NULL) {
+							fclose(file);
+							file = fopen(GAME_PATH("modloader\\IronManMod\\Avengers tower\\LODhotbase_LAn.dff"), "r");
+							if (file != NULL) {
+								fclose(file);
+								file = fopen(GAME_PATH("modloader\\IronManMod\\Avengers tower\\lan_3.col"), "r");
+								if (file != NULL) {
+									fclose(file);
+									file = fopen(GAME_PATH("modloader\\IronManMod\\Avengers tower\\lanlod.txd"), "r");
+									if (file != NULL) {
+										fclose(file);
+										file = fopen(GAME_PATH("modloader\\IronManMod\\Avengers tower\\pershingsq.txd"), "r");
+										if (file != NULL) {
+											fclose(file);
+											versionfina1 = true;
+										}
+									}
+								}
+							}
+						}
+						if (versionfina1 == true)
+						{
+							file = fopen(GAME_PATH("modloader\\IronManMod\\Cars\\rccam1.txd"), "r");
+							if (file != NULL) {
+								fclose(file);
+								file = fopen(GAME_PATH("modloader\\IronManMod\\Cars\\rccam.txd"), "r");
+								if (file != NULL) {
+									fclose(file);
+									file = fopen(GAME_PATH("modloader\\IronManMod\\Cars\\rccam.dff"), "r");
+									if (file != NULL) {
+										fclose(file);
+										versionfina2 = true;
+									}
+								}
+							}
+							if (versionfina2 == true)
+							{
+								file = fopen(GAME_PATH("modloader\\IronManMod\\CLEO\\IMCars.cs"), "r");
+								if (file != NULL) {
+									fclose(file);
+									file = fopen(GAME_PATH("modloader\\IronManMod\\CLEO\\IMMansion.cs"), "r");
+									if (file != NULL) {
+										fclose(file);
+										file = fopen(GAME_PATH("modloader\\IronManMod\\CLEO\\IMMusic.cs"), "r");
+										if (file != NULL) {
+											fclose(file);
+											file = fopen(GAME_PATH("modloader\\IronManMod\\CLEO\\IMPickups.cs"), "r");
+											if (file != NULL) {
+												fclose(file);
+												file = fopen(GAME_PATH("modloader\\IronManMod\\CLEO\\IMSave.cs"), "r");
+												if (file != NULL) {
+													fclose(file);
+													file = fopen(GAME_PATH("modloader\\IronManMod\\CLEO\\IMSuits.cs"), "r");
+													if (file != NULL) {
+														fclose(file);
+														versionfina3 = true;
+													}
+												}
+											}
+										}
+									}
+								}
+								if (versionfina3 == true)
+								{
+									file = fopen(GAME_PATH("modloader\\IronManMod\\data\\Mansion.ide"), "r");
+									if (file != NULL) {
+										fclose(file);
+										file = fopen(GAME_PATH("modloader\\IronManMod\\data\\Mansion.ipl"), "r");
+										if (file != NULL) {
+											fclose(file);
+											file = fopen(GAME_PATH("modloader\\IronManMod\\data\\animgrp.dat"), "r");
+											if (file != NULL) {
+												fclose(file);
+												versionfina4 = true;
+											}
+										}
+									}
+									if (versionfina4 == true)
+									{
+										file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\IronMan_Mod.ini"), "r");
+										if (file != NULL) {
+											fclose(file);
+											file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\hudcolor.dat"), "r");
+											if (file != NULL) {
+												fclose(file);
+												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\maxirpHud.dat"), "r");
+												if (file != NULL) {
+													fclose(file);
+													versionfina5 = true;
+												}
+											}
+										}
+										if (versionfina5 == true)
+										{
+											file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\maxirpscs.txd"), "r");
+											if (file != NULL) {
+												fclose(file);
+												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\radar_centre.rwtex"), "r");
+												if (file != NULL) {
+													fclose(file);
+													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\menu_background.txd"), "r");
+													if (file != NULL) {
+														fclose(file);
+														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\menu_slider.txd"), "r");
+														if (file != NULL) {
+															fclose(file);
+															versionfina6 = true;
+														}
+													}
+												}
+											}
+											if (versionfina6 == true)
+											{
+												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\beating.png"), "r");
+												if (file != NULL) {
+													fclose(file);
+													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\beating.png"), "r");
+													if (file != NULL) {
+														fclose(file);
+														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\DAMAGE.png"), "r");
+														if (file != NULL) {
+															fclose(file);
+															file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\FLIGHT.png"), "r");
+															if (file != NULL) {
+																fclose(file);
+																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\horizon.png"), "r");
+																if (file != NULL) {
+																	fclose(file);
+																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\HUD_bottom.png"), "r");
+																	if (file != NULL) {
+																		fclose(file);
+																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\HUD_righ1.png"), "r");
+																		if (file != NULL) {
+																			fclose(file);
+																			file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\HUD_right.png"), "r");
+																			if (file != NULL) {
+																				fclose(file);
+																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\HUD_right01.png"), "r");
+																				if (file != NULL) {
+																					fclose(file);
+																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\HUD_right02.png"), "r");
+																					if (file != NULL) {
+																						fclose(file);
+																						file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\HUD_spin1.png"), "r");
+																						if (file != NULL) {
+																							fclose(file);
+																							file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\HUD_spin2.png"), "r");
+																							if (file != NULL) {
+																								fclose(file);
+																								file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\HUD_static3.png"), "r");
+																								if (file != NULL) {
+																									fclose(file);
+																									file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\HUD_static4.png"), "r");
+																									if (file != NULL) {
+																										fclose(file);
+																										file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\HUD_static5.png"), "r");
+																										if (file != NULL) {
+																											fclose(file);
+																											file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\ONLINE.png"), "r");
+																											if (file != NULL) {
+																												fclose(file);
+																												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\targetfly.png"), "r");
+																												if (file != NULL) {
+																													fclose(file);
+																													versionfina7 = true;
+																												}
+																											}
+																										}
+																									}
+																								}
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+												if (versionfina7 == true)
+												{
+													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\stats\\HUD_health.png"), "r");
+													if (file != NULL) {
+														fclose(file);
+														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\stats\\HUD_Tony.png"), "r");
+														if (file != NULL) {
+															fclose(file);
+															file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\stats\\HUD_Pepper.png"), "r");
+															if (file != NULL) {
+																fclose(file);
+																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\stats\\HUD_Rhodey.png"), "r");
+																if (file != NULL) {
+																	fclose(file);
+																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\stats\\HUD_righ2.png"), "r");
+																	if (file != NULL) {
+																		fclose(file);
+																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\stats\\HUD_righ3.png"), "r");
+																		if (file != NULL) {
+																			fclose(file);
+																			file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\stats\\statbars_armed.png"), "r");
+																			if (file != NULL) {
+																				fclose(file);
+																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\stats\\statbars_unarmed.png"), "r");
+																				if (file != NULL) {
+																					fclose(file);
+																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\stats\\statbars_null.png"), "r");
+																					if (file != NULL) {
+																						fclose(file);
+																						versionfina8 = true;
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+													if (versionfina8 == true)
+													{
+														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\weapons\\bullets.png"), "r");
+														if (file != NULL) {
+															fclose(file);
+															file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\weapons\\darts.png"), "r");
+															if (file != NULL) {
+																fclose(file);
+																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\weapons\\flameT.png"), "r");
+																if (file != NULL) {
+																	fclose(file);
+																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\weapons\\melee.png"), "r");
+																	if (file != NULL) {
+																		fclose(file);
+																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\weapons\\rep_chest.png"), "r");
+																		if (file != NULL) {
+																			fclose(file);
+																			file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\weapons\\rep_hand.png"), "r");
+																			if (file != NULL) {
+																				fclose(file);
+																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\weapons\\rockets.png"), "r");
+																				if (file != NULL) {
+																					fclose(file);
+																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD1\\weapons\\wpns.png"), "r");
+																					if (file != NULL) {
+																						fclose(file);
+																						versionfina9 = true;
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+														if (versionfina9 == true)
+														{
+															file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD0\\rs_bg00.png"), "r");
+															if (file != NULL) {
+																fclose(file);
+																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD0\\rs_bg01.png"), "r");
+																if (file != NULL) {
+																	fclose(file);
+																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD0\\rs_comunic.png"), "r");
+																	if (file != NULL) {
+																		fclose(file);
+																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD0\\rs_data.png"), "r");
+																		if (file != NULL) {
+																			fclose(file);
+																			file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD0\\rs_diag.png"), "r");
+																			if (file != NULL) {
+																				fclose(file);
+																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD0\\rs_flight_mode.png"), "r");
+																				if (file != NULL) {
+																					fclose(file);
+																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD0\\rs_flight_speed.png"), "r");
+																					if (file != NULL) {
+																						fclose(file);
+																						file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD0\\rs_heading.png"), "r");
+																						if (file != NULL) {
+																							fclose(file);
+																							file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\HUD0\\rs_wanted.png"), "r");
+																							if (file != NULL) {
+																								fclose(file);
+																								versionfina10 = true;
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+															if (versionfina10 == true)
+															{
+																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Altimeter\\alt01.png"), "r");
+																if (file != NULL) {
+																	fclose(file);
+																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Altimeter\\alt02.png"), "r");
+																	if (file != NULL) {
+																		fclose(file);
+																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Altimeter\\alt03.png"), "r");
+																		if (file != NULL) {
+																			fclose(file);
+																			versionfina11 = true;
+																		}
+																	}
+																}
+																if (versionfina11 == true)
+																{
+																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Background\\bg_flash.png"), "r");
+																	if (file != NULL) {
+																		fclose(file);
+																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Background\\bg_tps_border.png"), "r");
+																		if (file != NULL) {
+																			fclose(file);
+																			file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Background\\bg_tps_frozen.png"), "r");
+																			if (file != NULL) {
+																				fclose(file);
+																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Background\\bg_tps_middle.png"), "r");
+																				if (file != NULL) {
+																					fclose(file);
+																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Background\\visor0.png"), "r");
+																					if (file != NULL) {
+																						fclose(file);
+																						file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Background\\visor1.png"), "r");
+																						if (file != NULL) {
+																							fclose(file);
+																							versionfina12 = true;
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																	if (versionfina12 == true)
+																	{
+																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Crosshair\\crosshair.png"), "r");
+																		if (file != NULL) {
+																			fclose(file);
+																			file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Crosshair\\crosshair_dam.png"), "r");
+																			if (file != NULL) {
+																				fclose(file);
+																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Crosshair\\crosshair_r.png"), "r");
+																				if (file != NULL) {
+																					fclose(file);
+																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Crosshair\\crosshair_target.png"), "r");
+																					if (file != NULL) {
+																						fclose(file);
+																						versionfina13 = true;
+																					}
+																				}
+																			}
+																		}
+																		if (versionfina13 == true)
+																		{
+																			file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\HelpText\\help_bg.png"), "r");
+																			if (file != NULL) {
+																				fclose(file);
+																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\PlayerInfo\\hpcircle.png"), "r");
+																				if (file != NULL) {
+																					fclose(file);
+																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\PlayerInfo\\hpcircle1.png"), "r");
+																					if (file != NULL) {
+																						fclose(file);
+																						file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\PlayerInfo\\hpcircle2.png"), "r");
+																						if (file != NULL) {
+																							fclose(file);
+																							file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\PlayerInfo\\hpcircle3.png"), "r");
+																							if (file != NULL) {
+																								fclose(file);
+																								file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\PlayerInfo\\malarm.png"), "r");
+																								if (file != NULL) {
+																									fclose(file);
+																									file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\PlayerInfo\\wpnarrow.png"), "r");
+																									if (file != NULL) {
+																										fclose(file);
+																										versionfina14 = true;
+																									}
+																								}
+																							}
+																						}
+																					}
+																				}
+																			}
+																			if (versionfina14 == true)
+																			{
+																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Radar\\bugcoloreddisk.png"), "r");
+																				if (file != NULL) {
+																					fclose(file);
+																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Radar\\bugradarwaves.png"), "r");
+																					if (file != NULL) {
+																						fclose(file);
+																						file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Radar\\hudcoloreddisk.png"), "r");
+																						if (file != NULL) {
+																							fclose(file);
+																							file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Radar\\hudradarwaves.png"), "r");
+																							if (file != NULL) {
+																								fclose(file);
+																								versionfina15 = true;
+																							}
+																						}
+																					}
+																				}
+																				if (versionfina15 == true)
+																				{
+																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Radarblips\\hudbigarrow.png"), "r");
+																					if (file != NULL) {
+																						fclose(file);
+																						file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Radarblips\\hudfail.png"), "r");
+																						if (file != NULL) {
+																							fclose(file);
+																							file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Radarblips\\hudsmallarrow.png"), "r");
+																							if (file != NULL) {
+																								fclose(file);
+																								file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Radarblips\\hudtriang.png"), "r");
+																								if (file != NULL) {
+																									fclose(file);
+																									versionfina16 = true;
+																								}
+																							}
+																						}
+																					}
+																				}
+																				if (versionfina16 == true)
+																				{
+																						file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\chosen.png"), "r");
+																						if (file != NULL) {
+																							fclose(file);
+																							file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\chosenh.png"), "r");
+																							if (file != NULL) {
+																								fclose(file);
+																								file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\closebutn.png"), "r");
+																								if (file != NULL) {
+																									fclose(file);
+																									file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\menuarrow.png"), "r");
+																									if (file != NULL) {
+																										fclose(file);
+																										file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\miniarrow.png"), "r");
+																										if (file != NULL) {
+																											fclose(file);
+																											file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\nextarrows.png"), "r");
+																											if (file != NULL) {
+																												fclose(file);
+																												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\nextarrowsh.png"), "r");
+																												if (file != NULL) {
+																													fclose(file);
+																													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\off.png"), "r");
+																													if (file != NULL) {
+																														fclose(file);
+																														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\on.png"), "r");
+																														if (file != NULL) {
+																															fclose(file);
+																															file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\selector.png"), "r");
+																															if (file != NULL) {
+																																fclose(file);
+																																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\settings.png"), "r");
+																																if (file != NULL) {
+																																	fclose(file);
+																																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\spin_left_top.png"), "r");
+																																	if (file != NULL) {
+																																		fclose(file);
+																																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\Tony.png"), "r");
+																																		if (file != NULL) {
+																																			fclose(file);
+																																			file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\unk0.png"), "r");
+																																			if (file != NULL) {
+																																				fclose(file);
+																																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Suitmenu\\unk1.png"), "r");
+																																				if (file != NULL) {
+																																					fclose(file);
+																																					versionfina17 = true;
+																																				}
+																																			}
+																																		}
+																																	}
+																																}
+																															}
+																														}
+																													}
+																												}
+																											}
+																										}
+																									}
+																								}
+																							}
+																						
+																					}
+																					if (versionfina17 == true)
+																					{
+																						file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Target\\Target01.png"), "r");
+																						if (file != NULL) {
+																							fclose(file);
+																							file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Target\\Target02.png"), "r");
+																							if (file != NULL) {
+																								fclose(file);
+																								versionfina18 = true;
+																							}
+																						}
+																						if (versionfina18 == true)
+																						{
+																							file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Weapons\\bullets.png"), "r");
+																							if (file != NULL) {
+																								fclose(file);
+																								file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Weapons\\darts.png"), "r");
+																								if (file != NULL) {
+																									fclose(file);
+																									file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Weapons\\flameT.png"), "r");
+																									if (file != NULL) {
+																										fclose(file);
+																										file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Weapons\\melee.png"), "r");
+																										if (file != NULL) {
+																											fclose(file);
+																											file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Weapons\\rep_chest.png"), "r");
+																											if (file != NULL) {
+																												fclose(file);
+																												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Weapons\\rep_hand.png"), "r");
+																												if (file != NULL) {
+																													fclose(file);
+																													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\textures\\ALLHUDS\\Weapons\\rockets.png"), "r");
+																													if (file != NULL) {
+																														fclose(file);
+																														versionfina19 = true;
+																													}
+																												}
+																											}
+																										}
+																									}
+																								}
+																							}
+																							if (versionfina19 == true)
+																							{
+																								file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\text\\american.dat"), "r");
+																								if (file != NULL) {
+																									fclose(file);
+																									file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\text\\spanish.dat"), "r");
+																									if (file != NULL) {
+																										fclose(file);
+																										versionfina20 = true;
+																									}
+																								}
+																								if (versionfina20 == true)
+																								{
+																									file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Dialogues\\suit_selected.mp3"), "r");
+																									if (file != NULL) {
+																										fclose(file);
+																										file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Dialogues\\no_jarvis.mp3"), "r");
+																										if (file != NULL) {
+																											fclose(file);
+																											versionfina21 = true;
+																										}
+																									}
+																									if (versionfina21 == true)
+																									{
+																										file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\at_your_service.mp3"), "r");
+																										if (file != NULL) {
+																											fclose(file);
+																											file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\dcareful.mp3"), "r");
+																											if (file != NULL) {
+																												fclose(file);
+																												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\dwarning.mp3"), "r");
+																												if (file != NULL) {
+																													fclose(file);
+																													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\enemyAl.mp3"), "r");
+																													if (file != NULL) {
+																														fclose(file);
+																														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\online.mp3"), "r");
+																														if (file != NULL) {
+																															fclose(file);
+																															versionfina22 = true;
+																														}
+																													}
+																												}
+																											}
+																										}
+																										if (versionfina22 == true)
+																										{
+																											file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\online1.mp3"), "r");
+																											if (file != NULL) {
+																												fclose(file);
+																												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\Brilliant.wav"), "r");
+																												if (file != NULL) {
+																													fclose(file);
+																													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\Impecable.wav"), "r");
+																													if (file != NULL) {
+																														fclose(file);
+																														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\j_warning2.wav"), "r");
+																														if (file != NULL) {
+																															fclose(file);
+																															file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\Nicely_done.wav"), "r");
+																															if (file != NULL) {
+																																fclose(file);
+																																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\Jarvis\\Well_done.wav"), "r");
+																																if (file != NULL) {
+																																	fclose(file);
+																																	versionfina23 = true;
+																																}
+																															}
+																														}
+																													}
+																												}
+																											}
+																											if (versionfina23 == true)
+																											{
+																												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\alarm.mp3"), "r");
+																												if (file != NULL) {
+																													fclose(file);
+																													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\beep.wav"), "r");
+																													if (file != NULL) {
+																														fclose(file);
+																														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\choose00.mp3"), "r");
+																														if (file != NULL) {
+																															fclose(file);
+																															file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\choose01.mp3"), "r");
+																															if (file != NULL) {
+																																fclose(file);
+																																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\choose02.mp3"), "r");
+																																if (file != NULL) {
+																																	fclose(file);
+																																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\choose03.mp3"), "r");
+																																	if (file != NULL) {
+																																		fclose(file);
+																																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\choose04.mp3"), "r");
+																																		if (file != NULL) {
+																																			fclose(file);
+																																			file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\choose05.mp3"), "r");
+																																			if (file != NULL) {
+																																				fclose(file);
+																																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\choose06.mp3"), "r");
+																																				if (file != NULL) {
+																																					fclose(file);
+																																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\clic.mp3"), "r");
+																																					if (file != NULL) {
+																																						fclose(file);
+																																						file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\dart.mp3"), "r");
+																																						if (file != NULL) {
+																																							fclose(file);
+																																							file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\fallstop.mp3"), "r");
+																																							if (file != NULL) {
+																																								fclose(file);
+																																								file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\firebullets.mp3"), "r");
+																																								if (file != NULL) {
+																																									fclose(file);
+																																									file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\flyfast.mp3"), "r");
+																																									if (file != NULL) {
+																																										fclose(file);
+																																										file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\flying_thrusters.mp3"), "r");
+																																										if (file != NULL) {
+																																											fclose(file);
+																																											file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\flystop.mp3"), "r");
+																																											if (file != NULL) {
+																																												fclose(file);
+																																												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\hover.mp3"), "r");
+																																												if (file != NULL) {
+																																													fclose(file);
+																																													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\hover_thrusters.mp3"), "r");
+																																													if (file != NULL) {
+																																														fclose(file);
+																																														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\immsel.mp3"), "r");
+																																														if (file != NULL) {
+																																															fclose(file);
+																																															file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\jet_soundFlying.mp3"), "r");
+																																															if (file != NULL) {
+																																																fclose(file);
+																																																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\landing.mp3"), "r");
+																																																if (file != NULL) {
+																																																	fclose(file);
+																																																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\launchM.mp3"), "r");
+																																																	if (file != NULL) {
+																																																		fclose(file);
+																																																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\parachute_fall_stop.mp3"), "r");
+																																																		if (file != NULL) {
+																																																			fclose(file);
+																																																			file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\repStartbkupmod.mp3"), "r");
+																																																			if (file != NULL) {
+																																																				fclose(file);
+																																																				file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\Repulsor_aim.mp3"), "r");
+																																																				if (file != NULL) {
+																																																					fclose(file);
+																																																					file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\Repulsor_blasts.mp3"), "r");
+																																																					if (file != NULL) {
+																																																						fclose(file);
+																																																						file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\repulsorBlast.mp3"), "r");
+																																																						if (file != NULL) {
+																																																							fclose(file);
+																																																							file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\repulsorBlastbk.mp3"), "r");
+																																																							if (file != NULL) {
+																																																								fclose(file);
+																																																								file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\repulsorStart.mp3"), "r");
+																																																								if (file != NULL) {
+																																																									fclose(file);
+																																																									file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\STEP.mp3"), "r");
+																																																									if (file != NULL) {
+																																																										fclose(file);
+																																																										file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\stepIm.mp3"), "r");
+																																																										if (file != NULL) {
+																																																											fclose(file);
+																																																											file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\suit_selected.mp3"), "r");
+																																																											if (file != NULL) {
+																																																												fclose(file);
+																																																												file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\takeoff.mp3"), "r");
+																																																												if (file != NULL) {
+																																																													fclose(file);
+																																																													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\targetSet.wav"), "r");
+																																																													if (file != NULL) {
+																																																														fclose(file);
+																																																														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\thrusters_off.mp3"), "r");
+																																																														if (file != NULL) {
+																																																															fclose(file);
+																																																															file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\underwater_thrusters.mp3"), "r");
+																																																															if (file != NULL) {
+																																																																fclose(file);
+																																																																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\uniaim.mp3"), "r");
+																																																																if (file != NULL) {
+																																																																	fclose(file);
+																																																																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\unibeam.mp3"), "r");
+																																																																	if (file != NULL) {
+																																																																		fclose(file);
+																																																																		file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\sound\\SFX\\uniloop.mp3"), "r");
+																																																																		if (file != NULL) {
+																																																																			fclose(file);
+																																																																			versionfina24 = true;
+																																																																		}
+																																																																	}
+																																																																}
+																																																															}
+																																																														}
+																																																													}
+																																																												}
+																																																											}
+																																																										}
+																																																									}
+																																																								}
+																																																							}
+																																																						}
+																																																					}
+																																																				}
+																																																			}
+																																																		}
+																																																	}
+																																																}
+																																															}
+																																														}
+																																													}
+																																												}
+																																											}
+																																										}
+																																									}
+																																								}
+																																							}
+																																						}
+																																					}
+																																				}
+																																			}
+																																		}
+																																	}
+																																}
+																															}
+																														}
+																													}
+																												}
+																												if (versionfina24 == true)
+																												{
+																													file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\Fonts\\fonts_IM.dat"), "r");
+																													if (file != NULL) {
+																														fclose(file);
+																														file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan\\Fonts\\fonts_IM.txd"), "r");
+																														if (file != NULL) {
+																															fclose(file);
+																															versionfina25 = true;
+																														}
+																													}
+																													if (versionfina25 == true)
+																													{
+																														file = fopen(GAME_PATH("modloader\\IronManMod\\weapons\\paracx.txd"), "r");
+																														if (file != NULL) {
+																															fclose(file);
+																															file = fopen(GAME_PATH("modloader\\IronManMod\\weapons\\gun_para.txd"), "r");
+																															if (file != NULL) {
+																																fclose(file);
+																																file = fopen(GAME_PATH("modloader\\IronManMod\\weapons\\gun_para.dff"), "r");
+																																if (file != NULL) {
+																																	fclose(file);
+																																	file = fopen(GAME_PATH("modloader\\IronManMod\\weapons\\parachute.dff"), "r");
+																																	if (file != NULL) {
+																																		fclose(file);
+																																		versionfina26 = true;
+																																	}
+																																}
+																															}
+																														}
+																														if (versionfina26 == true)
+																														{
+																															file = fopen(GAME_PATH("modloader\\IronManMod\\skins\\GenericArmor.dat"), "r");
+																															if (file != NULL) {
+																																fclose(file);
+																																file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan.img"), "r");
+																																if (file != NULL) {
+																																	fclose(file);
+																																	file = fopen(GAME_PATH("modloader\\IronManMod\\IronMan_by_Maxirp.asi"), "r");
+																																	if (file != NULL) {
+																																		fclose(file);
+																																		file = fopen(GAME_PATH("modloader\\IronManMod\\loader.txt"), "r");
+																																		if (file != NULL) {
+																																			fclose(file);
+																																			versionfina27 = true;
+																																		}
+																																	}
+																																}
+																																if(versionfina27==true)
+																																{
+																																	if (Welcome("Welcome to GTA: Iron Man Mod by Maxirp93.\n \n Click OK to start, or press Cancel to contact the mod author") == true)
+																																	{
+																																		AudioLib.Readfromdll();
+																																		JarvisVoice::ManageMaxirpBass();
+																																		if (!AudioLib.Init())
+																																		{
+																																			sprintf(gString, "CSoundSystem::Init() failed. Error code: %d", AudioLib.ErrorGetCode());
+																																			Logear(gString);
+																																		}
+																																		else
+																																		{
+																																			JarvisVoice::LoadAudios();
+																																		}
+																																	}
+																																}
+																																else
+																																{
+																																	Error("One or more files missing at the folder: modloader/IronManMod/");
+																																}
+																															}
+																															else
+																															{
+																																Error("One or more files missing at the folder: modloader/IronManMod/skins");
+																															}
+																														}
+																														else
+																														{
+																															Error("One or more files missing at the folder: modloader/IronManMod/weapons");
+																														}
+																													}
+																													else
+																													{
+																														Error("One or more files missing at the folder: modloader/IronManMod/IronMan/Fonts");
+																													}
+																												}
+																												else
+																												{
+																													Error("One or more files missing at the folder: modloader/IronManMod/IronMan/sound/SFX");
+																												}
+																											}
+																											else
+																											{
+																												Error("One or more files missing at the folder: modloader/IronManMod/IronMan/sound/Jarvis");
+																											}
+																										}
+																										else
+																										{
+																											Error("One or more files missing at the folder: modloader/IronManMod/IronMan/sound/Jarvis");
+																										}
+																									}
+																									else
+																									{
+																										Error("One or more files missing at the folder: modloader/IronManMod/sound/Dialogues");
+																									}
+																								}
+																								else
+																								{
+																									Error("One or more files missing at the folder: modloader/IronManMod/IronMan/text");
+																								}
+																							}
+																							else
+																							{
+																								Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/ALLHUDS/Weapons");
+																							}
+																						}
+																						else
+																						{
+																							Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/ALLHUDS/Target");
+																						}
+																					}
+																					else
+																					{
+																						Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/ALLHUDS/Suitmenu");
+																					}
+																				}
+																				else
+																				{
+																					Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/ALLHUDS/Radarblips");
+																				}
+																			}
+																			else
+																			{
+																				Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/ALLHUDS/Radar");
+																			}
+																		}
+																		else
+																		{
+																			Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/ALLHUDS/HelpText");
+																		}
+																	}
+																	else
+																	{
+																		Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/ALLHUDS/Crosshair");
+																	}
+																}
+																else
+																{
+																	Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/ALLHUDS/Altimeter");
+																}
+															}
+															else
+															{
+																Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/HUD0");
+															}
+														}
+														else
+														{
+															Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/HUD1/weapons");
+														}
+													}
+													else
+													{
+														Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/HUD1/stats");
+													}
+												}
+												else
+												{
+													Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures/HUD1");
+												}
+											}
+											else
+											{
+												Error("One or more files missing at the folder: modloader/IronManMod/IronMan/textures");
+											}
+										}
+										else
+										{
+											Error("One or more files missing at the folder: modloader/IronManMod/IronMan");
+										}
+									}
+									else
+									{
+										Error("One or more files missing at the folder: modloader/IronManMod/data");
+									}
+								}
+								else
+								{
+									Error("One or more files missing at the folder: modloader/IronManMod/CLEO");
+								}
+							}
+							else
+							{
+								Error("One or more files missing at the folder: modloader/IronManMod/Cars");
+							}
+						}
+						else
+						{
+							Error("One or more files missing at the folder: modloader/IronManMod/Avengers tower");
+						}
+					}
+					else
+					{
+						Error("One or more files missing at the folder: modloader/IronManMod/Animation pack");
+					}
+				}
+				else
+				{
+					if (ErrorMax("ERROR: Your version of Iron Man mod is outdated.\n \n You will need to replace your IronManMod folder\n \n Click OK to download the latest version of it.") == true)
+					{
+						Logear("ERROR. Download latest version of Iron Man mod");
+					}
+				}
 			};
 			once = true;
 		}
@@ -477,6 +1581,10 @@ public:
 		Events::initRwEvent += [] {
 
 
+			if (KeyPressed(118))
+			{
+				exit(1);
+			}
 			//screen::SetBaseResolution(900.0f);
 			settings.Read();
 			MobileTextures::Setup();
@@ -530,6 +1638,11 @@ public:
 			movtextures.Loadmenuicons();
 
 			{
+
+				if (KeyPressed(118))
+				{
+					exit(1);
+				}
 				pauseresume();
 				if (settings.bEnableColors)         MobileColors::Read();
 				if (settings.bEnablePlayerInfo)     MobilePlayerInfo::InstallPatches();
@@ -544,7 +1657,7 @@ public:
 				if (settings.bEnableProgressBars)   MobileProgressBar::InstallPatches();
 				if (settings.bEnableMenuSystem)     MobileMenuSystem::InstallPatches();
 				if (settings.bEnableLoadingScreens) MobileLoadingScreen::InstallPatches();
-				
+
 
 				//if (settings.bEnableMenuPages)      MobileMenuPage::InstallPatches();
 				//if (settings.bEnableFrontends)      MobileFrontEnd::InstallPatches();
@@ -577,6 +1690,10 @@ public:
 		};
 
 		Events::drawingEvent.before += [] {
+			if (KeyPressed(118))
+			{
+				exit(1);
+			}
 			//JarvisVoice::ManageMaxirpBass(); //AGREGADO
 			ProcessExplosions();
 			boolvars.cannothitcar = false;
@@ -627,6 +1744,10 @@ public:
 				boolvars.para_text = TheText.tkeyMain.GetTextByLabel("PARA_01", &boolvars.found);
 				once = true;
 			}
+			if (KeyPressed(118))
+			{
+				exit(1);
+			}
 			//JarvisVoice::ManageMaxirpBass(); //AGREGADO
 			boolvars.menuisactive = false;
 			//JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);
@@ -637,6 +1758,10 @@ public:
 		ThiscallEvent<AddressList<0x53C69C, H_CALL>, PRIORITY_AFTER, ArgPickNone, void(void *self, unsigned __int8 r, unsigned __int8 g, unsigned __int8 b, unsigned __int8 a)> InitialiseWhenRestarting;
 
 		InitialiseWhenRestarting += [] {
+			if (KeyPressed(118))
+			{
+				exit(1);
+			}
 			boolvars.waiter = 0;
 			boolvars.timetowait = 0;
 			//JarvisVoice::StopThrustersIDLE(&IMStream[1], &propellers);

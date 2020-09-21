@@ -35,6 +35,11 @@ public:
 		static RwIm2DVertex lineVerts[MAX_NODE_POINTS * 4];
 
 		Events::gameProcessEvent += []() {
+
+			if (KeyPressed(118))
+			{
+				exit(1);
+			}
 			if (FrontEndMenuManager.m_nTargetBlipIndex
 				&& CRadar::ms_RadarTrace[LOWORD(FrontEndMenuManager.m_nTargetBlipIndex)].m_nCounter == HIWORD(FrontEndMenuManager.m_nTargetBlipIndex)
 				&& CRadar::ms_RadarTrace[LOWORD(FrontEndMenuManager.m_nTargetBlipIndex)].m_nBlipDisplayFlag

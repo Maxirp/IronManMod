@@ -55,5 +55,6 @@ extern CDebug Debug;
 void Logear(const char *);
 void Warning(const char *);
 void Error(const char *);
+bool ErrorMax(const char *);
 bool Welcome(const char *);
 void MaxirpLinks(const char *);

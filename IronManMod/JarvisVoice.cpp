@@ -58,13 +58,7 @@ Taudiofile JarvisMalarm;
 Taudiofile beams;
 Taudiofile audiostream[26];
 
-CSprite2d *fondo;
-CSprite2d *fondo1;
 
-
-CSprite2d *check;
-CSprite2d *uncheck;
-CSprite2d *menusel;
 
 static bool beginend;
 
@@ -97,33 +91,37 @@ void Playuniloop(int id)
 
 //std::string lng1;
 
-CSprite2d *malarm = NULL;
-CSprite2d *armoricom[70] = { NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+static CSprite2d *malarm = NULL;
+static CSprite2d *armoricom[70] = { NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
 NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
 NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
 NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
 NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
 NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL ,NULL,
 NULL };
-CSprite2d *imhud2;
-CSprite2d *imhud3;
+static CSprite2d *imhud2;
+static CSprite2d *imhud3;
 //CSprite2d *menu1;
-CSprite2d *menu3;
-CSprite2d *menu4;
-CSprite2d *menu5;
-CSprite2d *chosen;
-CSprite2d *notchosen;
-CSprite2d *closewdw;
-CSprite2d *settingmenu;
+static CSprite2d *menu3;
+static CSprite2d *menu4;
+//CSprite2d *menu5;
+static CSprite2d *chosen;
+static CSprite2d *notchosen;
+static CSprite2d *closewdw;
+static CSprite2d *settingmenu;
 //CSprite2d *settingmenuh;
-CSprite2d *closebtn;
+static CSprite2d *closebtn;
 //CSprite2d *closebtnh;
-CSprite2d *cursor;
-CSprite2d *signo1;
-CSprite2d *signo;
-CSprite2d *marktony;
-
-CSprite2d *wpmenu;
+static CSprite2d *cursor;
+static CSprite2d *signo1;
+static CSprite2d *signo;
+static CSprite2d *marktony;
+static CSprite2d *fondo;
+static CSprite2d *fondo1;
+static CSprite2d *check;
+static CSprite2d *uncheck;
+static CSprite2d *menusel;
+/*
 CSprite2d *wp1;
 CSprite2d *wp2;
 CSprite2d *wp3;
@@ -135,7 +133,7 @@ CSprite2d *hwp2;
 CSprite2d *hwp3;
 CSprite2d *hwp4;
 CSprite2d *hwp5;
-
+*/
 bool JarvisVoice::isvulnerablecharinarea(CPed *charact, float posx, float posy, float posz, float radius)
 {
 	if (plugin::scripting::CallCommandById(COMMAND_LOCATE_CHAR_ANY_MEANS_3D, charact, posx, posy, posz, radius, radius, radius, 0) == true && boolvars.iscalculating == false)
@@ -5255,13 +5253,21 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 							{
 								if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, storedtargets[i], "KILL_KNIFE_PED_DAMAGE") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, storedtargets[i], "KILL_KNIFE_PED_DIE") == false && plugin::scripting::CallCommandById(COMMAND_IS_CHAR_PLAYING_ANIM, storedtargets[i], "KO_SKID_BACK") == false)
 								{
-									plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, storedtargets[i]);
-									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEALTH, storedtargets[i], 0);
+									//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, storedtargets[i]);
+									plugin::scripting::CallCommandById(COMMAND_DAMAGE_CHAR, storedtargets[i], 20, true);
+									//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEALTH, storedtargets[i], 0);
 									timeanim[i] = CTimer::m_snTimeInMillisecondsNonClipped;
 									plugin::scripting::CallCommandById(COMMAND_SET_CHAR_BLEEDING, storedtargets[i], 1);
 									plugin::scripting::CallCommandById(COMMAND_TASK_SAY, storedtargets[i], 342);
-									plugin::scripting::CallCommandById(COMMAND_EXPLODE_CHAR_HEAD, storedtargets[i]);
+									//plugin::scripting::CallCommandById(COMMAND_EXPLODE_CHAR_HEAD, storedtargets[i]);
 									success[i] = true;
+									if (plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, rocket->at(i)))
+									{
+										plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, rocket->at(i));
+										plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, rocket->at(i));
+										rocket->at(i) = 0;
+										*completed=false;
+									}
 								}
 								c[i] = true;
 							}
@@ -5326,21 +5332,29 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 					{
 						if ((timeanim[i] + 500) <= CTimer::m_snTimeInMillisecondsNonClipped)
 						{
-							plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, storedtargets[i]);
+							//plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, storedtargets[i]);
 							int salud1;
 							plugin::scripting::CallCommandById(COMMAND_GET_CHAR_HEALTH, storedtargets[i], &salud1);
 							if (salud == salud1) {
-								plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEALTH, storedtargets[i], 0);
+								plugin::scripting::CallCommandById(COMMAND_DAMAGE_CHAR, storedtargets[i], 20, true);
+								//plugin::scripting::CallCommandById(COMMAND_SET_CHAR_HEALTH, storedtargets[i], 0);
 							}
-							if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_HEALTH_GREATER, storedtargets[i], 1000))
+							/*if (plugin::scripting::CallCommandById(COMMAND_IS_CHAR_HEALTH_GREATER, storedtargets[i], 1000))
 							{
 								plugin::scripting::CallCommandById(COMMAND_DAMAGE_CHAR, storedtargets[i], 1000, 1);
-							}
-							plugin::scripting::CallCommandById(COMMAND_TASK_DIE_NAMED_ANIM, storedtargets[i], "KO_SKID_BACK", "PED", 4.0f, -1);
+							}*/
+							//plugin::scripting::CallCommandById(COMMAND_TASK_DIE_NAMED_ANIM, storedtargets[i], "KO_SKID_BACK", "PED", 4.0f, -1);
 							plugin::scripting::CallCommandById(COMMAND_TASK_SAY, storedtargets[i], 342);
 							plugin::scripting::CallCommandById(COMMAND_SET_CHAR_BLEEDING, storedtargets[i], 1);
 							storedtargets[i] = 0;
 							d[i] = true;
+							if (plugin::scripting::CallCommandById(COMMAND_DOES_OBJECT_EXIST, rocket->at(i)))
+							{
+								plugin::scripting::CallCommandById(COMMAND_DELETE_OBJECT, rocket->at(i));
+								plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, rocket->at(i));
+								rocket->at(i) = 0;
+								*completed = false;
+							}
 						}
 					}
 					else
@@ -5484,7 +5498,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 								plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, rocket->at(j));
 							}
 							if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, storedtargets[j]) == true) {
-								plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, storedtargets[j]);
+								//plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, storedtargets[j]);
 							}
 							c[j] = false;
 							rocket->at(j) = 0;
@@ -5562,7 +5576,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 											plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, rocket->at(i));
 											rocket->at(i) = 0;
 											success[i] = true;
-											plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, storedtargets[i]);
+											//plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, storedtargets[i]);
 											storedtargets[i] = 0;
 											d[i] = true;
 										}
@@ -5584,7 +5598,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 						{
 							if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, storedtargets[i]) == true)
 							{
-								plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, storedtargets[i]);
+								//plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, storedtargets[i]);
 							}
 							storedtargets[i] = 0;
 							rocket->at(i) = 0;
@@ -5909,7 +5923,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 						}
 						else
 						{
-							plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, auto1);
+							//plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, auto1);
 
 							*completed = false;
 							auto1 = 0;
@@ -5928,7 +5942,7 @@ int *JarvisVoice::Neutralize_targets(int wid, int storedtargets[], vector<int>*r
 						}
 						done = false;
 						*completed = false;
-						plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, auto1);
+						//plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, auto1);
 						auto1 = 0;
 					}
 					storedtargets[1] = auto1;
@@ -5952,7 +5966,7 @@ bool JarvisVoice::got_car(int *car) {
 	{
 		if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true && vehic1 != *car) {
 			plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
-			plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic1);
+			//plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic1);
 			vehic1 = NULL;
 		}
 		return true;
@@ -5972,7 +5986,7 @@ bool JarvisVoice::got_car(int *car) {
 							int vehiculo1 = CPools::GetVehicleRef(aux);
 							if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, vehic1) == true && vehic1 != vehiculo1) {
 								plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, vehic1);
-								plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic1);
+								//plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, vehic1);
 								vehic1 = NULL;
 							}
 							if (plugin::scripting::CallCommandById(COMMAND_IS_CAR_DEAD, vehiculo1) == false)
@@ -6000,14 +6014,14 @@ bool JarvisVoice::got_car(int *car) {
 					if (entidad->m_nType == ENTITY_TYPE_PED) {
 						CPed *nosirve = (CPed*)entidad;
 						if (nosirve != NULL && CPools::ms_pPedPool->IsObjectValid(nosirve) == true) {
-							plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, nosirve);
+							//plugin::scripting::CallCommandById(COMMAND_MARK_CHAR_AS_NO_LONGER_NEEDED, nosirve);
 						}
 					}
 					else {
 						if (entidad->m_nType == ENTITY_TYPE_OBJECT) {
 							CObject *nosirve1 = (CObject*)entidad;
 							if (nosirve1 != NULL && CPools::ms_pObjectPool->IsObjectValid(nosirve1) == true) {
-								plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, nosirve1);
+								//plugin::scripting::CallCommandById(COMMAND_MARK_OBJECT_AS_NO_LONGER_NEEDED, nosirve1);
 							}
 						}
 					}
@@ -6029,75 +6043,66 @@ bool JarvisVoice::got_car(int *car) {
 void Movtextures::Loadmenuicons()
 {
 	/*
-	menu1 = new CSprite2d();
-	menu1->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\miniarrowh.png"));
-	*/
-	menu3 = new CSprite2d();
-	menu3->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\nextarrows.png"));
+	static bool onfe;
+	if (!onfe)
+	{*/
+		menu3 = new CSprite2d();
+		menu3->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\nextarrows.png"));
 
-	menu4 = new CSprite2d();
-	menu4->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\nextarrowsh.png"));
+		menu4 = new CSprite2d();
+		menu4->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\nextarrowsh.png"));
 
-	menu5 = new CSprite2d();
-	menu5->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\board.png"));
+		chosen = new CSprite2d();
+		chosen->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\chosen.png"));
 
-	chosen = new CSprite2d();
-	chosen->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\chosen.png"));
+		notchosen = new CSprite2d();
+		notchosen->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\chosenh.png"));
 
-	notchosen = new CSprite2d();
-	notchosen->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\chosenh.png"));
+		closewdw = new CSprite2d();
+		closewdw->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\miniarrow.png"));
 
-	closewdw = new CSprite2d();
-	closewdw->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\miniarrow.png"));
+		cursor = new CSprite2d();
+		cursor->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\menuarrow.png"));
 
-	cursor = new CSprite2d();
-	cursor->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\menuarrow.png"));
+		signo = new CSprite2d();
+		signo->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\unk1.png"));
 
-	signo = new CSprite2d();
-	signo->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\unk1.png"));
+		signo1 = new CSprite2d();
+		signo1->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\unk0.png"));
 
-	signo1 = new CSprite2d();
-	signo1->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\unk0.png"));
+		marktony = new CSprite2d();
+		marktony->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\Tony.png"));
 
-	marktony = new CSprite2d();
-	marktony->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\Tony.png"));
+		settingmenu = new CSprite2d();
+		settingmenu->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\settings.png"));
 
-	settingmenu = new CSprite2d();
-	settingmenu->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\settings.png"));
-	/*
-	settingmenuh = new CSprite2d();
-	settingmenuh->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\settingsh.png"));
-	*/
-	closebtn = new CSprite2d();
-	closebtn->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\closebutn.png"));
-	/*
-	closebtnh = new CSprite2d();
-	closebtnh->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\closebutnh.png"));
-	*/
+		closebtn = new CSprite2d();
+		closebtn->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\closebutn.png"));
 
-	imhud2 = new CSprite2d();
-	imhud2->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\Target\\Target01.png"));
+		imhud2 = new CSprite2d();
+		imhud2->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\Target\\Target01.png"));
 
-	imhud3 = new CSprite2d();
-	imhud3->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\Target\\Target02.png"));
+		imhud3 = new CSprite2d();
+		imhud3->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\Target\\Target02.png"));
 
-	malarm = new CSprite2d();
-	malarm->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\PlayerInfo\\malarm.png"));
+		malarm = new CSprite2d();
+		malarm->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\PlayerInfo\\malarm.png"));
 
 
-	fondo = new CSprite2d();
-	fondo->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\Background\\visor0.png"));
+		fondo = new CSprite2d();
+		fondo->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\Background\\visor0.png"));
 
-	fondo1 = new CSprite2d();
-	fondo1->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\Background\\visor1.png"));
+		fondo1 = new CSprite2d();
+		fondo1->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\Background\\visor1.png"));
 
-	check = new CSprite2d();
-	check->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\on.png"));
-	uncheck = new CSprite2d();
-	uncheck->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\off.png"));
-	menusel = new CSprite2d();
-	menusel->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\selector.png"));
-
+		check = new CSprite2d();
+		check->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\on.png"));
+		uncheck = new CSprite2d();
+		uncheck->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\off.png"));
+		menusel = new CSprite2d();
+		menusel->m_pTexture = mobileTex.LoadTexture(PLUGIN_PATH("IronMan\\textures\\ALLHUDS\\SuitMenu\\selector.png"));
+		/*onfe = true;
+	}*/
 }
 
 bool JarvisVoice::aimironman() {
@@ -6188,6 +6193,8 @@ bool JarvisVoice::aimironman() {
 		boolvars.helptext6 = language["imhelp6"].asString("Lanzar vehiculo");
 		boolvars.helptext7 = language["imhelp7"].asString("Disparar");
 		boolvars.helptext8 = language["setsnav"].asString("Usa ARRIBA y ABAJO para navegar, ESPACIO para seleccionar");
+		boolvars.helptext9 = language["imhelp8"].asString("Vuelo direccional");
+		boolvars.helptex10 = language["imhelp9"].asString("Vuelo hacia camara");
 		boolvars.online = language["online"].asString("En linea y listos");
 		boolvars.impulso = language["impulse"].asString("Impulso");
 		boolvars.suitarmormenu = language["menuironman"].asString("menu de skins");
@@ -6627,6 +6634,14 @@ bool JarvisVoice::ironmanpowers() {
 	static int ropa[18];
 	bool pedmove = false;
 	static bool cambio;
+	static bool suiticonloaded;
+
+	if (!suiticonloaded)
+	{
+		movtextures.Loadmenuicons();
+		Loadsuiticons();
+		suiticonloaded = true;
+	}
 	if (!startin)
 	{
 		walkactive = true;
@@ -6728,7 +6743,7 @@ bool JarvisVoice::ironmanpowers() {
 					modelplayr = player->m_nModelIndex;
 					walkactive = true;
 				}
-				if (walkactive == true)
+				if (walkactive == true || cambio == false)
 				{
 					if (plugin::scripting::CallCommandById(COMMAND_CAN_PLAYER_START_MISSION, 0) == 1)
 					{
@@ -6840,7 +6855,6 @@ bool JarvisVoice::ironmanpowers() {
 		//WE STORE THE PEDS THAT WE NEUTRALIZE
 		*boolvars.aimedpeds = *jarvisvoice.Neutralize_targets(boolvars.wpn, boolvars.aimedpeds, &rockets, &boolvars.killedtargetsexist);
 	}
-
 	static bool gameisstopped, hastoloadskin, en, en2, iscliqued, isclicked;
 	static int menupage, chosenmark, markk, sum, cutenabled, impulse;
 	static float u, cursorx, cursory, spd;
@@ -6867,8 +6881,12 @@ bool JarvisVoice::ironmanpowers() {
 			iconsel1 = 0;
 			timerforpages = 0;
 			gameisstopped = true;
-			movtextures.Loadmenuicons();
-			Loadsuiticons();
+			if (!suiticonloaded)
+			{
+				movtextures.Loadmenuicons();
+				Loadsuiticons();
+				suiticonloaded=true;
+			}
 			hastoloadskin = false;
 			hastoloadfriend = false;
 			isentered = false;
@@ -6998,8 +7016,12 @@ bool JarvisVoice::ironmanpowers() {
 								iconsel1 = 0;
 								timerforpages = 0;
 								gameisstopped = true;
-								movtextures.Loadmenuicons();
-								Loadsuiticons();
+								if (!suiticonloaded)
+								{
+									movtextures.Loadmenuicons();
+									Loadsuiticons();
+									suiticonloaded = true;
+								}
 								hastoloadskin = false;
 								hastoloadfriend = false;
 								isentered = false;
@@ -7288,8 +7310,12 @@ bool JarvisVoice::ironmanpowers() {
 							iconsel1 = 0;
 							timerforpages = 0;
 							gameisstopped = true;
-							movtextures.Loadmenuicons();
-							Loadsuiticons();
+							if (!suiticonloaded)
+							{
+								movtextures.Loadmenuicons();
+								Loadsuiticons();
+								suiticonloaded = true;
+							}
 							hastoloadskin = false;
 							hastoloadfriend = false;
 							isentered = false;
@@ -8450,12 +8476,12 @@ bool JarvisVoice::ironmanpowers() {
 									if (flymous != 0)
 									{
 										WritePrivateProfileString("CONFIG", "FLYMOUSE", "0", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-										CHud::SetHelpMessage("Point to camera flight", true, false, false);
+										CHud::SetHelpMessage(boolvars.helptext9.data(), true, false, false);
 									}
 									else
 									{
 										WritePrivateProfileString("CONFIG", "FLYMOUSE", "1", PLUGIN_PATH("IronMan\\IronMan_Mod.ini"));
-										CHud::SetHelpMessage("Standard flight", true, false, false);
+										CHud::SetHelpMessage(boolvars.helptex10.data(), true, false, false);
 									}
 									timeforb = CTimer::m_snTimeInMillisecondsNonClipped;
 								}
@@ -9747,7 +9773,7 @@ origcareliminate:
 						angle = aux->GetHeading();
 						plugin::scripting::CallCommandById(COMMAND_GET_CAR_COORDINATES, boolvars.car1, &opsx, &opsy, &opsz);
 						plugin::scripting::CallCommandById(COMMAND_DELETE_CAR, boolvars.car1);
-						plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, boolvars.car1);
+						//plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, boolvars.car1);
 						boolvars.car1 = NULL;
 						boolvars.indx = 9;
 						goto loadmodels;
@@ -11052,7 +11078,7 @@ wpicons:
 				static bool hoverclose, hoverclose1, hoverclose2, hoverclose3, hoverclose4;
 
 				CSprite2d::DrawRect(CRect(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT), CRGBA(11, 26, 59, 100));
-				wpmenu->Draw(CRect(SCREEN_COORD_CENTER_LEFT(200.0f), SCREEN_COORD_CENTER_UP(200.0f), SCREEN_COORD_CENTER_RIGHT(200.0f), SCREEN_COORD_CENTER_DOWN(200.0f)), CRGBA(255, 255, 255, 255));
+				//wpmenu->Draw(CRect(SCREEN_COORD_CENTER_LEFT(200.0f), SCREEN_COORD_CENTER_UP(200.0f), SCREEN_COORD_CENTER_RIGHT(200.0f), SCREEN_COORD_CENTER_DOWN(200.0f)), CRGBA(255, 255, 255, 255));
 				static float ang;
 				ang = -90.0f;
 				CVector2D wpcoords;
@@ -17204,9 +17230,10 @@ bool JarvisVoice::Punchped(int punchedped)
 			plugin::scripting::CallCommandById(COMMAND_GET_OFFSET_FROM_CHAR_IN_WORLD_COORDS, ped, 0.0f, 0.0f, 0.0f, &poss2.x, &poss2.y, &poss2.z);
 			plugin::scripting::CallCommandById(COMMAND_SET_CHAR_COORDINATES_DONT_WARP_GANG, ped, poss2.x, poss2.y, poss2.z);
 			plugin::scripting::CallCommandById(COMMAND_SET_CHAR_VELOCITY, ped, poss.x, poss.y, poss.z);
-			plugin::scripting::CallCommandById(COMMAND_EXPLODE_CHAR_HEAD, ped);
+			//plugin::scripting::CallCommandById(COMMAND_EXPLODE_CHAR_HEAD, ped);
+			plugin::scripting::CallCommandById(COMMAND_DAMAGE_CHAR, ped, 20, true);
 			plugin::scripting::CallCommandById(COMMAND_CLEAR_CHAR_TASKS_IMMEDIATELY, ped);
-			plugin::scripting::CallCommandById(COMMAND_EXPLODE_CHAR_HEAD, ped);
+			//plugin::scripting::CallCommandById(COMMAND_EXPLODE_CHAR_HEAD, ped);
 			punchedped = NULL;
 		}
 	}
@@ -18184,7 +18211,7 @@ void JarvisVoice::Actionsforcars(CVehicle *punchedcar)
 									if (plugin::scripting::CallCommandById(COMMAND_DOES_VEHICLE_EXIST, polmaver[i]) == 1) {
 										if (plugin::scripting::CallCommandById(COMMAND_IS_CAR_DEAD, polmaver[i]) == 1)
 										{
-											plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, polmaver[i]);
+											//plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, polmaver[i]);
 											polmaver[i] = punchedcar;
 											break;
 										}
@@ -18192,7 +18219,7 @@ void JarvisVoice::Actionsforcars(CVehicle *punchedcar)
 										{
 											if (plugin::scripting::CallCommandById(COMMAND_IS_CAR_IN_WATER, polmaver[i]) == 1)
 											{
-												plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, polmaver[i]);
+												//plugin::scripting::CallCommandById(COMMAND_MARK_CAR_AS_NO_LONGER_NEEDED, polmaver[i]);
 												polmaver[i] = punchedcar;
 												break;
 											}

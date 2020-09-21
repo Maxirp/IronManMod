@@ -20,6 +20,11 @@ int backgroundAlpha = 0;
 float divider = 6.0f;
 
 void MobileLoadingScreen::LoadSplashes(char bStarting, char bNvidia) {
+
+	if (KeyPressed(118))
+	{
+		exit(1);
+	}
 	static bool onceawhile;
 	if (!onceawhile)
 	{
@@ -63,6 +68,11 @@ void MobileLoadingScreen::LoadSplashes(char bStarting, char bNvidia) {
 }
 
 void MobileLoadingScreen::RenderSplash() {
+
+	if (KeyPressed(118))
+	{
+		exit(1);
+	}
     CSprite2d::InitPerFrame();
     RwRenderStateSet(rwRENDERSTATETEXTUREADDRESS, reinterpret_cast<void*>(rwTEXTUREADDRESSCLAMP));
 	static bool initial;
@@ -179,10 +189,18 @@ void MobileLoadingScreen::RenderSplash() {
 }
 
 void MobileLoadingScreen::DisplaySplash() {
+	if (KeyPressed(118))
+	{
+		exit(1);
+	}
 }
 
 void MobileLoadingScreen::RenderLoadingBar(float x, float y, unsigned short width, unsigned char height, float progress, signed char progressAdd, unsigned char drawPercentage, unsigned char drawBlackBorder, CRGBA color, CRGBA addColor) {
-    float distance = 18.0f;
+	if (KeyPressed(118))
+	{
+		exit(1);
+	}
+	float distance = 18.0f;
     if (RsGlobal.maximumWidth == 2560 || RsGlobal.maximumWidth == 3840)
         CSprite2d::DrawBarChart(SCREEN_COORD_CENTER_X - SCREEN_COORD((1920.0f * 900 / 1080) / 2 - distance), SCREEN_COORD_BOTTOM(30.0f), SCREEN_COORD(1920.0f * 900 / 1080 - distance * 2), SCREEN_MULTIPLIER(20.0f), progress, progressAdd, drawPercentage, drawBlackBorder, color, addColor);
     else
