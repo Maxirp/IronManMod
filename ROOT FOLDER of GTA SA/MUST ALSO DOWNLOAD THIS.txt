@@ -5,7 +5,7 @@ Now you need 4 more parts to complete the install:
 Part 1 http://www.mediafire.com/file/us7auv3cs5bn8gj/Necessary_for_IronManMod.rar/file
 Part 2 http://www.mediafire.com/file/g58zoawzlccrvtr/Extract+inside+ROOT-MODLOADER-IRONMANMOD.rar/file
 Part 3 http://www.mediafire.com/file/sx5a1witl1rnxc6/Tony_Stark_player_model.rar/file
-Part 5 http://www.mediafire.com/file/ejormh7fqyjptz6/tony_garage.dff/file
+Part 5 http://www.mediafire.com/file/ksphevq48kfni6w/file
 
 Once all is downloaded, follow the tutorial to install here: 
 https://www.youtube.com/watch?v=Qa5Vhzhq9d4
