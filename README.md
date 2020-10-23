@@ -3,7 +3,10 @@
 GTA IronMan is a modification for the game Grand theft auto: San Andreas that changes the game in the style of that superhero. 
 Written with plugin sdk compatibility, in cplusplus, this ".dll" renamed to ".asi" features different changes to the game
 
-In order to install the mod, you must download an installer of the pack:
+In order to install the mod, you must download an installer of the pack, 
+disable your antivirus before installing
+run it as administrator
+select your gta folder during installation to apply the mod
 
 Link of installer: https://www.moddb.com/mods/gta-iron-man-mod/downloads/gta-iron-man-mod-stable-build-v23-setup
 
